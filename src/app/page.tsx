@@ -1,7 +1,13 @@
+import { Card } from '@/components/Card'
+
 export default function Home() {
   return (
-    <main>
-      <h1>Hello Dev Stater Kit</h1>
+    <main className='flex flex-1 justify-center bg-stone-200'>
+      <div className='flex w-full max-w-[800px] flex-col gap-y-3 px-2 py-3'>
+        <Card />
+        <Card />
+        <Card />
+      </div>
     </main>
   )
 }
