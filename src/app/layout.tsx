@@ -1,6 +1,6 @@
 import './globals.css'
 
-import { Header } from '@/components/Header'
+import { SupabaseListener } from '@/components/supabase-listener'
 
 export const metadata = {
   title: 'QA app',
@@ -11,7 +11,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang='ja'>
       <body className='max-w-screen flex h-screen flex-col'>
-        <Header />
+        {/* @ts-expect-error next version of TS will fix this */}
+        <SupabaseListener />
         {children}
       </body>
     </html>

@@ -34,6 +34,46 @@ export interface Database {
   }
   public: {
     Tables: {
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          email: string
+          github_url: string | null
+          id: string
+          introduce: string | null
+          twitter_url: string | null
+          username: string
+          website_url: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          email: string
+          github_url?: string | null
+          id: string
+          introduce?: string | null
+          twitter_url?: string | null
+          username: string
+          website_url?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          email?: string
+          github_url?: string | null
+          id?: string
+          introduce?: string | null
+          twitter_url?: string | null
+          username?: string
+          website_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "profiles_id_fkey"
+            columns: ["id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       questions: {
         Row: {
           coding_problem: string
@@ -42,6 +82,7 @@ export interface Database {
           id: string
           title: string
           updated_at: string
+          user_id: string
         }
         Insert: {
           coding_problem: string
@@ -50,6 +91,7 @@ export interface Database {
           id?: string
           title: string
           updated_at?: string
+          user_id: string
         }
         Update: {
           coding_problem?: string
@@ -58,8 +100,16 @@ export interface Database {
           id?: string
           title?: string
           updated_at?: string
+          user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "questions_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
       }
     }
     Views: {
