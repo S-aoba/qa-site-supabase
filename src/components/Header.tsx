@@ -36,22 +36,24 @@ export const Header = ({ session, profile }: { session: Session | null; profile:
       <div className='mb-2 flex items-center justify-center gap-x-5'>
         <input type='text' className='rounded-lg px-1 py-2 text-sm text-gray-500 shadow-lg outline-gray-300' />
         {session ? (
-          <>
-            <div className='flex h-9 w-9 items-center justify-center rounded-full border bg-white text-gray-500 shadow-lg hover:cursor-pointer hover:bg-gray-200'>
-              <Image
-                src={profile && profile.avatar_url ? profile.avatar_url : '/default.png'}
-                className='rounded-full object-cover'
-                alt='avatar'
-                fill
-                sizes='auto'
-                priority
-              />
-            </div>
+          <div className='flex gap-x-5'>
+            <Link href='/settings/profile'>
+              <div className='relative h-10 w-10'>
+                <Image
+                  src={profile && profile.avatar_url ? profile.avatar_url : '/default.png'}
+                  className='rounded-full object-cover'
+                  alt='avatar'
+                  fill
+                  sizes='auto'
+                  priority
+                />
+              </div>
+            </Link>
             <button className='rounded-lg border bg-white px-2 py-1 text-gray-500 shadow-lg hover:bg-gray-200'>
               投稿
             </button>
             <Navigation />
-          </>
+          </div>
         ) : (
           <div className='flex items-center space-x-5'>
             <Link href='/auth/login'>ログイン</Link>
