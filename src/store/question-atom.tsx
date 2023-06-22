@@ -1,8 +1,7 @@
 import { atom } from 'jotai'
 
-import type { Database } from '@/lib/database.types'
+import type { QuestionType } from '@/common/types'
 
-type QuestionType = Database['public']['Tables']['questions']['Row']
 type EditedQuestionType = Omit<QuestionType, 'created_at' | 'updated_at'>
 
 export const editedQuestionAtom = atom<EditedQuestionType>({
