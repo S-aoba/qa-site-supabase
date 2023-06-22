@@ -80,6 +80,7 @@ export interface Database {
           created_at: string
           description: string
           id: string
+          tags: string[]
           title: string
           updated_at: string
           user_id: string
@@ -89,6 +90,7 @@ export interface Database {
           created_at?: string
           description: string
           id?: string
+          tags: string[]
           title: string
           updated_at?: string
           user_id: string
@@ -98,6 +100,7 @@ export interface Database {
           created_at?: string
           description?: string
           id?: string
+          tags?: string[]
           title?: string
           updated_at?: string
           user_id?: string

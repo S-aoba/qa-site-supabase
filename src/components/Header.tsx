@@ -49,9 +49,11 @@ export const Header = ({ session, profile }: { session: Session | null; profile:
                 />
               </div>
             </Link>
-            <button className='rounded-lg border bg-white px-2 py-1 text-gray-500 shadow-lg hover:bg-gray-200'>
-              投稿
-            </button>
+            <Link href={'/questions/post'}>
+              <button className='rounded-lg border bg-white px-2 py-1 text-gray-500 shadow-lg hover:bg-gray-200'>
+                投稿
+              </button>
+            </Link>
             <Navigation />
           </div>
         ) : (
