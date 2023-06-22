@@ -58,8 +58,8 @@ export const Header = ({ session, profile }: { session: Session | null; profile:
           </div>
         ) : (
           <div className='flex items-center space-x-5'>
-            <Link href='/auth/login'>ログイン</Link>
-            <Link href='/auth/signup'>サインアップ</Link>
+            <Link href='/auth/login'>Login</Link>
+            <Link href='/auth/signup'>Signup</Link>
           </div>
         )}
       </div>
