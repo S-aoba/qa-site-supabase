@@ -12,7 +12,7 @@ export default async function Home() {
     <main className='flex flex-1 justify-center bg-stone-200'>
       <div className='flex w-full max-w-[800px] flex-col gap-y-3 px-2 py-3'>
         {questions?.map((question) => {
-          return <Card key={question.id}/>
+          return <Card key={question.id} question={question} />
         })}
       </div>
     </main>
