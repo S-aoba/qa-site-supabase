@@ -11,7 +11,16 @@ export const Card = async ({ question }: { question: QuestionType }) => {
   return (
     <div className='flex h-fit w-full items-center gap-x-3 rounded-lg bg-white px-2 py-4'>
       <div className='flex h-9 w-9 items-center justify-center rounded-full border bg-white text-amber-500 shadow-lg hover:cursor-pointer hover:bg-gray-200'>
-        {question.tags[0]}
+        <div className='relative h-10 w-10'>
+          <Image
+            src={`/lang-icon/${question.tags[0]}.svg`}
+            className='rounded-full object-cover'
+            alt='language-icon'
+            fill
+            sizes='auto'
+            priority
+          />
+        </div>
       </div>
       <div className='flex w-full flex-col justify-center'>
         <div className='flex items-center gap-x-2 text-xs'>
@@ -21,7 +30,7 @@ export const Card = async ({ question }: { question: QuestionType }) => {
           <div className='flex flex-col gap-y-1 text-gray-500'>
             <span>投稿日: {question.created_at.slice(0, 10)}</span>
             <div className=' flex items-center gap-x-2'>
-              <div className='relative h-10 w-10'>
+              <div className='relative h-6 w-6'>
                 <Image
                   src={profile && profile.avatar_url ? profile.avatar_url : '/default.png'}
                   className='rounded-full object-cover'
@@ -35,7 +44,7 @@ export const Card = async ({ question }: { question: QuestionType }) => {
             </div>
           </div>
         </div>
-        <Link href={'/'} className='line-clamp-1 hover:underline hover:underline-offset-4'>
+        <Link href={'/'} className='line-clamp-1 no-underline hover:underline hover:underline-offset-4'>
           {question.title}
         </Link>
       </div>
