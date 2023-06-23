@@ -9,8 +9,6 @@ import { useEffect } from 'react'
 import type { Database } from '@/lib/database.types'
 import { profileAtom } from '@/store/profile-atom'
 
-import { Navigation } from './navigation'
-
 type ProfileType = Database['public']['Tables']['profiles']['Row']
 
 export const Header = ({ session, profile }: { session: Session | null; profile: ProfileType | null }) => {
@@ -32,36 +30,53 @@ export const Header = ({ session, profile }: { session: Session | null; profile:
     }
   }, [session, setUser, profile])
   return (
-    <header className='min-h-14 flex flex-col items-center justify-center gap-x-5 bg-gray-400 pt-3 font-mono text-xl shadow-lg'>
-      <div className='mb-2 flex items-center justify-center gap-x-5'>
-        <input type='text' className='rounded-lg px-1 py-2 text-sm text-gray-500 shadow-lg outline-gray-300' />
-        {session ? (
-          <div className='flex gap-x-5'>
-            <Link href='/settings/profile'>
-              <div className='relative h-10 w-10'>
-                <Image
-                  src={profile && profile.avatar_url ? profile.avatar_url : '/default.png'}
-                  className='rounded-full object-cover'
-                  alt='avatar'
-                  fill
-                  sizes='auto'
-                  priority
-                />
-              </div>
-            </Link>
-            <Link href={'/questions/post'}>
-              <button className='rounded-lg border bg-white px-2 py-1 text-gray-500 shadow-lg hover:bg-gray-200'>
-                投稿
-              </button>
-            </Link>
-            <Navigation />
-          </div>
-        ) : (
-          <div className='flex items-center space-x-5'>
-            <Link href='/auth/login'>Login</Link>
-            <Link href='/auth/signup'>Signup</Link>
-          </div>
-        )}
+    <header className='flex h-fit flex-col items-center justify-center bg-slate-100 p-3 font-mono text-base'>
+      <div className='container mx-auto flex w-full justify-between'>
+        <div className='flex items-center'>
+          <Link href={'/'} className='text-2xl text-black no-underline'>
+            QA
+          </Link>
+        </div>
+        <div className=' flex w-7/12'>
+          <input
+            type='text'
+            className=' h-full w-3/6 rounded-lg border border-solid border-gray-300 px-2 text-sm outline-slate-400'
+          />
+          {session ? (
+            <div className='flex items-center space-x-5 px-10'>
+              <Link href='/settings/profile'>
+                <div className='relative h-10 w-10'>
+                  <Image
+                    src={profile && profile.avatar_url ? profile.avatar_url : '/default.png'}
+                    className='rounded-full object-cover'
+                    alt='avatar'
+                    fill
+                    sizes='auto'
+                    priority
+                  />
+                </div>
+              </Link>
+              <Link
+                href={'/questions/post'}
+                className='rounded-lg bg-slate-500 p-2 text-white no-underline hover:bg-slate-600'
+              >
+                投稿する
+              </Link>
+            </div>
+          ) : (
+            <div className='flex items-center space-x-5 px-10'>
+              <Link href='/auth/login' className='rounded-lg bg-blue-500 p-2 text-white no-underline hover:bg-blue-600'>
+                Login
+              </Link>
+              <Link
+                href='/auth/signup'
+                className='rounded-lg bg-slate-500 p-2 text-white no-underline hover:bg-slate-600'
+              >
+                Signup
+              </Link>
+            </div>
+          )}
+        </div>
       </div>
     </header>
   )
