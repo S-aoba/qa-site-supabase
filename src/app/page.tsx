@@ -9,12 +9,10 @@ export default async function Home() {
   const { data: questions } = await supabase.from('questions').select('*')
 
   return (
-    <main className='flex flex-1 justify-center bg-stone-200'>
-      <div className='flex w-full max-w-[800px] flex-col gap-y-3 px-2 py-3'>
-        {questions?.map((question) => {
-          return <Card key={question.id} question={question} />
-        })}
-      </div>
+    <main className='flex flex-col justify-center space-y-4'>
+      {questions?.map((question) => {
+        return <Card key={question.id} question={question} />
+      })}
     </main>
   )
 }

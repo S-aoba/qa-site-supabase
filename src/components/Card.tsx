@@ -9,19 +9,16 @@ export const Card = async ({ question }: { question: QuestionType }) => {
   const supabase = createServerComponentClient({ cookies })
   const { data: profile } = await supabase.from('profiles').select('*').eq('id', question.user_id).single()
   return (
-    <div className='flex h-fit w-full items-center gap-x-3 rounded-lg bg-white px-2 py-4'>
-      <div className='flex h-9 w-9 items-center justify-center rounded-full border bg-white text-amber-500 shadow-lg hover:cursor-pointer hover:bg-gray-200'>
-        <div className='relative h-10 w-10'>
-          <Image
-            src={`/lang-icon/${question.tags[0]}.svg`}
-            className='rounded-full object-cover'
-            alt='language-icon'
-            fill
-            sizes='auto'
-            priority
-          />
-        </div>
-      </div>
+    <div className='flex h-fit w-full items-center gap-x-3 rounded-lg border border-solid border-slate-300 bg-white px-2 py-4'>
+      <Image
+        src={`/lang-icon/${question.tags[0]}.svg`}
+        className='rounded-full'
+        alt='language-icon'
+        width={40}
+        height={40}
+        sizes='auto'
+        priority
+      />
       <div className='flex w-full flex-col justify-center'>
         <div className='flex items-center gap-x-2 text-xs'>
           <span className='line-clamp-1 w-fit max-w-[500px] rounded-lg bg-cyan-300 px-2 py-1 leading-5 text-stone-500'>
