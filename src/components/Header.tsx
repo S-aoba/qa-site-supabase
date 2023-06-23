@@ -30,7 +30,7 @@ export const Header = ({ session, profile }: { session: Session | null; profile:
     }
   }, [session, setUser, profile])
   return (
-    <header className='flex h-fit flex-col items-center justify-center bg-slate-100 p-3 font-mono text-base'>
+    <header className='flex h-fit flex-col items-center justify-center bg-[#f6f8fa] p-3 font-mono text-base'>
       <div className='container mx-auto flex w-full justify-between'>
         <div className='flex items-center'>
           <Link href={'/'} className='text-2xl text-black no-underline'>
