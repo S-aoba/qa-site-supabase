@@ -4,6 +4,7 @@ import { Button, MultiSelect, Select, TextInput } from '@mantine/core'
 import { RichTextEditor } from '@mantine/tiptap'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useAtom, useAtomValue } from 'jotai'
+import { useRouter } from 'next/navigation'
 import type { ChangeEvent, FormEvent } from 'react'
 
 import type { Database } from '@/lib/database.types'
@@ -16,6 +17,8 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
   const editedQuestionDescription = useAtomValue(editedQuestionDescriptionAtom)
   const { questionEditor } = useDescriptionEditor()
   const supabase = createClientComponentClient<Database>()
+
+  const router = useRouter()
 
   const handleSetTags = (e: string[]) => {
     setEditedQuestion({ ...editedQuestion, tags: e })
@@ -38,6 +41,7 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
       coding_problem: editedQuestion.coding_problem,
       user_id: userId,
     })
+    router.push('/')
   }
 
   return (
