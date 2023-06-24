@@ -43,23 +43,23 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
   return (
     // ページリロードするとmantineのコンポーネントが初期化される
     // おそらくまだ app routerに対応していなからだと思う。挙動は、大丈夫そうなのでこのまま実装する。
-    <form className=' flex flex-col gap-y-10' onSubmit={handleOnSubmit}>
+    <form className=' flex flex-col justify-center gap-y-7' onSubmit={handleOnSubmit}>
       <TextInput
         value={editedQuestion.title}
         onChange={handleSetTitle}
         placeholder='質問のタイトル'
         size='md'
         withAsterisk
-        className=' w-9/12'
+        className='w-full rounded-md border border-solid border-slate-300 shadow'
         maxLength={70}
-        styles={{ input: { border: 'none', backgroundColor: '#fafafa', height: '70px', fontSize: '2rem' } }}
+        styles={{ input: { height: '70px', fontSize: '2rem', border: 'none' } }}
       />
       <Select
         value={editedQuestion.coding_problem}
         onChange={handleSetCodingProblem}
         placeholder='問題を選択してください'
         data={codingProblemList}
-        className=' w-9/12 rounded-md bg-white shadow'
+        className='w-full rounded-md border border-solid border-slate-300 shadow'
         styles={{ input: { border: 'none' } }}
         searchable
       />
@@ -71,15 +71,22 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
         clearable
         withAsterisk
         maxSelectedValues={5}
-        className=' w-9/12 rounded-md bg-white shadow'
+        className='w-full rounded-md border border-solid border-slate-300 shadow'
+        styles={{ input: { border: 'none' } }}
         value={editedQuestion.tags}
         onChange={handleSetTags}
-        styles={{ input: { border: 'none' } }}
       />
-      <RichTextEditor editor={questionEditor} className=' min-h-[400px] w-9/12 rounded-md border-none bg-white shadow'>
+      <RichTextEditor
+        editor={questionEditor}
+        className=' min-h-[400px] w-full rounded-md border border-solid border-slate-300 shadow'
+      >
         <RichTextEditor.Content />
       </RichTextEditor>
-      <Button type='submit'>投稿する</Button>
+      <div className='flex w-full justify-end'>
+        <Button type='submit' className='bg-slate-500 hover:bg-slate-600'>
+          質問を投稿
+        </Button>
+      </div>
     </form>
   )
 }

@@ -1,5 +1,6 @@
 'use client'
 
+import { Button } from '@mantine/core'
 import type { Session } from '@supabase/supabase-js'
 import { useSetAtom } from 'jotai'
 import Image from 'next/image'
@@ -56,11 +57,10 @@ export const Header = ({ session, profile }: { session: Session | null; profile:
                   />
                 </div>
               </Link>
-              <Link
-                href={'/questions/post'}
-                className='rounded-lg bg-slate-500 p-2 text-white no-underline hover:bg-slate-600'
-              >
-                投稿する
+              <Link href={'/questions/post'} className='no-underline'>
+                <Button type='submit' className='bg-slate-500 hover:bg-slate-600'>
+                  投稿する
+                </Button>
               </Link>
             </div>
           ) : (
