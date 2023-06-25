@@ -4,9 +4,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import type { QuestionType } from '@/common/types'
+import type { Database } from '@/lib/database.types'
 
 export const Card = async ({ question }: { question: QuestionType }) => {
-  const supabase = createServerComponentClient({ cookies })
+  const supabase = createServerComponentClient<Database>({ cookies })
   const { data: profile } = await supabase.from('profiles').select('*').eq('id', question.user_id).single()
   return (
     <div className='flex h-fit w-full items-center gap-x-3 rounded-lg border border-solid border-slate-300 bg-white px-2 py-4'>
@@ -41,7 +42,10 @@ export const Card = async ({ question }: { question: QuestionType }) => {
             </div>
           </div>
         </div>
-        <Link href={'/'} className='line-clamp-1 no-underline hover:underline hover:underline-offset-4'>
+        <Link
+          href={`/${profile?.username}/questions/${question.id}`}
+          className='line-clamp-1 font-semibold text-black no-underline hover:underline hover:underline-offset-4'
+        >
           {question.title}
         </Link>
       </div>
