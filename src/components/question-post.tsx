@@ -1,97 +1,128 @@
 'use client'
 
 import { Button, MultiSelect, Select, TextInput } from '@mantine/core'
+import { useForm, zodResolver } from '@mantine/form'
 import { RichTextEditor } from '@mantine/tiptap'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { useAtom, useAtomValue } from 'jotai'
+import { useAtom } from 'jotai'
 import { useRouter } from 'next/navigation'
-import type { ChangeEvent, FormEvent } from 'react'
+import { useState } from 'react'
+import * as z from 'zod'
 
+import Loading from '@/app/loading'
 import type { Database } from '@/lib/database.types'
-import { editedQuestionAtom, editedQuestionDescriptionAtom } from '@/store/question-atom'
+import { editedQuestionDescriptionAtom } from '@/store/question-atom'
 
 import { useDescriptionEditor } from './hooks/useDescriptionEditor'
 
+const schema = z.object({
+  title: z
+    .string()
+    .min(1, { message: '質問タイトルを1文字以上入力してください' })
+    .max(100, { message: 'これ以上入力できません' }),
+  coding_problem: z.string().min(1, { message: '問題を1つ選択してください' }),
+  tags: z.string().array().min(1, { message: 'タグを1つ以上選択してください' }),
+})
+
 export const QuestionPost = ({ userId }: { userId: string }) => {
-  const [editedQuestion, setEditedQuestion] = useAtom(editedQuestionAtom)
-  const editedQuestionDescription = useAtomValue(editedQuestionDescriptionAtom)
+  const [editedQuestionDescription, setEditedQuestionDescription] = useAtom(editedQuestionDescriptionAtom)
   const { questionEditor } = useDescriptionEditor()
   const supabase = createClientComponentClient<Database>()
+  const [isLoading, setLoading] = useState(false)
+  const [message, setMessage] = useState('')
 
   const router = useRouter()
 
-  const handleSetTags = (e: string[]) => {
-    setEditedQuestion({ ...editedQuestion, tags: e })
-  }
+  const handleForm = useForm({
+    validate: zodResolver(schema),
+    initialValues: { title: '', coding_problem: '', tags: [] },
+  })
 
-  const handleSetTitle = (e: ChangeEvent<HTMLInputElement>) => {
-    setEditedQuestion({ ...editedQuestion, title: e.target.value })
-  }
+  const handleOnSubmit = async (props: { title: string; coding_problem: string; tags: string[] }) => {
+    setLoading(true)
+    const { title, coding_problem, tags } = props
 
-  const handleSetCodingProblem = (e: string) => {
-    setEditedQuestion({ ...editedQuestion, coding_problem: e })
-  }
+    try {
+      const { error } = await supabase.from('questions').insert({
+        title: title,
+        description: editedQuestionDescription,
+        tags: tags,
+        coding_problem: coding_problem,
+        user_id: userId,
+      })
 
-  const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    await supabase.from('questions').insert({
-      title: editedQuestion.title,
-      description: editedQuestionDescription,
-      tags: editedQuestion.tags,
-      coding_problem: editedQuestion.coding_problem,
-      user_id: userId,
-    })
-    router.push('/')
+      if (error) {
+        setMessage('予期せぬエラーが発生しました。' + error.message)
+        return
+      }
+      setEditedQuestionDescription('')
+      router.push('/')
+    } catch (error) {
+      setMessage('エラーが発生しました。' + error)
+      return
+    } finally {
+      setLoading(false)
+      router.refresh()
+    }
   }
 
   return (
     // ページリロードするとmantineのコンポーネントが初期化される
     // おそらくまだ app routerに対応していなからだと思う。挙動は、大丈夫そうなのでこのまま実装する。
-    <form className=' flex flex-col justify-center gap-y-7' onSubmit={handleOnSubmit}>
-      <TextInput
-        value={editedQuestion.title}
-        onChange={handleSetTitle}
-        placeholder='質問のタイトル'
-        size='md'
-        withAsterisk
-        className='w-full rounded-md border border-solid border-slate-300 shadow'
-        maxLength={70}
-        styles={{ input: { height: '70px', fontSize: '2rem', border: 'none' } }}
-      />
-      <Select
-        value={editedQuestion.coding_problem}
-        onChange={handleSetCodingProblem}
-        placeholder='問題を選択してください'
-        data={codingProblemList}
-        className='w-full rounded-md border border-solid border-slate-300 shadow'
-        styles={{ input: { border: 'none' } }}
-        searchable
-      />
-      <MultiSelect
-        data={data}
-        placeholder='ハッシュタグを最大5つまで選択できます'
-        searchable
-        nothingFound='Nothing found'
-        clearable
-        withAsterisk
-        maxSelectedValues={5}
-        className='w-full rounded-md border border-solid border-slate-300 shadow'
-        styles={{ input: { border: 'none' } }}
-        value={editedQuestion.tags}
-        onChange={handleSetTags}
-      />
-      <RichTextEditor
-        editor={questionEditor}
-        className=' min-h-[400px] w-full rounded-md border border-solid border-slate-300 shadow'
-      >
-        <RichTextEditor.Content />
-      </RichTextEditor>
-      <div className='flex w-full justify-end'>
-        <Button type='submit' className='bg-slate-500 hover:bg-slate-600'>
-          質問を投稿
-        </Button>
-      </div>
-    </form>
+    <>
+      <form className=' flex flex-col justify-center gap-y-7' onSubmit={handleForm.onSubmit(handleOnSubmit)}>
+        <TextInput
+          {...handleForm.getInputProps('title')}
+          placeholder='質問タイトル'
+          size='md'
+          withAsterisk
+          maxLength={100}
+          styles={{
+            input: {
+              height: '70px',
+              fontSize: '2rem',
+              border: '1px solid #cbd5e1',
+              ':focus': { border: '1px solid #cbd5e1' },
+            },
+          }}
+        />
+        <Select
+          {...handleForm.getInputProps('coding_problem')}
+          placeholder='問題を選択してください'
+          data={codingProblemList}
+          searchable
+          styles={{ input: { border: '1px solid #cbd5e1', ':focus': { border: '1px solid #cbd5e1' } } }}
+        />
+        <MultiSelect
+          {...handleForm.getInputProps('tags')}
+          data={data}
+          placeholder='タグを最大5つまで選択できます'
+          searchable
+          nothingFound='Nothing found'
+          clearable
+          withAsterisk
+          maxSelectedValues={5}
+          styles={{ input: { border: '1px solid #cbd5e1', ':focus-within': { border: '1px solid #cbd5e1' } } }}
+        />
+
+        <RichTextEditor
+          editor={questionEditor}
+          className=' min-h-[400px] w-full rounded-md border border-solid border-slate-300 shadow'
+        >
+          <RichTextEditor.Content />
+        </RichTextEditor>
+        <div className='flex w-full justify-end px-3'>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <Button type='submit' className='bg-slate-500 hover:transform-none hover:bg-slate-600'>
+              質問を投稿
+            </Button>
+          )}
+        </div>
+      </form>
+      {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
+    </>
   )
 }
 const data = [
