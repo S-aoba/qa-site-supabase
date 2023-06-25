@@ -104,7 +104,7 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
           maxSelectedValues={5}
           styles={{ input: { border: '1px solid #cbd5e1', ':focus-within': { border: '1px solid #cbd5e1' } } }}
         />
-        {/* todo: validationを設定する */}
+
         <RichTextEditor
           editor={questionEditor}
           className=' min-h-[400px] w-full rounded-md border border-solid border-slate-300 shadow'
