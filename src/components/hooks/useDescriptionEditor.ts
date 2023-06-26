@@ -1,4 +1,6 @@
+// import { Highlight } from '@mantine/core'
 import { Link } from '@mantine/tiptap'
+import Placeholder from '@tiptap/extension-placeholder'
 // import Highlight from '@tiptap/extension-highlight'
 // import SubScript from '@tiptap/extension-subscript'
 // import Superscript from '@tiptap/extension-superscript'
@@ -8,6 +10,7 @@ import { useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { useAtom } from 'jotai'
 
+import { editedAnswerAtom } from '@/store/answer-atom'
 import { editedQuestionDescriptionAtom } from '@/store/question-atom'
 
 const escapeHtml = (unsafe: string) => {
@@ -21,12 +24,13 @@ const escapeHtml = (unsafe: string) => {
 
 export const useDescriptionEditor = () => {
   const [editedQuestionDescription, setEditedQuestionDescription] = useAtom(editedQuestionDescriptionAtom)
-  // const [answerDescription, setAnswerDescription] = useAtom(answerDescriptionAtom)
+  const [answerDescription, setAnswerDescription] = useAtom(editedAnswerAtom)
 
   const questionEditor = useEditor({
     extensions: [
       StarterKit,
       Link,
+      Placeholder.configure({ placeholder: '質問を入力する' }),
       // Underline,
       // Superscript,
       // SubScript,
@@ -44,25 +48,26 @@ export const useDescriptionEditor = () => {
     },
   })
 
-  // const answerEditor = useEditor({
-  //   extensions: [
-  //     StarterKit,
-  //     Underline,
-  //     Link,
-  //     Superscript,
-  //     SubScript,
-  //     Highlight,
-  //     TextAlign.configure({ types: ['heading', 'paragraph'] }),
-  //   ],
-  //   content: escapeHtml(answerDescription),
-  //   onUpdate({ editor }) {
-  //     // ここでeditorの中身が空の時にdescriptionを空にする
-  //     if (editor.getText() === '') {
-  //       setAnswerDescription('')
-  //     } else {
-  //       setAnswerDescription(editor.getHTML())
-  //     }
-  //   },
-  // })
-  return { questionEditor }
+  const answerEditor = useEditor({
+    extensions: [
+      StarterKit,
+      Link,
+      Placeholder.configure({ placeholder: '回答を入力する' }),
+      // Highlight,
+      // Underline,
+      // Superscript,
+      // SubScript,
+      // TextAlign.configure({ types: ['heading', 'paragraph'] }),
+    ],
+    content: escapeHtml(answerDescription),
+    onUpdate({ editor }) {
+      // ここでeditorの中身が空の時にdescriptionを空にする
+      if (editor.getText() === '') {
+        setAnswerDescription('')
+      } else {
+        setAnswerDescription(editor.getHTML())
+      }
+    },
+  })
+  return { questionEditor, answerEditor }
 }
