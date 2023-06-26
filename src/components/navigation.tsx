@@ -22,8 +22,8 @@ export const Navigation = () => {
   const pathname = usePathname()
 
   return (
-    <div className='flex w-full justify-center bg-[#f6f8fa] pb-2 border-l-0 border-t-0 border-r-0 border-b border-solid border-slate-200'>
-      <div className=' flex w-full max-w-[800px] space-x-10 px-3 text-sm font-bold'>
+    <div className='flex w-full justify-center border-b border-l-0 border-r-0 border-t-0 border-solid border-slate-200 bg-[#f6f8fa] pb-2'>
+      <div className=' flex w-full max-w-[800px] space-x-2 px-3 text-sm font-bold'>
         {subNavigation.map((item, index) => {
           return (
             <Link key={index} href={item.href} className='font-normal text-slate-500 no-underline'>
