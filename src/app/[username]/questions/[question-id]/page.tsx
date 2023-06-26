@@ -17,7 +17,7 @@ const QuestionPage = async () => {
 
   return (
     <>
-      <Question />
+      <Question userId={session?.user.id}/>
       <Answer userId={session?.user.id}/>
     </>
   )

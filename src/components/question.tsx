@@ -1,13 +1,14 @@
 'use client'
 
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { IconEdit, IconTrash } from '@tabler/icons-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 import type { Database } from '@/lib/database.types'
 
-export const Question = async () => {
+export const Question = async ({ userId }: { userId: string | undefined }) => {
   const supabase = createClientComponentClient<Database>()
 
   const pathname = usePathname()
@@ -25,29 +26,37 @@ export const Question = async () => {
       <div className='rounded-lg border border-solid border-slate-300 pb-5'>
         <div className='rounded-t-lg border-b border-l-0 border-r-0 border-t-0 border-solid border-slate-300 bg-[#f6f8fa] px-2'>
           {/* user and question info */}
-          <div className='flex items-center space-x-2'>
-            {/* userIcon */}
-            <div className='relative h-6 w-6'>
-              <Image
-                src={profile && profile.avatar_url ? profile.avatar_url : '/default.png'}
-                className='rounded-full object-cover'
-                alt='avatar'
-                fill
-                sizes='auto'
-                priority
-              />
+          <div className='flex justify-between '>
+            <div className='flex items-center space-x-2'>
+              {/* userIcon */}
+              <div className='relative h-6 w-6'>
+                <Image
+                  src={profile && profile.avatar_url ? profile.avatar_url : '/default.png'}
+                  className='rounded-full object-cover'
+                  alt='avatar'
+                  fill
+                  sizes='auto'
+                  priority
+                />
+              </div>
+              {/* username */}
+              <div>
+                <p className='text-sm'>{profile?.username}</p>
+              </div>
+              {/* question posted day */}
+              <div>
+                <span className='text-sm'>投稿日: {question?.created_at.slice(0, 10)}</span>
+              </div>
+              <span className='line-clamp-1 w-fit max-w-[500px] rounded-lg bg-slate-500 px-2 py-1 text-sm leading-5 text-stone-50'>
+                {question?.coding_problem}
+              </span>
             </div>
-            {/* username */}
-            <div>
-              <p className='text-sm'>{profile?.username}</p>
-            </div>
-            {/* question posted day */}
-            <div>
-              <span className='text-sm'>投稿日: {question?.created_at.slice(0, 10)}</span>
-            </div>
-            <span className='line-clamp-1 w-fit max-w-[500px] rounded-lg bg-slate-500 px-2 py-1 text-sm leading-5 text-stone-50'>
-              {question?.coding_problem}
-            </span>
+            {userId === question?.user_id && (
+              <div className='flex items-center space-x-2'>
+                <IconEdit className='text-slate-500 hover:cursor-pointer hover:text-slate-700' />
+                <IconTrash className='text-slate-500 hover:cursor-pointer hover:text-slate-700' />
+              </div>
+            )}
           </div>
           {/* tags */}
           <div className='flex space-x-3 py-2 text-sm'>
