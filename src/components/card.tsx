@@ -22,7 +22,7 @@ export const Card = async ({ question }: { question: QuestionType }) => {
       />
       <div className='flex w-full flex-col justify-center'>
         <div className='flex items-center gap-x-2 text-xs'>
-          <span className='line-clamp-1 w-fit max-w-[500px] rounded-lg bg-cyan-300 px-2 py-1 leading-5 text-stone-500'>
+          <span className='line-clamp-1 w-fit max-w-[500px] rounded-lg bg-slate-500 px-2 py-1 leading-5 text-stone-50'>
             {question.coding_problem}
           </span>
           <div className='flex flex-col gap-y-1 text-gray-500'>

@@ -45,7 +45,7 @@ export const Question = async () => {
             <div>
               <span className='text-sm'>投稿日: {question?.created_at.slice(0, 10)}</span>
             </div>
-            <span className='line-clamp-1 w-fit max-w-[500px] rounded-lg bg-cyan-300 px-2 py-1 text-sm leading-5 text-stone-500'>
+            <span className='line-clamp-1 w-fit max-w-[500px] rounded-lg bg-slate-500 px-2 py-1 text-sm leading-5 text-stone-50'>
               {question?.coding_problem}
             </span>
           </div>
