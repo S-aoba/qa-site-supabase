@@ -58,7 +58,7 @@ export const Header = ({ session, profile }: { session: Session | null; profile:
                 </div>
               </Link>
               <Link href={'/questions/post'} className='no-underline'>
-                <Button type='submit' className='bg-slate-500 hover:bg-slate-600'>
+                <Button type='submit' className='bg-slate-500 hover:bg-slate-600 hover:transform-none'>
                   投稿する
                 </Button>
               </Link>
