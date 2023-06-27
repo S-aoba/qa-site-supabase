@@ -12,7 +12,7 @@ import { editedAnswerAtom } from '@/store/answer-atom'
 
 import { useContentEditor } from '../common/hooks/useContentEditor'
 
-export const AnswerForm = ({ userId }: { userId: string }) => {
+export const AnswerUpdateForm = ({ answerId }: { answerId: string }) => {
   const { editor } = useContentEditor({ type: 'answer' })
   const [isLoading, setLoading] = useState(false)
   const supabase = createClientComponentClient<Database>()
@@ -25,11 +25,12 @@ export const AnswerForm = ({ userId }: { userId: string }) => {
     setLoading(true)
 
     try {
-      const { error } = await supabase.from('answers').insert({
-        user_id: userId,
-        question_id: pathname.split('/')[3],
-        content: answerContent,
-      })
+      const { error } = await supabase
+        .from('answers')
+        .update({
+          content: answerContent,
+        })
+        .eq('id', answerId)
       if (error) {
         setMessage('予期せぬエラーが発生しました。' + error.message)
         return
@@ -47,25 +48,23 @@ export const AnswerForm = ({ userId }: { userId: string }) => {
 
   return (
     <>
-      {userId ? (
-        <form className='py-2' onSubmit={handleOnSubmit}>
-          <RichTextEditor
-            editor={editor}
-            className=' min-h-[400px] w-full rounded-md border border-solid border-slate-300 shadow'
-          >
-            <RichTextEditor.Content />
-          </RichTextEditor>
-          <div className='flex w-full justify-end p-3'>
-            {isLoading ? (
-              <Loading />
-            ) : (
-              <Button type='submit' className='bg-slate-500 hover:transform-none hover:bg-slate-600'>
-                回答を投稿
-              </Button>
-            )}
-          </div>
-        </form>
-      ) : null}
+      <form className='py-2' onSubmit={handleOnSubmit}>
+        <RichTextEditor
+          editor={editor}
+          className=' min-h-[400px] w-full rounded-md border border-solid border-slate-300 shadow'
+        >
+          <RichTextEditor.Content />
+        </RichTextEditor>
+        <div className='flex w-full justify-end p-3'>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <Button type='submit' className='bg-slate-500 hover:transform-none hover:bg-slate-600'>
+              回答を更新
+            </Button>
+          )}
+        </div>
+      </form>
       {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
     </>
   )
