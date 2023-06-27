@@ -46,6 +46,14 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
   })
 
   const handleOnSubmit = async (props: { title: string; coding_problem: string; tags: string[] }) => {
+    if (!isEditMode.question) {
+      createQuestion(props)
+    } else {
+      updateQuestion(props)
+    }
+  }
+
+  const createQuestion = async (props: { title: string; coding_problem: string; tags: string[] }) => {
     setLoading(true)
     const { title, coding_problem, tags } = props
 
@@ -63,6 +71,37 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
         return
       }
       setEditedQuestionDescription('')
+      router.push('/')
+    } catch (error) {
+      setMessage('エラーが発生しました。' + error)
+      return
+    } finally {
+      setLoading(false)
+      router.refresh()
+    }
+  }
+
+  const updateQuestion = async (props: { title: string; coding_problem: string; tags: string[] }) => {
+    setLoading(true)
+    const { title, coding_problem, tags } = props
+
+    try {
+      const { error } = await supabase
+        .from('questions')
+        .update({
+          title: title,
+          description: editedQuestionDescription,
+          tags: tags,
+          coding_problem: coding_problem,
+        })
+        .eq('id', editedQuestion.id)
+
+      if (error) {
+        setMessage('予期せぬエラーが発生しました。' + error.message)
+        return
+      }
+      setEditedQuestionDescription('')
+      // todo:usernameを取得して質問の個別ページに遷移させたい
       router.push('/')
     } catch (error) {
       setMessage('エラーが発生しました。' + error)

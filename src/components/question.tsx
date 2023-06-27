@@ -26,6 +26,7 @@ export const Question = async ({ userId }: { userId: string | undefined }) => {
     if (!question) return
     setQuestionDescription(question.description)
     setEditedQuestion({
+      id: question.id,
       title: question.title,
       coding_problem: question.coding_problem,
       tags: question.tags,
