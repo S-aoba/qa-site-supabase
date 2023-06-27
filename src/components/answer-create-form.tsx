@@ -25,13 +25,24 @@ export const AnswerCreateForm = ({ userId }: { userId: string }) => {
     setLoading(true)
 
     try {
-      const { error } = await supabase.from('answers').insert({
+      const { error: createAnswerError } = await supabase.from('answers').insert({
         user_id: userId,
         question_id: pathname.split('/')[3],
         content: answerContent,
       })
-      if (error) {
-        setMessage('予期せぬエラーが発生しました。' + error.message)
+
+      const { error: updateQuestionError } = await supabase
+        .from('questions')
+        .update({
+          is_answered: true,
+        })
+        .eq('id', pathname.split('/')[3])
+
+      if (createAnswerError) {
+        setMessage('予期せぬエラーが発生しました。' + createAnswerError.message)
+        return
+      } else if (updateQuestionError) {
+        setMessage('予期せぬエラーが発生しました。' + updateQuestionError.message)
         return
       }
       setAnswerContent('')

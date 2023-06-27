@@ -14,7 +14,7 @@ const subNavigation = [
   {
     name: '回答募集中',
     icon: IconCampfire,
-    href: '/waiting-question-answer',
+    href: '/question-waiting-answers',
   },
 ]
 
