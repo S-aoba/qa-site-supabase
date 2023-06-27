@@ -26,7 +26,7 @@ const schema = z.object({
 
 export const QuestionPost = ({ userId }: { userId: string }) => {
   const editedQuestion = useAtomValue(editedQuestionAtom)
-  const [editedQuestionDescription, setEditedQuestionDescription] = useAtom(editedQuestionContentAtom)
+  const [editedQuestionContent, setEditedQuestionContent] = useAtom(editedQuestionContentAtom)
   const isEditMode = useAtomValue(isEditModeAtom)
 
   const { editor } = useContentEditor({ type: 'question' })
@@ -60,7 +60,7 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
     try {
       const { error } = await supabase.from('questions').insert({
         title: title,
-        description: editedQuestionDescription,
+        content: editedQuestionContent,
         tags: tags,
         coding_problem: coding_problem,
         user_id: userId,
@@ -70,7 +70,7 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
         setMessage('予期せぬエラーが発生しました。' + error.message)
         return
       }
-      setEditedQuestionDescription('')
+      setEditedQuestionContent('')
       router.push('/')
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
@@ -90,7 +90,7 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
         .from('questions')
         .update({
           title: title,
-          description: editedQuestionDescription,
+          content: editedQuestionContent,
           tags: tags,
           coding_problem: coding_problem,
         })
@@ -100,7 +100,7 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
         setMessage('予期せぬエラーが発生しました。' + error.message)
         return
       }
-      setEditedQuestionDescription('')
+      setEditedQuestionContent('')
       // todo:usernameを取得して質問の個別ページに遷移させたい
       router.push('/')
     } catch (error) {

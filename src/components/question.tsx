@@ -24,7 +24,7 @@ export const Question = async ({ userId }: { userId: string | undefined }) => {
 
   const handleSetQuestion = () => {
     if (!question) return
-    setQuestionDescription(question.description)
+    setQuestionDescription(question.content)
     setEditedQuestion({
       id: question.id,
       title: question.title,
@@ -108,7 +108,7 @@ export const Question = async ({ userId }: { userId: string | undefined }) => {
           </div>
         </div>
         {/* description */}
-        {question && <div className='break-words p-3' dangerouslySetInnerHTML={{ __html: question.description }} />}
+        {question && <div className='break-words p-3' dangerouslySetInnerHTML={{ __html: question.content }} />}
       </div>
     </div>
   )
