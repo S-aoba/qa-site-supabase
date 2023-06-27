@@ -11,9 +11,9 @@ import * as z from 'zod'
 
 import Loading from '@/app/loading'
 import type { Database } from '@/lib/database.types'
-import { editedQuestionAtom, editedQuestionDescriptionAtom, isEditModeAtom } from '@/store/question-atom'
+import { editedQuestionAtom, editedQuestionContentAtom, isEditModeAtom } from '@/store/question-atom'
 
-import { useDescriptionEditor } from './hooks/useDescriptionEditor'
+import { useContentEditor } from './hooks/useContentEditor'
 
 const schema = z.object({
   title: z
@@ -26,10 +26,10 @@ const schema = z.object({
 
 export const QuestionPost = ({ userId }: { userId: string }) => {
   const editedQuestion = useAtomValue(editedQuestionAtom)
-  const [editedQuestionDescription, setEditedQuestionDescription] = useAtom(editedQuestionDescriptionAtom)
+  const [editedQuestionDescription, setEditedQuestionDescription] = useAtom(editedQuestionContentAtom)
   const isEditMode = useAtomValue(isEditModeAtom)
 
-  const { editor } = useDescriptionEditor({ type: 'question' })
+  const { editor } = useContentEditor({ type: 'question' })
   const supabase = createClientComponentClient<Database>()
   const [isLoading, setLoading] = useState(false)
   const [message, setMessage] = useState('')

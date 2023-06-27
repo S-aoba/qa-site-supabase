@@ -8,11 +8,11 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 import type { Database } from '@/lib/database.types'
-import { editedQuestionAtom, editedQuestionDescriptionAtom, isEditModeAtom } from '@/store/question-atom'
+import { editedQuestionAtom, editedQuestionContentAtom, isEditModeAtom } from '@/store/question-atom'
 
 export const Question = async ({ userId }: { userId: string | undefined }) => {
   const setEditedQuestion = useSetAtom(editedQuestionAtom)
-  const setQuestionDescription = useSetAtom(editedQuestionDescriptionAtom)
+  const setQuestionDescription = useSetAtom(editedQuestionContentAtom)
   const [isEditMode, setIsEditMode] = useAtom(isEditModeAtom)
   const supabase = createClientComponentClient<Database>()
 

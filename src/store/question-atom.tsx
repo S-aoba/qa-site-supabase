@@ -12,6 +12,6 @@ export const editedQuestionAtom = atom<EditedQuestionType>({
   coding_problem: '',
 })
 
-export const editedQuestionDescriptionAtom = atom<string>('')
+export const editedQuestionContentAtom = atom<string>('')
 
 export const isEditModeAtom = atom<EditType>({ question: false, answer: false })

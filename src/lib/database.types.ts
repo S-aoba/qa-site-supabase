@@ -36,24 +36,24 @@ export interface Database {
     Tables: {
       answers: {
         Row: {
+          content: string
           created_at: string
-          description: string
           id: string
           question_id: string
           updated_at: string
           user_id: string
         }
         Insert: {
+          content: string
           created_at?: string
-          description: string
           id?: string
           question_id: string
           updated_at?: string
           user_id: string
         }
         Update: {
+          content?: string
           created_at?: string
-          description?: string
           id?: string
           question_id?: string
           updated_at?: string
@@ -117,8 +117,8 @@ export interface Database {
       questions: {
         Row: {
           coding_problem: string
+          content: string
           created_at: string
-          description: string
           id: string
           tags: string[]
           title: string
@@ -127,8 +127,8 @@ export interface Database {
         }
         Insert: {
           coding_problem: string
+          content: string
           created_at?: string
-          description: string
           id?: string
           tags: string[]
           title: string
@@ -137,8 +137,8 @@ export interface Database {
         }
         Update: {
           coding_problem?: string
+          content?: string
           created_at?: string
-          description?: string
           id?: string
           tags?: string[]
           title?: string

@@ -26,7 +26,7 @@ export const Answer = async ({ userId }: { userId: string | undefined }) => {
       <div className='p-2 text-2xl font-semibold'>Answer</div>
       <div className='space-y-4 py-4'>
         {answers?.map((answer) => {
-          return <Description key={answer.id} answer={answer} userId={userId} />
+          return <Content key={answer.id} answer={answer} userId={userId} />
         })}
         {userId && <AnswerForm userId={userId} />}
       </div>
@@ -34,7 +34,7 @@ export const Answer = async ({ userId }: { userId: string | undefined }) => {
   )
 }
 
-const Description = async ({ answer, userId }: { answer: AnswerType; userId: string | undefined }) => {
+const Content = async ({ answer, userId }: { answer: AnswerType; userId: string | undefined }) => {
   const router = useRouter()
   const [_, setMessage] = useState('')
   const setEditedAnswer = useSetAtom(editedAnswerAtom)
@@ -91,7 +91,7 @@ const Description = async ({ answer, userId }: { answer: AnswerType; userId: str
           )}
         </div>
       </div>
-      {answer && <div className='break-words p-3' dangerouslySetInnerHTML={{ __html: answer.description }} />}
+      {answer && <div className='break-words p-3' dangerouslySetInnerHTML={{ __html: answer.content }} />}
     </div>
   )
 }

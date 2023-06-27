@@ -11,7 +11,7 @@ import StarterKit from '@tiptap/starter-kit'
 import { useAtom } from 'jotai'
 
 import { editedAnswerAtom } from '@/store/answer-atom'
-import { editedQuestionDescriptionAtom } from '@/store/question-atom'
+import { editedQuestionContentAtom } from '@/store/question-atom'
 
 // const escapeHtml = (unsafe: string) => {
 //   return unsafe
@@ -22,8 +22,8 @@ import { editedQuestionDescriptionAtom } from '@/store/question-atom'
 //     .replace(/'/g, '&#039;')
 // }
 
-export const useDescriptionEditor = ({ type }: { type: 'question' | 'answer' }) => {
-  const [editedQuestionDescription, setEditedQuestionDescription] = useAtom(editedQuestionDescriptionAtom)
+export const useContentEditor = ({ type }: { type: 'question' | 'answer' }) => {
+  const [editedQuestionDescription, setEditedQuestionDescription] = useAtom(editedQuestionContentAtom)
   const [answerDescription, setAnswerDescription] = useAtom(editedAnswerAtom)
 
   const editor = useEditor({

@@ -10,14 +10,14 @@ import Loading from '@/app/loading'
 import type { Database } from '@/lib/database.types'
 import { editedAnswerAtom } from '@/store/answer-atom'
 
-import { useDescriptionEditor } from './hooks/useDescriptionEditor'
+import { useContentEditor } from './hooks/useContentEditor'
 
 export const AnswerForm = ({ userId }: { userId: string }) => {
-  const { editor } = useDescriptionEditor({ type: 'answer' })
+  const { editor } = useContentEditor({ type: 'answer' })
   const [isLoading, setLoading] = useState(false)
   const supabase = createClientComponentClient<Database>()
   const pathname = usePathname()
-  const [answerDescription, setAnswerDescription] = useAtom(editedAnswerAtom)
+  const [answerContent, setAnswerContent] = useAtom(editedAnswerAtom)
   const [message, setMessage] = useState('')
   const router = useRouter()
 
@@ -28,13 +28,13 @@ export const AnswerForm = ({ userId }: { userId: string }) => {
       const { error } = await supabase.from('answers').insert({
         user_id: userId,
         question_id: pathname.split('/')[3],
-        description: answerDescription,
+        content: answerContent,
       })
       if (error) {
         setMessage('予期せぬエラーが発生しました。' + error.message)
         return
       }
-      setAnswerDescription('')
+      setAnswerContent('')
       router.push(`${pathname}`)
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
