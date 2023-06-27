@@ -11,7 +11,7 @@ import * as z from 'zod'
 
 import Loading from '@/app/loading'
 import type { Database } from '@/lib/database.types'
-import { editedQuestionAtom, editedQuestionDescriptionAtom } from '@/store/question-atom'
+import { editedQuestionAtom, editedQuestionDescriptionAtom, isEditModeAtom } from '@/store/question-atom'
 
 import { useDescriptionEditor } from './hooks/useDescriptionEditor'
 
@@ -27,7 +27,9 @@ const schema = z.object({
 export const QuestionPost = ({ userId }: { userId: string }) => {
   const editedQuestion = useAtomValue(editedQuestionAtom)
   const [editedQuestionDescription, setEditedQuestionDescription] = useAtom(editedQuestionDescriptionAtom)
-  const { questionEditor } = useDescriptionEditor()
+  const isEditMode = useAtomValue(isEditModeAtom)
+
+  const { editor } = useDescriptionEditor({ type: 'question' })
   const supabase = createClientComponentClient<Database>()
   const [isLoading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
@@ -111,7 +113,7 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
         />
 
         <RichTextEditor
-          editor={questionEditor}
+          editor={editor}
           className=' min-h-[400px] w-full rounded-md border border-solid border-slate-300 shadow'
         >
           <RichTextEditor.Content />
@@ -121,7 +123,7 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
             <Loading />
           ) : (
             <Button type='submit' className='bg-slate-500 hover:transform-none hover:bg-slate-600'>
-              質問を投稿
+              {isEditMode.question ? '質問を更新する' : '質問を送信する'}
             </Button>
           )}
         </div>
