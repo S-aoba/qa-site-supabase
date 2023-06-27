@@ -120,6 +120,7 @@ export interface Database {
           content: string
           created_at: string
           id: string
+          is_answered: boolean | null
           tags: string[]
           title: string
           updated_at: string
@@ -130,6 +131,7 @@ export interface Database {
           content: string
           created_at?: string
           id?: string
+          is_answered?: boolean | null
           tags: string[]
           title: string
           updated_at?: string
@@ -140,6 +142,7 @@ export interface Database {
           content?: string
           created_at?: string
           id?: string
+          is_answered?: boolean | null
           tags?: string[]
           title?: string
           updated_at?: string
