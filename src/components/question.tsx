@@ -2,17 +2,18 @@
 
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { IconEdit, IconTrash } from '@tabler/icons-react'
-import { useSetAtom } from 'jotai'
+import { useAtom, useSetAtom } from 'jotai'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 import type { Database } from '@/lib/database.types'
-import { editedQuestionAtom, editedQuestionDescriptionAtom } from '@/store/question-atom'
+import { editedQuestionAtom, editedQuestionDescriptionAtom, isEditModeAtom } from '@/store/question-atom'
 
 export const Question = async ({ userId }: { userId: string | undefined }) => {
   const setEditedQuestion = useSetAtom(editedQuestionAtom)
   const setQuestionDescription = useSetAtom(editedQuestionDescriptionAtom)
+  const [isEditMode, setIsEditMode] = useAtom(isEditModeAtom)
   const supabase = createClientComponentClient<Database>()
 
   const pathname = usePathname()
@@ -29,6 +30,7 @@ export const Question = async ({ userId }: { userId: string | undefined }) => {
       coding_problem: question.coding_problem,
       tags: question.tags,
     })
+    setIsEditMode({ ...isEditMode, question: true })
   }
 
   return (
