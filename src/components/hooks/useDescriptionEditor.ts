@@ -13,20 +13,20 @@ import { useAtom } from 'jotai'
 import { editedAnswerAtom } from '@/store/answer-atom'
 import { editedQuestionDescriptionAtom } from '@/store/question-atom'
 
-const escapeHtml = (unsafe: string) => {
-  return unsafe
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;')
-}
+// const escapeHtml = (unsafe: string) => {
+//   return unsafe
+//     .replace(/&/g, '&amp;')
+//     .replace(/</g, '&lt;')
+//     .replace(/>/g, '&gt;')
+//     .replace(/"/g, '&quot;')
+//     .replace(/'/g, '&#039;')
+// }
 
-export const useDescriptionEditor = () => {
+export const useDescriptionEditor = ({ type }: { type: 'question' | 'answer' }) => {
   const [editedQuestionDescription, setEditedQuestionDescription] = useAtom(editedQuestionDescriptionAtom)
   const [answerDescription, setAnswerDescription] = useAtom(editedAnswerAtom)
 
-  const questionEditor = useEditor({
+  const editor = useEditor({
     extensions: [
       StarterKit,
       Link,
@@ -37,37 +37,25 @@ export const useDescriptionEditor = () => {
       // Highlight,
       // TextAlign.configure({ types: ['heading', 'paragraph'] }),
     ],
-    content: escapeHtml(editedQuestionDescription),
+    // 作成と更新時にescapeさせるかどうかは要検討。挙動を合わせるのが難しい
+    content: type === 'question' ? editedQuestionDescription : answerDescription,
     onUpdate({ editor }) {
       // ここでeditorの中身が空の時にdescriptionを空にする
       if (editor.getText() === '') {
-        setEditedQuestionDescription('')
-      } else {
-        setEditedQuestionDescription(editor.getHTML())
-      }
-    },
-  })
-
-  const answerEditor = useEditor({
-    extensions: [
-      StarterKit,
-      Link,
-      Placeholder.configure({ placeholder: '回答を入力する' }),
-      // Highlight,
-      // Underline,
-      // Superscript,
-      // SubScript,
-      // TextAlign.configure({ types: ['heading', 'paragraph'] }),
-    ],
-    content: escapeHtml(answerDescription),
-    onUpdate({ editor }) {
-      // ここでeditorの中身が空の時にdescriptionを空にする
-      if (editor.getText() === '') {
+        if (type === 'question') {
+          setEditedQuestionDescription('')
+          return
+        }
         setAnswerDescription('')
       } else {
+        if (type === 'question') {
+          setEditedQuestionDescription(editor.getHTML())
+          return
+        }
         setAnswerDescription(editor.getHTML())
       }
     },
   })
-  return { questionEditor, answerEditor }
+
+  return { editor }
 }

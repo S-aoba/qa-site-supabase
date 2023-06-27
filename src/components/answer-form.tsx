@@ -13,7 +13,7 @@ import { editedAnswerAtom } from '@/store/answer-atom'
 import { useDescriptionEditor } from './hooks/useDescriptionEditor'
 
 export const AnswerForm = ({ userId }: { userId: string }) => {
-  const { answerEditor } = useDescriptionEditor()
+  const { editor } = useDescriptionEditor({ type: 'answer' })
   const [isLoading, setLoading] = useState(false)
   const supabase = createClientComponentClient<Database>()
   const pathname = usePathname()
@@ -50,7 +50,7 @@ export const AnswerForm = ({ userId }: { userId: string }) => {
       {userId ? (
         <form className='py-2' onSubmit={handleOnSubmit}>
           <RichTextEditor
-            editor={answerEditor}
+            editor={editor}
             className=' min-h-[400px] w-full rounded-md border border-solid border-slate-300 shadow'
           >
             <RichTextEditor.Content />

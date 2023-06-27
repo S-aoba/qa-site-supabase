@@ -4,14 +4,14 @@ import { Button, MultiSelect, Select, TextInput } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { RichTextEditor } from '@mantine/tiptap'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import * as z from 'zod'
 
 import Loading from '@/app/loading'
 import type { Database } from '@/lib/database.types'
-import { editedQuestionDescriptionAtom } from '@/store/question-atom'
+import { editedQuestionAtom, editedQuestionDescriptionAtom, isEditModeAtom } from '@/store/question-atom'
 
 import { useDescriptionEditor } from './hooks/useDescriptionEditor'
 
@@ -25,8 +25,11 @@ const schema = z.object({
 })
 
 export const QuestionPost = ({ userId }: { userId: string }) => {
+  const editedQuestion = useAtomValue(editedQuestionAtom)
   const [editedQuestionDescription, setEditedQuestionDescription] = useAtom(editedQuestionDescriptionAtom)
-  const { questionEditor } = useDescriptionEditor()
+  const isEditMode = useAtomValue(isEditModeAtom)
+
+  const { editor } = useDescriptionEditor({ type: 'question' })
   const supabase = createClientComponentClient<Database>()
   const [isLoading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
@@ -35,10 +38,22 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
 
   const handleForm = useForm({
     validate: zodResolver(schema),
-    initialValues: { title: '', coding_problem: '', tags: [] },
+    initialValues: {
+      title: editedQuestion.title,
+      coding_problem: editedQuestion.coding_problem,
+      tags: editedQuestion.tags,
+    },
   })
 
   const handleOnSubmit = async (props: { title: string; coding_problem: string; tags: string[] }) => {
+    if (!isEditMode.question) {
+      createQuestion(props)
+    } else {
+      updateQuestion(props)
+    }
+  }
+
+  const createQuestion = async (props: { title: string; coding_problem: string; tags: string[] }) => {
     setLoading(true)
     const { title, coding_problem, tags } = props
 
@@ -56,6 +71,37 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
         return
       }
       setEditedQuestionDescription('')
+      router.push('/')
+    } catch (error) {
+      setMessage('エラーが発生しました。' + error)
+      return
+    } finally {
+      setLoading(false)
+      router.refresh()
+    }
+  }
+
+  const updateQuestion = async (props: { title: string; coding_problem: string; tags: string[] }) => {
+    setLoading(true)
+    const { title, coding_problem, tags } = props
+
+    try {
+      const { error } = await supabase
+        .from('questions')
+        .update({
+          title: title,
+          description: editedQuestionDescription,
+          tags: tags,
+          coding_problem: coding_problem,
+        })
+        .eq('id', editedQuestion.id)
+
+      if (error) {
+        setMessage('予期せぬエラーが発生しました。' + error.message)
+        return
+      }
+      setEditedQuestionDescription('')
+      // todo:usernameを取得して質問の個別ページに遷移させたい
       router.push('/')
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
@@ -106,7 +152,7 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
         />
 
         <RichTextEditor
-          editor={questionEditor}
+          editor={editor}
           className=' min-h-[400px] w-full rounded-md border border-solid border-slate-300 shadow'
         >
           <RichTextEditor.Content />
@@ -116,7 +162,7 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
             <Loading />
           ) : (
             <Button type='submit' className='bg-slate-500 hover:transform-none hover:bg-slate-600'>
-              質問を投稿
+              {isEditMode.question ? '質問を更新する' : '質問を送信する'}
             </Button>
           )}
         </div>

@@ -2,15 +2,16 @@ import { atom } from 'jotai'
 
 import type { QuestionType } from '@/common/types'
 
-type EditedQuestionType = Omit<QuestionType, 'created_at' | 'updated_at'>
+type EditedQuestionType = Pick<QuestionType, 'id' | 'title' | 'tags' | 'coding_problem'>
+type EditType = { question: boolean; answer: boolean }
 
 export const editedQuestionAtom = atom<EditedQuestionType>({
   id: '',
-  user_id: '',
   title: '',
-  description: '',
   tags: [],
   coding_problem: '',
 })
 
 export const editedQuestionDescriptionAtom = atom<string>('')
+
+export const isEditModeAtom = atom<EditType>({ question: false, answer: false })
