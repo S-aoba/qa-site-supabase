@@ -4,14 +4,14 @@ import { Button, MultiSelect, Select, TextInput } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { RichTextEditor } from '@mantine/tiptap'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import * as z from 'zod'
 
 import Loading from '@/app/loading'
 import type { Database } from '@/lib/database.types'
-import { editedQuestionDescriptionAtom } from '@/store/question-atom'
+import { editedQuestionAtom, editedQuestionDescriptionAtom } from '@/store/question-atom'
 
 import { useDescriptionEditor } from './hooks/useDescriptionEditor'
 
@@ -25,6 +25,7 @@ const schema = z.object({
 })
 
 export const QuestionPost = ({ userId }: { userId: string }) => {
+  const editedQuestion = useAtomValue(editedQuestionAtom)
   const [editedQuestionDescription, setEditedQuestionDescription] = useAtom(editedQuestionDescriptionAtom)
   const { questionEditor } = useDescriptionEditor()
   const supabase = createClientComponentClient<Database>()
@@ -35,7 +36,11 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
 
   const handleForm = useForm({
     validate: zodResolver(schema),
-    initialValues: { title: '', coding_problem: '', tags: [] },
+    initialValues: {
+      title: editedQuestion.title,
+      coding_problem: editedQuestion.coding_problem,
+      tags: editedQuestion.tags,
+    },
   })
 
   const handleOnSubmit = async (props: { title: string; coding_problem: string; tags: string[] }) => {

@@ -2,13 +2,17 @@
 
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { IconEdit, IconTrash } from '@tabler/icons-react'
+import { useSetAtom } from 'jotai'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 import type { Database } from '@/lib/database.types'
+import { editedQuestionAtom, editedQuestionDescriptionAtom } from '@/store/question-atom'
 
 export const Question = async ({ userId }: { userId: string | undefined }) => {
+  const setEditedQuestion = useSetAtom(editedQuestionAtom)
+  const setQuestionDescription = useSetAtom(editedQuestionDescriptionAtom)
   const supabase = createClientComponentClient<Database>()
 
   const pathname = usePathname()
@@ -16,6 +20,15 @@ export const Question = async ({ userId }: { userId: string | undefined }) => {
 
   const { data: question } = await supabase.from('questions').select('*').eq('id', question_id).single()
   const { data: profile } = await supabase.from('profiles').select('*').eq('id', question?.user_id).single()
+
+  const handleSetQuestion = () => {
+    setQuestionDescription(question!.description)
+    setEditedQuestion({
+      title: question!.title,
+      coding_problem: question!.coding_problem,
+      tags: question!.tags,
+    })
+  }
 
   return (
     <div className='p-2'>
@@ -53,7 +66,12 @@ export const Question = async ({ userId }: { userId: string | undefined }) => {
             </div>
             {userId === question?.user_id && (
               <div className='flex items-center space-x-2'>
-                <IconEdit className='text-slate-500 hover:cursor-pointer hover:text-slate-700' />
+                <Link href={'/questions/post'} className='flex items-center'>
+                  <IconEdit
+                    className='text-slate-500 hover:cursor-pointer hover:text-slate-700'
+                    onClick={handleSetQuestion}
+                  />
+                </Link>
                 <IconTrash className='text-slate-500 hover:cursor-pointer hover:text-slate-700' />
               </div>
             )}
