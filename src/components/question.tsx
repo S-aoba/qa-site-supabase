@@ -22,11 +22,12 @@ export const Question = async ({ userId }: { userId: string | undefined }) => {
   const { data: profile } = await supabase.from('profiles').select('*').eq('id', question?.user_id).single()
 
   const handleSetQuestion = () => {
-    setQuestionDescription(question!.description)
+    if (!question) return
+    setQuestionDescription(question.description)
     setEditedQuestion({
-      title: question!.title,
-      coding_problem: question!.coding_problem,
-      tags: question!.tags,
+      title: question.title,
+      coding_problem: question.coding_problem,
+      tags: question.tags,
     })
   }
 
