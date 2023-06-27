@@ -1,4 +1,5 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import { IconMessageCircle } from '@tabler/icons-react'
 import { cookies } from 'next/headers'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -9,6 +10,8 @@ import type { Database } from '@/lib/database.types'
 export const Card = async ({ question }: { question: QuestionType }) => {
   const supabase = createServerComponentClient<Database>({ cookies })
   const { data: profile } = await supabase.from('profiles').select('*').eq('id', question.user_id).single()
+  const { data: answers } = await supabase.from('answers').select('*').eq('question_id', question.id) //もっと他にいい方法を考える
+
   return (
     <div className='flex h-fit w-full items-center gap-x-3 rounded-lg border border-solid border-slate-300 bg-white px-2 py-4'>
       <Image
@@ -26,7 +29,13 @@ export const Card = async ({ question }: { question: QuestionType }) => {
             {question.coding_problem}
           </span>
           <div className='flex flex-col gap-y-1 text-gray-500'>
-            <span>投稿日: {question.created_at.slice(0, 10)}</span>
+            <div className='flex items-center gap-x-2'>
+              <span>投稿日: {question.created_at.slice(0, 10)}</span>
+              <div className='flex items-center gap-x-1'>
+                <IconMessageCircle size={18} />
+                {answers?.length}
+              </div>
+            </div>
             <div className=' flex items-center gap-x-2'>
               <div className='relative h-6 w-6'>
                 <Image
