@@ -5,16 +5,21 @@ import { IconEdit, IconTrash } from '@tabler/icons-react'
 import { useAtom, useSetAtom } from 'jotai'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import { useState } from 'react'
 
 import type { Database } from '@/lib/database.types'
 import { editedQuestionAtom, editedQuestionContentAtom, isEditModeAtom } from '@/store/question-atom'
 
 export const Question = async ({ userId }: { userId: string | undefined }) => {
+  const router = useRouter()
+
   const setEditedQuestion = useSetAtom(editedQuestionAtom)
   const setQuestionDescription = useSetAtom(editedQuestionContentAtom)
   const [isEditMode, setIsEditMode] = useAtom(isEditModeAtom)
   const supabase = createClientComponentClient<Database>()
+
+  const [_, setMessage] = useState('')
 
   const pathname = usePathname()
   const question_id = pathname.split('/')[3]
@@ -32,6 +37,23 @@ export const Question = async ({ userId }: { userId: string | undefined }) => {
       tags: question.tags,
     })
     setIsEditMode({ ...isEditMode, question: true })
+  }
+
+  const handleDeleteQuestion = async () => {
+    if (question === null) return
+    try {
+      const { error } = await supabase.from('questions').delete().eq('id', question.id)
+      if (error) {
+        setMessage('予期せぬエラーが発生しました。' + error.message)
+        return
+      }
+      router.push('/')
+    } catch (error) {
+      setMessage('エラーが発生しました。' + error)
+      return
+    } finally {
+      router.refresh()
+    }
   }
 
   return (
@@ -76,7 +98,10 @@ export const Question = async ({ userId }: { userId: string | undefined }) => {
                     onClick={handleSetQuestion}
                   />
                 </Link>
-                <IconTrash className='text-slate-500 hover:cursor-pointer hover:text-slate-700' />
+                <IconTrash
+                  className='text-slate-500 hover:cursor-pointer hover:text-slate-700'
+                  onClick={handleDeleteQuestion}
+                />
               </div>
             )}
           </div>
