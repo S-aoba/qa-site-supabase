@@ -11,9 +11,9 @@ import * as z from 'zod'
 
 import Loading from '@/app/loading'
 import type { Database } from '@/lib/database.types'
-import { editedQuestionAtom, editedQuestionDescriptionAtom, isEditModeAtom } from '@/store/question-atom'
+import { editedQuestionAtom, editedQuestionContentAtom, isEditModeAtom } from '@/store/question-atom'
 
-import { useDescriptionEditor } from './hooks/useDescriptionEditor'
+import { useContentEditor } from '../common/hooks/useContentEditor'
 
 const schema = z.object({
   title: z
@@ -26,10 +26,10 @@ const schema = z.object({
 
 export const QuestionPost = ({ userId }: { userId: string }) => {
   const editedQuestion = useAtomValue(editedQuestionAtom)
-  const [editedQuestionDescription, setEditedQuestionDescription] = useAtom(editedQuestionDescriptionAtom)
+  const [editedQuestionContent, setEditedQuestionContent] = useAtom(editedQuestionContentAtom)
   const isEditMode = useAtomValue(isEditModeAtom)
 
-  const { editor } = useDescriptionEditor({ type: 'question' })
+  const { editor } = useContentEditor({ type: 'question' })
   const supabase = createClientComponentClient<Database>()
   const [isLoading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
@@ -60,7 +60,7 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
     try {
       const { error } = await supabase.from('questions').insert({
         title: title,
-        description: editedQuestionDescription,
+        content: editedQuestionContent,
         tags: tags,
         coding_problem: coding_problem,
         user_id: userId,
@@ -70,7 +70,7 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
         setMessage('予期せぬエラーが発生しました。' + error.message)
         return
       }
-      setEditedQuestionDescription('')
+      setEditedQuestionContent('')
       router.push('/')
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
@@ -90,7 +90,7 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
         .from('questions')
         .update({
           title: title,
-          description: editedQuestionDescription,
+          content: editedQuestionContent,
           tags: tags,
           coding_problem: coding_problem,
         })
@@ -100,7 +100,7 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
         setMessage('予期せぬエラーが発生しました。' + error.message)
         return
       }
-      setEditedQuestionDescription('')
+      setEditedQuestionContent('')
       // todo:usernameを取得して質問の個別ページに遷移させたい
       router.push('/')
     } catch (error) {
