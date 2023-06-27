@@ -13,7 +13,7 @@ import Loading from '@/app/loading'
 import type { Database } from '@/lib/database.types'
 import { editedQuestionAtom, editedQuestionContentAtom, isEditModeAtom } from '@/store/question-atom'
 
-import { useContentEditor } from './hooks/useContentEditor'
+import { useContentEditor } from '../common/hooks/useContentEditor'
 
 const schema = z.object({
   title: z

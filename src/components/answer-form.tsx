@@ -10,7 +10,7 @@ import Loading from '@/app/loading'
 import type { Database } from '@/lib/database.types'
 import { editedAnswerAtom } from '@/store/answer-atom'
 
-import { useContentEditor } from './hooks/useContentEditor'
+import { useContentEditor } from '../common/hooks/useContentEditor'
 
 export const AnswerForm = ({ userId }: { userId: string }) => {
   const { editor } = useContentEditor({ type: 'answer' })
