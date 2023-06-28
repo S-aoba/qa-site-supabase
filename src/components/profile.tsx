@@ -1,6 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Button, Textarea, TextInput } from '@mantine/core'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useAtomValue } from 'jotai'
 import Image from 'next/image'
@@ -21,6 +22,9 @@ type Schema = z.infer<typeof schema>
 const schema = z.object({
   name: z.string().min(2, { message: '2文字以上入力する必要があります。' }),
   introduce: z.string().min(0),
+  twitter_url: z.string().min(0),
+  github_url: z.string().min(0),
+  website_url: z.string().min(0),
 })
 
 // プロフィール
@@ -43,6 +47,9 @@ export const Profile = () => {
     defaultValues: {
       name: user.username ? user.username : '',
       introduce: user.introduce ? user.introduce : '',
+      twitter_url: user.twitter_url ? user.twitter_url : '',
+      github_url: user.github_url ? user.github_url : '',
+      website_url: user.website_url ? user.website_url : '',
     },
     // 入力値の検証
     resolver: zodResolver(schema),
@@ -125,6 +132,9 @@ export const Profile = () => {
           username: data.name,
           introduce: data.introduce,
           avatar_url,
+          twitter_url: data.twitter_url,
+          github_url: data.github_url,
+          website_url: data.website_url,
         })
         .eq('id', user.id)
 
@@ -162,9 +172,14 @@ export const Profile = () => {
         {/* 名前 */}
         <div className='mb-5'>
           <div className='mb-1 text-sm font-bold'>名前</div>
-          <input
+          <TextInput
             type='text'
-            className='w-full rounded-md border px-3 py-2 focus:border-sky-500 focus:outline-none'
+            styles={{
+              input: {
+                border: '1px solid #cbd5e1',
+                ':focus': { border: '1px solid #cbd5e1' },
+              },
+            }}
             placeholder='名前'
             id='name'
             {...register('name', { required: true })}
@@ -176,8 +191,13 @@ export const Profile = () => {
         {/* 自己紹介 */}
         <div className='mb-5'>
           <div className='mb-1 text-sm font-bold'>自己紹介</div>
-          <textarea
-            className='w-full rounded-md border px-3 py-2 focus:border-sky-500 focus:outline-none'
+          <Textarea
+            styles={{
+              input: {
+                border: '1px solid #cbd5e1',
+                ':focus': { border: '1px solid #cbd5e1' },
+              },
+            }}
             placeholder='自己紹介'
             id='introduce'
             {...register('introduce')}
@@ -185,17 +205,71 @@ export const Profile = () => {
           />
         </div>
 
+        {/* Twitter */}
+        <div className='mb-5'>
+          <div className='mb-1 text-sm font-bold'>Twitter</div>
+          <TextInput
+            type='text'
+            styles={{
+              input: {
+                border: '1px solid #cbd5e1',
+                ':focus': { border: '1px solid #cbd5e1' },
+              },
+            }}
+            placeholder='URL'
+            id='twitter_url'
+            {...register('twitter_url')}
+          />
+          <div className='my-3 text-center text-sm text-red-500'>{errors.name?.message}</div>
+        </div>
+
+        {/* Github */}
+        <div className='mb-5'>
+          <div className='mb-1 text-sm font-bold'>Github</div>
+          <TextInput
+            type='text'
+            styles={{
+              input: {
+                border: '1px solid #cbd5e1',
+                ':focus': { border: '1px solid #cbd5e1' },
+              },
+            }}
+            placeholder='URL'
+            id='github_url'
+            {...register('github_url')}
+          />
+          <div className='my-3 text-center text-sm text-red-500'>{errors.name?.message}</div>
+        </div>
+
+        {/* Website */}
+        <div className='mb-5'>
+          <div className='mb-1 text-sm font-bold'>Website</div>
+          <TextInput
+            type='text'
+            styles={{
+              input: {
+                border: '1px solid #cbd5e1',
+                ':focus': { border: '1px solid #cbd5e1' },
+              },
+            }}
+            placeholder='URL'
+            id='website_url'
+            {...register('website_url')}
+          />
+          <div className='my-3 text-center text-sm text-red-500'>{errors.name?.message}</div>
+        </div>
+
         {/* 変更ボタン */}
         <div className='mb-5'>
           {isLoading ? (
             <Loading />
           ) : (
-            <button
+            <Button
               type='submit'
-              className='w-full rounded-full bg-sky-500 p-2 text-sm font-bold text-white hover:brightness-95'
+              className='w-full rounded-full bg-slate-500 p-2 text-sm font-bold text-white hover:bg-slate-500 hover:brightness-95'
             >
               変更
-            </button>
+            </Button>
           )}
         </div>
       </form>
