@@ -1,6 +1,13 @@
 'use client'
 
-import { IconKey, IconLogout2, IconMailForward, IconUserCircle } from '@tabler/icons-react'
+import {
+  IconHelpHexagon,
+  IconKey,
+  IconLogout2,
+  IconMailForward,
+  IconMessageCircle,
+  IconUserCircle,
+} from '@tabler/icons-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -10,6 +17,16 @@ const subNavigation = [
     name: 'プロフィール',
     icon: IconUserCircle,
     href: '/settings/profile',
+  },
+  {
+    name: '自分の質問',
+    icon: IconHelpHexagon,
+    href: '/settings/my-questions',
+  },
+  {
+    name: '回答した質問',
+    icon: IconMessageCircle,
+    href: '/settings/questions-answered',
   },
   {
     name: 'メールアドレス',
