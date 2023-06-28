@@ -1,7 +1,9 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Button, TextInput } from '@mantine/core'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import type { SubmitHandler } from 'react-hook-form'
@@ -70,9 +72,14 @@ export const ResetPassword = () => {
         {/* メールアドレス */}
         <div className='mb-5'>
           <div className='mb-1 text-sm font-bold'>メールアドレス</div>
-          <input
+          <TextInput
             type='email'
-            className='w-full rounded-md border px-3 py-2 focus:border-sky-500 focus:outline-none'
+            styles={{
+              input: {
+                border: '1px solid #cbd5e1',
+                ':focus': { border: '1px solid #cbd5e1' },
+              },
+            }}
             placeholder='メールアドレス'
             id='email'
             {...register('email', { required: true })}
@@ -85,17 +92,22 @@ export const ResetPassword = () => {
           {isLoading ? (
             <Loading />
           ) : (
-            <button
+            <Button
               type='submit'
-              className='w-full rounded-full bg-sky-500 p-2 text-sm font-bold text-white hover:brightness-95'
+              className='w-full rounded-full bg-slate-500 p-2 text-sm font-bold text-white hover:bg-slate-500 hover:brightness-95'
             >
               送信
-            </button>
+            </Button>
           )}
         </div>
       </form>
 
       {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
+      <div className='text-center text-sm'>
+        <Link href='/auth/login' className='font-bold text-gray-500'>
+          ログインはこちら
+        </Link>
+      </div>
     </div>
   )
 }

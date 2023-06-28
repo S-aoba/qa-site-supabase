@@ -1,6 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Button, PasswordInput, TextInput } from '@mantine/core'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -68,13 +69,18 @@ export const Login = () => {
 
   return (
     <div className='mx-auto max-w-[400px]'>
-      <div className='mb-10 text-center text-xl font-bold'>ログイン</div>
+      <div className='mb-10 text-center text-xl font-bold'>Login</div>
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* メールアドレス */}
         <div className='mb-3'>
-          <input
+          <TextInput
             type='email'
-            className='w-full rounded-md border px-3 py-2 focus:border-sky-500 focus:outline-none'
+            styles={{
+              input: {
+                border: '1px solid #cbd5e1',
+                ':focus': { border: '1px solid #cbd5e1' },
+              },
+            }}
             placeholder='メールアドレス'
             id='email'
             {...register('email', { required: true })}
@@ -84,9 +90,14 @@ export const Login = () => {
 
         {/* パスワード */}
         <div className='mb-5'>
-          <input
+          <PasswordInput
             type='password'
-            className='w-full rounded-md border px-3 py-2 focus:border-sky-500 focus:outline-none'
+            styles={{
+              input: {
+                border: '1px solid #cbd5e1',
+                ':focus': { border: '1px solid #cbd5e1' },
+              },
+            }}
             placeholder='パスワード'
             id='password'
             {...register('password', { required: true })}
@@ -99,12 +110,12 @@ export const Login = () => {
           {isLoading ? (
             <Loading />
           ) : (
-            <button
+            <Button
               type='submit'
-              className='w-full rounded-full bg-sky-500 p-2 text-sm font-bold text-white hover:brightness-95'
+              className='w-full rounded-full bg-slate-500 p-2 text-sm font-bold text-white hover:bg-slate-500 hover:brightness-95'
             >
               ログイン
-            </button>
+            </Button>
           )}
         </div>
       </form>
