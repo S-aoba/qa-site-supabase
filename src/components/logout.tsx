@@ -1,5 +1,6 @@
 'use client'
 
+import { Button } from '@mantine/core'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import type { FormEvent } from 'react'
@@ -49,12 +50,12 @@ export const Logout = () => {
           {isLoading ? (
             <Loading />
           ) : (
-            <button
+            <Button
               type='submit'
-              className='w-full rounded-full bg-red-500 p-2 text-sm font-bold text-white hover:brightness-95'
+              className='w-full rounded-full bg-red-500 p-2 text-sm font-bold text-white hover:brightness-95 hover:bg-red-500'
             >
               ログアウト
-            </button>
+            </Button>
           )}
         </div>
       </form>
