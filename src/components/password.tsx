@@ -1,7 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, TextInput } from '@mantine/core'
+import { Button, PasswordInput } from '@mantine/core'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -84,12 +84,12 @@ export const Password = () => {
         {/* 新しいパスワード */}
         <div className='mb-5'>
           <div className='mb-1 text-sm font-bold'>新しいパスワード</div>
-          <TextInput
+          <PasswordInput
             type='password'
             styles={{
               input: {
                 border: '1px solid #cbd5e1',
-                ':focus': { border: '1px solid #cbd5e1' },
+                ':focus-within': { border: '1px solid #cbd5e1' },
               },
             }}
             placeholder='新しいパスワード'
@@ -102,12 +102,12 @@ export const Password = () => {
         {/* 確認用パスワード */}
         <div className='mb-5'>
           <div className='mb-1 text-sm font-bold'>確認用パスワード</div>
-          <TextInput
+          <PasswordInput
             type='password'
             styles={{
               input: {
                 border: '1px solid #cbd5e1',
-                ':focus': { border: '1px solid #cbd5e1' },
+                ':focus-within': { border: '1px solid #cbd5e1' },
               },
             }}
             placeholder='確認用パスワード'
