@@ -37,11 +37,11 @@ const SettingsLayout = ({ children }: { children: React.ReactNode }) => {
       <div className='col-span-1 flex flex-col space-y-1 text-sm font-bold'>
         {subNavigation.map((item, index) => {
           return (
-            <Link href={item.href} key={index}>
+            <Link href={item.href} key={index} className='no-underline'>
               <div
                 className={`${
-                  item.href == pathname && 'bg-sky-100 text-sky-500'
-                } rounded-full px-3 py-2 hover:bg-sky-100`}
+                  item.href == pathname && 'bg-slate-200 text-slate-500 hover:bg-slate-200 hover:text-slate-500'
+                } flex items-center rounded-full px-3 py-2 text-black hover:bg-slate-100 hover:text-slate-500`}
               >
                 <item.icon className='mr-2 inline-block h-5 w-5' />
                 {item.name}
