@@ -1,7 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, Textarea, TextInput } from '@mantine/core'
+import { Button, FileInput, Textarea, TextInput } from '@mantine/core'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useAtomValue } from 'jotai'
 import Image from 'next/image'
@@ -63,8 +63,8 @@ export const Profile = () => {
   }, [user])
 
   // 画像アップロード
-  const handleOnUploadImage = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files
+  const handleOnUploadImage = useCallback((e: File | null) => {
+    const files = e
     setFileMessage('')
 
     // ファイルが選択されていない場合
@@ -73,8 +73,8 @@ export const Profile = () => {
       return
     }
 
-    const fileSize = files[0]?.size / 1024 / 1024 // size in MB
-    const fileType = files[0]?.type // MIME type of the file
+    const fileSize = files.size / 1024 / 1024 // size in MB
+    const fileType = files.type // MIME type of the file
 
     // 画像サイズが2MBを超える場合
     if (fileSize > 2) {
@@ -89,7 +89,7 @@ export const Profile = () => {
     }
 
     // 画像をセット
-    setAvatar(files[0])
+    setAvatar(files)
   }, [])
 
   // 送信
@@ -164,7 +164,12 @@ export const Profile = () => {
             <div className='relative mb-5 h-24 w-24'>
               <Image src={avatarUrl} className='rounded-full object-cover' alt='avatar' fill sizes='auto' priority />
             </div>
-            <input type='file' id='avatar' onChange={handleOnUploadImage} />
+            <FileInput id='avatar' onChange={handleOnUploadImage} placeholder='画像を選択する' styles={{
+              input: {
+                border: '1px solid #cbd5e1',
+                ':focus': { border: '1px solid #cbd5e1' },
+              },
+            }}/>
             {fileMessage && <div className='my-5 text-center text-red-500'>{fileMessage}</div>}
           </div>
         </div>
