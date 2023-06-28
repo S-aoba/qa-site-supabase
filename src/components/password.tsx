@@ -1,6 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Button, TextInput } from '@mantine/core'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -83,9 +84,14 @@ export const Password = () => {
         {/* 新しいパスワード */}
         <div className='mb-5'>
           <div className='mb-1 text-sm font-bold'>新しいパスワード</div>
-          <input
+          <TextInput
             type='password'
-            className='w-full rounded-md border px-3 py-2 focus:border-sky-500 focus:outline-none'
+            styles={{
+              input: {
+                border: '1px solid #cbd5e1',
+                ':focus': { border: '1px solid #cbd5e1' },
+              },
+            }}
             placeholder='新しいパスワード'
             id='password'
             {...register('password', { required: true })}
@@ -96,9 +102,14 @@ export const Password = () => {
         {/* 確認用パスワード */}
         <div className='mb-5'>
           <div className='mb-1 text-sm font-bold'>確認用パスワード</div>
-          <input
+          <TextInput
             type='password'
-            className='w-full rounded-md border px-3 py-2 focus:border-sky-500 focus:outline-none'
+            styles={{
+              input: {
+                border: '1px solid #cbd5e1',
+                ':focus': { border: '1px solid #cbd5e1' },
+              },
+            }}
             placeholder='確認用パスワード'
             id='confirmation'
             {...register('confirmation', { required: true })}
@@ -111,12 +122,12 @@ export const Password = () => {
           {isLoading ? (
             <Loading />
           ) : (
-            <button
+            <Button
               type='submit'
-              className='w-full rounded-full bg-sky-500 p-2 text-sm font-bold text-white hover:brightness-95'
+              className='w-full rounded-full bg-slate-500 p-2 text-sm font-bold text-white hover:bg-slate-500 hover:brightness-95'
             >
               変更
-            </button>
+            </Button>
           )}
         </div>
 
