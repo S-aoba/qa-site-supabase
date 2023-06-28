@@ -129,7 +129,7 @@ export const Signup = () => {
             styles={{
               input: {
                 border: '1px solid #cbd5e1',
-                ':focus': { border: '1px solid #cbd5e1' },
+                ':focus-within': { border: '1px solid #cbd5e1' },
               },
             }}
             placeholder='パスワード'
