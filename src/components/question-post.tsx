@@ -11,6 +11,7 @@ import * as z from 'zod'
 
 import Loading from '@/app/loading'
 import type { Database } from '@/lib/database.types'
+import { profileAtom } from '@/store/profile-atom'
 import { editedQuestionAtom, editedQuestionContentAtom, isEditModeAtom } from '@/store/question-atom'
 
 import { useContentEditor } from '../common/hooks/useContentEditor'
@@ -28,6 +29,7 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
   const editedQuestion = useAtomValue(editedQuestionAtom)
   const [editedQuestionContent, setEditedQuestionContent] = useAtom(editedQuestionContentAtom)
   const isEditMode = useAtomValue(isEditModeAtom)
+  const profile = useAtomValue(profileAtom)
 
   const { editor } = useContentEditor({ type: 'question' })
   const supabase = createClientComponentClient<Database>()
@@ -101,8 +103,7 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
         return
       }
       setEditedQuestionContent('')
-      // todo:usernameを取得して質問の個別ページに遷移させたい
-      router.push('/')
+      router.push(`/${profile.username}/questions/${editedQuestion.id}`)
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
       return
