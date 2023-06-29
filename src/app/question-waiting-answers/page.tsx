@@ -9,8 +9,8 @@ const QuestionWaitingAnswers = async () => {
   const { data: questions } = await supabase
     .from('questions')
     .select('*')
-    .eq('is_answered', false)
-    .order('updated_at', { ascending: false })
+    .is('answered_list', null)
+    .order('updated_at', { ascending: false }).limit(10)
 
   return (
     <main className='flex flex-col justify-center space-y-4'>

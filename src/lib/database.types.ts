@@ -3,7 +3,7 @@ export type Json =
   | number
   | boolean
   | null
-  | { [key: string]: Json }
+  | { [key: string]: Json | undefined }
   | Json[]
 
 export interface Database {
@@ -116,33 +116,33 @@ export interface Database {
       }
       questions: {
         Row: {
+          answered_list: string[] | null
           coding_problem: string
           content: string
           created_at: string
           id: string
-          is_answered: boolean | null
           tags: string[]
           title: string
           updated_at: string
           user_id: string
         }
         Insert: {
+          answered_list?: string[] | null
           coding_problem: string
           content: string
           created_at?: string
           id?: string
-          is_answered?: boolean | null
           tags: string[]
           title: string
           updated_at?: string
           user_id: string
         }
         Update: {
+          answered_list?: string[] | null
           coding_problem?: string
           content?: string
           created_at?: string
           id?: string
-          is_answered?: boolean | null
           tags?: string[]
           title?: string
           updated_at?: string

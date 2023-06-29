@@ -5,14 +5,22 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-import type { AnswerType } from '@/common/types'
+import type { AnswerType, QuestionType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
 import { editedAnswerAtom } from '@/store/answer-atom'
 import { isEditModeAtom } from '@/store/question-atom'
 
 import { Content } from './answer-content'
 
-export const AnswerBody = async ({ answer, userId }: { answer: AnswerType; userId: string | undefined }) => {
+export const AnswerBody = async ({
+  answer,
+  userId,
+  question,
+}: {
+  answer: AnswerType
+  userId: string | undefined
+  question: QuestionType
+}) => {
   const router = useRouter()
   const [_, setMessage] = useState('')
   const setEditedAnswer = useSetAtom(editedAnswerAtom)
@@ -23,9 +31,24 @@ export const AnswerBody = async ({ answer, userId }: { answer: AnswerType; userI
 
   const handleDeleteAnswer = async () => {
     try {
-      const { error } = await supabase.from('answers').delete().eq('id', answer.id)
-      if (error) {
-        setMessage('予期せぬエラーが発生しました。' + error.message)
+      const { error: deleteAnswerError } = await supabase.from('answers').delete().eq('id', answer.id)
+      if (deleteAnswerError) {
+        setMessage('予期せぬエラーが発生しました。' + deleteAnswerError.message)
+        return
+      }
+
+      const newAnsweredList = question.answered_list?.filter((id) => {
+        return id !== answer.id
+      })
+      const { error: updateQuestionError } = await supabase
+        .from('questions')
+        .update({
+          answered_list: newAnsweredList,
+        })
+        .eq('id', question.id)
+
+      if (updateQuestionError) {
+        setMessage('予期せぬエラーが発生しました。' + updateQuestionError.message)
         return
       }
       setEditedAnswer('')

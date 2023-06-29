@@ -7,12 +7,13 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 import Loading from '@/app/loading'
+import type { QuestionType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
 import { editedAnswerAtom } from '@/store/answer-atom'
 
 import { useContentEditor } from '../common/hooks/useContentEditor'
 
-export const AnswerCreateForm = ({ userId }: { userId: string }) => {
+export const AnswerCreateForm = ({ userId, question }: { userId: string; question: QuestionType }) => {
   const { editor } = useContentEditor({ type: 'answer' })
   const [isLoading, setLoading] = useState(false)
   const supabase = createClientComponentClient<Database>()
@@ -25,28 +26,34 @@ export const AnswerCreateForm = ({ userId }: { userId: string }) => {
     setLoading(true)
 
     try {
-      const { error: createAnswerError } = await supabase.from('answers').insert({
-        user_id: userId,
-        question_id: pathname.split('/')[3],
-        content: answerContent,
-      })
-
-      const { error: updateQuestionError } = await supabase
-        .from('questions')
-        .update({
-          is_answered: true,
+      const { data: answer, error: createAnswerError } = await supabase
+        .from('answers')
+        .upsert({
+          user_id: userId,
+          question_id: pathname.split('/')[3],
+          content: answerContent,
         })
-        .eq('id', pathname.split('/')[3])
+        .select()
+        .single()
 
       if (createAnswerError) {
         setMessage('予期せぬエラーが発生しました。' + createAnswerError.message)
         return
-      } else if (updateQuestionError) {
+      }
+      ;[]
+      const newAnsweredList = question.answered_list === null ? [answer.id] : [...question.answered_list, answer.id]
+      const { error: updateQuestionError } = await supabase
+        .from('questions')
+        .update({
+          answered_list: newAnsweredList,
+        })
+        .eq('id', question.id)
+
+      if (updateQuestionError) {
         setMessage('予期せぬエラーが発生しました。' + updateQuestionError.message)
         return
       }
       setAnswerContent('')
-      router.push(`${pathname}`)
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
       return
