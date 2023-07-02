@@ -36,6 +36,7 @@ export interface Database {
     Tables: {
       answers: {
         Row: {
+          comment_list: string[] | null
           content: string
           created_at: string
           id: string
@@ -44,6 +45,7 @@ export interface Database {
           user_id: string
         }
         Insert: {
+          comment_list?: string[] | null
           content: string
           created_at?: string
           id?: string
@@ -52,6 +54,7 @@ export interface Database {
           user_id: string
         }
         Update: {
+          comment_list?: string[] | null
           content?: string
           created_at?: string
           id?: string
@@ -68,6 +71,52 @@ export interface Database {
           },
           {
             foreignKeyName: "answers_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      comments: {
+        Row: {
+          answer_id: string
+          avatar_url: string | null
+          content: string
+          created_at: string
+          id: string
+          updated_at: string
+          user_id: string
+          username: string
+        }
+        Insert: {
+          answer_id: string
+          avatar_url?: string | null
+          content: string
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id: string
+          username: string
+        }
+        Update: {
+          answer_id?: string
+          avatar_url?: string | null
+          content?: string
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+          username?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comments_answer_id_fkey"
+            columns: ["answer_id"]
+            referencedRelation: "answers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "comments_user_id_fkey"
             columns: ["user_id"]
             referencedRelation: "users"
             referencedColumns: ["id"]

@@ -11,6 +11,7 @@ import StarterKit from '@tiptap/starter-kit'
 import { useAtom } from 'jotai'
 
 import { editedAnswerAtom } from '@/store/answer-atom'
+import { editedCommentAtom } from '@/store/comment-atom'
 import { editedQuestionContentAtom } from '@/store/question-atom'
 
 // const escapeHtml = (unsafe: string) => {
@@ -22,9 +23,10 @@ import { editedQuestionContentAtom } from '@/store/question-atom'
 //     .replace(/'/g, '&#039;')
 // }
 
-export const useContentEditor = ({ type }: { type: 'question' | 'answer' }) => {
+export const useContentEditor = ({ type }: { type: 'question' | 'answer' | 'comment' }) => {
   const [editedQuestionDescription, setEditedQuestionDescription] = useAtom(editedQuestionContentAtom)
   const [answerDescription, setAnswerDescription] = useAtom(editedAnswerAtom)
+  const [comment, setComment] = useAtom(editedCommentAtom)
 
   const editor = useEditor({
     extensions: [
@@ -57,5 +59,30 @@ export const useContentEditor = ({ type }: { type: 'question' | 'answer' }) => {
     },
   })
 
-  return { editor }
+  const commentEditor = useEditor({
+    extensions: [
+      StarterKit,
+      Link,
+      Placeholder.configure({ placeholder: 'コメントを入力する' }),
+      // Underline,
+      // Superscript,
+      // SubScript,
+      // Highlight,
+      // TextAlign.configure({ types: ['heading', 'paragraph'] }),
+    ],
+    // 作成と更新時にescapeさせるかどうかは要検討。挙動を合わせるのが難しい
+    content: comment,
+    onUpdate({ editor }) {
+      // ここでeditorの中身が空の時にdescriptionを空にする
+      if (editor.getText() === '') {
+        setComment('')
+        return
+      } else {
+        setComment(editor.getHTML())
+        return
+      }
+    },
+  })
+
+  return { editor, commentEditor }
 }

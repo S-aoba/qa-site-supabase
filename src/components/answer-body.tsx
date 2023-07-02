@@ -1,3 +1,4 @@
+'use client'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { IconEdit, IconTrash } from '@tabler/icons-react'
 import { useAtom, useSetAtom } from 'jotai'
@@ -11,6 +12,8 @@ import { editedAnswerAtom } from '@/store/answer-atom'
 import { isEditModeAtom } from '@/store/question-atom'
 
 import { Content } from './answer-content'
+import { Comment } from './comment'
+import { CommentCreateForm } from './comment-create-form'
 
 export const AnswerBody = async ({
   answer,
@@ -102,6 +105,11 @@ export const AnswerBody = async ({
         </div>
       </div>
       <Content answer={answer} isEditMode={isEditMode} userId={userId} />
+      {answer.comment_list &&
+        answer.comment_list.map((comment) => {
+          return <Comment key={comment} commentId={comment} />
+        })}
+      <CommentCreateForm answer={answer} />
     </div>
   )
 }
