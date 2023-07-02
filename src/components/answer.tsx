@@ -24,7 +24,7 @@ export const Answer = async ({ userId, question }: { userId: string | undefined;
         {answers?.map((answer) => {
           return <AnswerBody key={answer.id} answer={answer} userId={userId} question={question} />
         })}
-        {userId && <AnswerCreateForm userId={userId} question={ question} />}
+        {userId && <AnswerCreateForm userId={userId} question={question} />}
       </div>
     </div>
   )
