@@ -10,6 +10,8 @@ import { useEffect } from 'react'
 import type { Database } from '@/lib/database.types'
 import { profileAtom } from '@/store/profile-atom'
 
+import { Notification } from './notification'
+
 type ProfileType = Database['public']['Tables']['profiles']['Row']
 
 export const Header = ({ session, profile }: { session: Session | null; profile: ProfileType | null }) => {
@@ -44,7 +46,8 @@ export const Header = ({ session, profile }: { session: Session | null; profile:
             className=' h-full w-3/6 rounded-lg border border-solid border-gray-300 px-2 text-sm outline-slate-400'
           />
           {session ? (
-            <div className='flex items-center space-x-5 px-10'>
+            <div className='flex items-center space-x-5 pl-5 pr-10'>
+              <Notification />
               <Link href='/settings/profile'>
                 <div className='relative h-10 w-10'>
                   <Image
@@ -58,7 +61,7 @@ export const Header = ({ session, profile }: { session: Session | null; profile:
                 </div>
               </Link>
               <Link href={'/questions/post'} className='no-underline'>
-                <Button type='submit' className='bg-slate-500 hover:bg-slate-600 hover:transform-none'>
+                <Button type='submit' className='bg-slate-500 hover:transform-none hover:bg-slate-600'>
                   投稿する
                 </Button>
               </Link>
