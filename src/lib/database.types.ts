@@ -74,6 +74,52 @@ export interface Database {
           }
         ]
       }
+      notifications: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          id: string
+          question_id: string
+          title: string
+          updated_at: string
+          user_id: string
+          username: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          id?: string
+          question_id: string
+          title: string
+          updated_at?: string
+          user_id: string
+          username: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          id?: string
+          question_id?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+          username?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_question_id_fkey"
+            columns: ["question_id"]
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notifications_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -82,7 +128,7 @@ export interface Database {
           id: string
           introduce: string | null
           twitter_url: string | null
-          username: string | null
+          username: string
           website_url: string | null
         }
         Insert: {
@@ -92,7 +138,7 @@ export interface Database {
           id: string
           introduce?: string | null
           twitter_url?: string | null
-          username?: string | null
+          username: string
           website_url?: string | null
         }
         Update: {
@@ -102,7 +148,7 @@ export interface Database {
           id?: string
           introduce?: string | null
           twitter_url?: string | null
-          username?: string | null
+          username?: string
           website_url?: string | null
         }
         Relationships: [

@@ -1,7 +1,9 @@
+'use client'
+
 import { Button } from '@mantine/core'
 import { RichTextEditor } from '@mantine/tiptap'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -10,10 +12,12 @@ import Loading from '@/app/loading'
 import type { QuestionType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
 import { editedAnswerAtom } from '@/store/answer-atom'
+import { profileAtom } from '@/store/profile-atom'
 
 import { useContentEditor } from '../common/hooks/useContentEditor'
 
 export const AnswerCreateForm = ({ userId, question }: { userId: string; question: QuestionType }) => {
+  const user = useAtomValue(profileAtom)
   const { editor } = useContentEditor({ type: 'answer' })
   const [isLoading, setLoading] = useState(false)
   const supabase = createClientComponentClient<Database>()
@@ -40,7 +44,7 @@ export const AnswerCreateForm = ({ userId, question }: { userId: string; questio
         setMessage('予期せぬエラーが発生しました。' + createAnswerError.message)
         return
       }
-      ;[]
+
       const newAnsweredList = question.answered_list === null ? [answer.id] : [...question.answered_list, answer.id]
       const { error: updateQuestionError } = await supabase
         .from('questions')
@@ -53,13 +57,26 @@ export const AnswerCreateForm = ({ userId, question }: { userId: string; questio
         setMessage('予期せぬエラーが発生しました。' + updateQuestionError.message)
         return
       }
+
+      const { error: createNotificationError } = await supabase.from('notifications').insert({
+        user_id: question.user_id,
+        question_id: question.id,
+        username: user.username,
+        title: question.title,
+        avatar_url: user.avatar_url,
+      })
+      if (createNotificationError) {
+        setMessage('予期せぬエラーが発生しました。' + createNotificationError.message)
+        return
+      }
+
       setAnswerContent('')
+      router.refresh()
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
       return
     } finally {
       setLoading(false)
-      router.refresh()
     }
   }
 

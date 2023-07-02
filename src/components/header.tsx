@@ -7,6 +7,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect } from 'react'
 
+import type { NotificationType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
 import { profileAtom } from '@/store/profile-atom'
 
@@ -14,7 +15,15 @@ import { Notification } from './notification'
 
 type ProfileType = Database['public']['Tables']['profiles']['Row']
 
-export const Header = ({ session, profile }: { session: Session | null; profile: ProfileType | null }) => {
+export const Header = ({
+  session,
+  profile,
+  notifications,
+}: {
+  session: Session | null
+  profile: ProfileType | null
+  notifications: NotificationType[] | null
+}) => {
   const setUser = useSetAtom(profileAtom)
 
   // 状態管理にユーザー情報を保存
@@ -32,6 +41,7 @@ export const Header = ({ session, profile }: { session: Session | null; profile:
       })
     }
   }, [session, setUser, profile])
+
   return (
     <header className='flex h-fit flex-col items-center justify-center bg-[#f6f8fa] p-3 font-mono text-base'>
       <div className='container mx-auto flex w-full justify-between'>
@@ -47,7 +57,7 @@ export const Header = ({ session, profile }: { session: Session | null; profile:
           />
           {session ? (
             <div className='flex items-center space-x-5 pl-5 pr-10'>
-              <Notification />
+              <Notification notifications={notifications} />
               <Link href='/settings/profile'>
                 <div className='relative h-10 w-10'>
                   <Image
