@@ -36,7 +36,7 @@ export const WithNotification = ({ notification }: { notification: NotificationT
       >
         <div className='flex items-center'>
           <Image
-            src={`${notification.avatar_url !== null ? notification.avatar_url : 'default.png'}`}
+            src={`${notification.avatar_url !== null ? notification.avatar_url : '/default.png'}`}
             width={60}
             height={60}
             className=' rounded-full'
