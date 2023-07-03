@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-import type { AnswerType, QuestionType } from '@/common/types'
+import type { AnswerType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
 import { editedAnswerAtom } from '@/store/answer-atom'
 import { isEditModeAtom } from '@/store/question-atom'
@@ -15,15 +15,7 @@ import { Content } from './answer-content'
 import { Comment } from './comment'
 import { CommentCreateForm } from './comment-create-form'
 
-export const AnswerBody = async ({
-  answer,
-  userId,
-  question,
-}: {
-  answer: AnswerType
-  userId: string | undefined
-  question: QuestionType
-}) => {
+export const AnswerBody = async ({ answer, userId }: { answer: AnswerType; userId: string | undefined }) => {
   const router = useRouter()
   const [_, setMessage] = useState('')
   const setEditedAnswer = useSetAtom(editedAnswerAtom)
@@ -31,7 +23,7 @@ export const AnswerBody = async ({
 
   const supabase = createClientComponentClient<Database>()
   const { data: profile } = await supabase.from('profiles').select('*').eq('id', answer?.user_id).single()
-
+  const { data: comments } = await supabase.from('comments').select('*').eq('answer_id', answer.id)
   const handleDeleteAnswer = async () => {
     try {
       const { error: deleteAnswerError } = await supabase.from('answers').delete().eq('id', answer.id)
@@ -40,20 +32,6 @@ export const AnswerBody = async ({
         return
       }
 
-      const newAnsweredList = question.answered_list?.filter((id) => {
-        return id !== answer.id
-      })
-      const { error: updateQuestionError } = await supabase
-        .from('questions')
-        .update({
-          answered_list: newAnsweredList,
-        })
-        .eq('id', question.id)
-
-      if (updateQuestionError) {
-        setMessage('予期せぬエラーが発生しました。' + updateQuestionError.message)
-        return
-      }
       setEditedAnswer('')
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
@@ -105,10 +83,9 @@ export const AnswerBody = async ({
         </div>
       </div>
       <Content answer={answer} isEditMode={isEditMode} userId={userId} />
-      {answer.comment_list &&
-        answer.comment_list.map((comment) => {
-          return <Comment key={comment} commentId={comment} />
-        })}
+      {comments?.map((comment) => {
+        return <Comment key={comment.id} comment={comment} userId={userId} />
+      })}
       <CommentCreateForm answer={answer} />
     </div>
   )

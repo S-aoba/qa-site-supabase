@@ -36,9 +36,9 @@ export const CommentCreateForm = ({ answer }: { answer: AnswerType }) => {
   const handleCreateComment = async () => {
     setIsLoading(true)
     try {
-      const { data: comment, error: createCommentError } = await supabase
+      const { error: createCommentError } = await supabase
         .from('comments')
-        .upsert({
+        .insert({
           user_id: user.id,
           answer_id: answer.id,
           username: user.username,
@@ -52,17 +52,6 @@ export const CommentCreateForm = ({ answer }: { answer: AnswerType }) => {
         return
       }
 
-      const newCommentList = answer.comment_list === null ? [comment.id] : [...answer.comment_list, comment.id]
-      const { error: updateAnswerError } = await supabase
-        .from('answers')
-        .update({
-          comment_list: newCommentList,
-        })
-        .eq('id', answer.id)
-      if (updateAnswerError) {
-        setMessage('予期せぬエラーが発生しました。' + updateAnswerError.message)
-        return
-      }
       router.refresh()
     } catch (error) {
       setMessage('エラーが発生しました。' + error)

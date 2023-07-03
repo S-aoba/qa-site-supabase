@@ -30,9 +30,9 @@ export const AnswerCreateForm = ({ userId, question }: { userId: string; questio
     setLoading(true)
 
     try {
-      const { data: answer, error: createAnswerError } = await supabase
+      const { error: createAnswerError } = await supabase
         .from('answers')
-        .upsert({
+        .insert({
           user_id: userId,
           question_id: pathname.split('/')[3],
           content: answerContent,
@@ -42,19 +42,6 @@ export const AnswerCreateForm = ({ userId, question }: { userId: string; questio
 
       if (createAnswerError) {
         setMessage('予期せぬエラーが発生しました。' + createAnswerError.message)
-        return
-      }
-
-      const newAnsweredList = question.answered_list === null ? [answer.id] : [...question.answered_list, answer.id]
-      const { error: updateQuestionError } = await supabase
-        .from('questions')
-        .update({
-          answered_list: newAnsweredList,
-        })
-        .eq('id', question.id)
-
-      if (updateQuestionError) {
-        setMessage('予期せぬエラーが発生しました。' + updateQuestionError.message)
         return
       }
 

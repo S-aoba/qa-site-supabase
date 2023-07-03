@@ -36,7 +36,6 @@ export interface Database {
     Tables: {
       answers: {
         Row: {
-          comment_list: string[] | null
           content: string
           created_at: string
           id: string
@@ -45,7 +44,6 @@ export interface Database {
           user_id: string
         }
         Insert: {
-          comment_list?: string[] | null
           content: string
           created_at?: string
           id?: string
@@ -54,7 +52,6 @@ export interface Database {
           user_id: string
         }
         Update: {
-          comment_list?: string[] | null
           content?: string
           created_at?: string
           id?: string
@@ -211,7 +208,6 @@ export interface Database {
       }
       questions: {
         Row: {
-          answered_list: string[] | null
           coding_problem: string
           content: string
           created_at: string
@@ -222,7 +218,6 @@ export interface Database {
           user_id: string
         }
         Insert: {
-          answered_list?: string[] | null
           coding_problem: string
           content: string
           created_at?: string
@@ -233,7 +228,6 @@ export interface Database {
           user_id: string
         }
         Update: {
-          answered_list?: string[] | null
           coding_problem?: string
           content?: string
           created_at?: string

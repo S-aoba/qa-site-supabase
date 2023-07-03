@@ -22,7 +22,7 @@ export const Answer = async ({ userId, question }: { userId: string | undefined;
       <div className='p-2 text-2xl font-semibold'>Answer</div>
       <div className='space-y-4 py-4'>
         {answers?.map((answer) => {
-          return <AnswerBody key={answer.id} answer={answer} userId={userId} question={question} />
+          return <AnswerBody key={answer.id} answer={answer} userId={userId} />
         })}
         {userId && <AnswerCreateForm userId={userId} question={question} />}
       </div>
