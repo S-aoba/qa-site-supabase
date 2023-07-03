@@ -1,7 +1,7 @@
 'use client'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { IconEdit, IconTrash } from '@tabler/icons-react'
-import { useAtom, useSetAtom } from 'jotai'
+import { useSetAtom } from 'jotai'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -9,7 +9,6 @@ import { useState } from 'react'
 import type { AnswerType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
 import { editedAnswerAtom } from '@/store/answer-atom'
-import { isEditModeAtom } from '@/store/question-atom'
 
 import { Content } from './answer-content'
 import { Comment } from './comment'
@@ -19,7 +18,7 @@ export const AnswerBody = async ({ answer, userId }: { answer: AnswerType; userI
   const router = useRouter()
   const [_, setMessage] = useState('')
   const setEditedAnswer = useSetAtom(editedAnswerAtom)
-  const [isEditMode, setIsEditMode] = useAtom(isEditModeAtom)
+  const [isEditMode, setIsEditMode] = useState(false)
 
   const supabase = createClientComponentClient<Database>()
   const { data: profile } = await supabase.from('profiles').select('*').eq('id', answer?.user_id).single()
@@ -42,8 +41,12 @@ export const AnswerBody = async ({ answer, userId }: { answer: AnswerType; userI
   }
 
   const handleSetIsEditMode = () => {
-    setIsEditMode({ ...isEditMode, answer: !isEditMode.answer })
-    setEditedAnswer(answer.content)
+    if (!isEditMode) {
+      setIsEditMode(true)
+      setEditedAnswer(answer.content)
+      return
+    }
+    setIsEditMode(false)
   }
 
   return (

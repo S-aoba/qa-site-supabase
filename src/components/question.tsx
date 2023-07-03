@@ -2,7 +2,7 @@
 
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { IconEdit, IconTrash } from '@tabler/icons-react'
-import { useAtom, useSetAtom } from 'jotai'
+import { useSetAtom } from 'jotai'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -18,7 +18,7 @@ export const Question = async ({ userId }: { userId: string | undefined }) => {
 
   const setEditedQuestion = useSetAtom(editedQuestionAtom)
   const setQuestionDescription = useSetAtom(editedQuestionContentAtom)
-  const [isEditMode, setIsEditMode] = useAtom(isEditModeAtom)
+  const setIsEditMode = useSetAtom(isEditModeAtom)
   const supabase = createClientComponentClient<Database>()
 
   const [message, setMessage] = useState('')
@@ -38,7 +38,7 @@ export const Question = async ({ userId }: { userId: string | undefined }) => {
       coding_problem: question.coding_problem,
       tags: question.tags,
     })
-    setIsEditMode({ ...isEditMode, question: true })
+    setIsEditMode(true)
   }
 
   const handleDeleteQuestion = async () => {
