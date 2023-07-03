@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 import type { CommentType } from '@/common/types'
 
-export const Comment = async ({ comment, userId }: { comment: CommentType; userId: string | undefined }) => {
+export const Comment = ({ comment, userId }: { comment: CommentType; userId: string | undefined }) => {
   return (
     <div className='border-b border-l-0 border-r-0 border-t-0 border-solid border-slate-300'>
       <div className='flex justify-between space-x-2 bg-[#d3e0ec] p-2'>
