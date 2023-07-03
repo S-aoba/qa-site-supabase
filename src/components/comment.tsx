@@ -1,17 +1,24 @@
 'use client'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { IconEdit, IconTrash } from '@tabler/icons-react'
 import { useSetAtom } from 'jotai'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 import type { CommentType } from '@/common/types'
+import type { Database } from '@/lib/database.types'
 import { editedCommentAtom } from '@/store/comment-atom'
 
 import { CommentUpdateForm } from './comment-update-form'
 
 export const Comment = ({ comment, userId }: { comment: CommentType; userId: string | undefined }) => {
+  const supabase = createClientComponentClient<Database>()
+
   const [isEditMode, setIsEditMode] = useState(false)
   const setComment = useSetAtom(editedCommentAtom)
+  const [message, setMessage] = useState('')
+  const router = useRouter()
 
   const handleSetComment = () => {
     if (!isEditMode) {
@@ -20,6 +27,20 @@ export const Comment = ({ comment, userId }: { comment: CommentType; userId: str
       return
     }
     setIsEditMode(false)
+  }
+
+  const handleDeleteComment = async () => {
+    try {
+      const { error: deleteCommentError } = await supabase.from('comments').delete().eq('id', comment.id)
+      if (deleteCommentError) {
+        setMessage('予期せぬエラーが発生しました。' + deleteCommentError.message)
+        return
+      }
+      router.refresh()
+    } catch (error) {
+      setMessage('エラーが発生しました。' + error)
+      return
+    }
   }
   return (
     <div className='border-b border-l-0 border-r-0 border-t-0 border-solid border-slate-300'>
@@ -40,7 +61,7 @@ export const Comment = ({ comment, userId }: { comment: CommentType; userId: str
         {userId && userId === comment.user_id ? (
           <div className='flex space-x-2'>
             <IconEdit className='text-slate-500 hover:cursor-pointer hover:text-slate-700' onClick={handleSetComment} />
-            <IconTrash className='text-slate-500 hover:cursor-pointer hover:text-slate-700' />
+            <IconTrash className='text-slate-500 hover:cursor-pointer hover:text-slate-700' onClick={handleDeleteComment}/>
           </div>
         ) : null}
       </div>
@@ -49,6 +70,7 @@ export const Comment = ({ comment, userId }: { comment: CommentType; userId: str
       ) : (
         comment && <div className='break-words px-2' dangerouslySetInnerHTML={{ __html: comment.content }} />
       )}
+      {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
     </div>
   )
 }
