@@ -48,7 +48,7 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
   })
 
   const handleOnSubmit = async (props: { title: string; coding_problem: string; tags: string[] }) => {
-    if (!isEditMode.question) {
+    if (!isEditMode) {
       createQuestion(props)
     } else {
       updateQuestion(props)
@@ -163,7 +163,7 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
             <Loading />
           ) : (
             <Button type='submit' className='bg-slate-500 hover:transform-none hover:bg-slate-600'>
-              {isEditMode.question ? '質問を更新する' : '質問を送信する'}
+              {isEditMode ? '質問を更新する' : '質問を送信する'}
             </Button>
           )}
         </div>
