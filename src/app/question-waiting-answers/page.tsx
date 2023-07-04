@@ -4,7 +4,7 @@ import { cookies } from 'next/headers'
 import { Card } from '@/components/card'
 import type { Database } from '@/lib/database.types'
 
-const QuestionWaitingAnswers = async () => {
+const QuestionWaitingAnswersPage = async () => {
   const supabase = createServerComponentClient<Database>({ cookies })
   const { data: questions } = await supabase
     .from('questions')
@@ -20,4 +20,4 @@ const QuestionWaitingAnswers = async () => {
     </main>
   )
 }
-export default QuestionWaitingAnswers
+export default QuestionWaitingAnswersPage
