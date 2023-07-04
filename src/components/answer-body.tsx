@@ -89,7 +89,7 @@ export const AnswerBody = async ({ answer, userId }: { answer: AnswerType; userI
       {comments?.map((comment) => {
         return <Comment key={comment.id} comment={comment} userId={userId} />
       })}
-      <CommentCreateForm answer={answer} />
+      <CommentCreateForm answer={answer} userId={userId}/>
     </div>
   )
 }

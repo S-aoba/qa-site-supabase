@@ -14,7 +14,7 @@ import type { Database } from '@/lib/database.types'
 import { editedCommentAtom } from '@/store/comment-atom'
 import { profileAtom } from '@/store/profile-atom'
 
-export const CommentCreateForm = ({ answer }: { answer: AnswerType }) => {
+export const CommentCreateForm = ({ answer, userId }: { answer: AnswerType; userId: string | undefined }) => {
   const supabase = createClientComponentClient<Database>()
 
   const [message, setMessage] = useState('')
@@ -61,31 +61,35 @@ export const CommentCreateForm = ({ answer }: { answer: AnswerType }) => {
     }
   }
   return (
-    <div className='p-2'>
-      <div className='flex items-center space-x-2  pt-2 font-semibold text-slate-400'>
-        <div className='relative h-6 w-6'>
-          <Image src={avatarUrl} className='rounded-full object-cover' alt='avatar' fill sizes='auto' priority />
+    <>
+      {userId && (
+        <div className='p-2'>
+          <div className='flex items-center space-x-2  pt-2 font-semibold text-slate-400'>
+            <div className='relative h-6 w-6'>
+              <Image src={avatarUrl} className='rounded-full object-cover' alt='avatar' fill sizes='auto' priority />
+            </div>
+            <span>コメントする</span>
+          </div>
+          <form className='pt-2' onSubmit={handleCreateComment}>
+            <RichTextEditor
+              editor={commentEditor}
+              className=' min-h-[400px] w-full rounded-md border border-solid border-slate-300 shadow'
+            >
+              <RichTextEditor.Content />
+            </RichTextEditor>
+            <div className='flex w-full justify-end p-3'>
+              {isLoading ? (
+                <Loading />
+              ) : (
+                <Button type='submit' className='bg-slate-500 hover:transform-none hover:bg-slate-600'>
+                  コメントを投稿
+                </Button>
+              )}
+            </div>
+          </form>
+          {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
         </div>
-        <span>コメントする</span>
-      </div>
-      <form className='pt-2' onSubmit={handleCreateComment}>
-        <RichTextEditor
-          editor={commentEditor}
-          className=' min-h-[400px] w-full rounded-md border border-solid border-slate-300 shadow'
-        >
-          <RichTextEditor.Content />
-        </RichTextEditor>
-        <div className='flex w-full justify-end p-3'>
-          {isLoading ? (
-            <Loading />
-          ) : (
-            <Button type='submit' className='bg-slate-500 hover:transform-none hover:bg-slate-600'>
-              コメントを投稿
-            </Button>
-          )}
-        </div>
-      </form>
-      {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
-    </div>
+      )}
+    </>
   )
 }
