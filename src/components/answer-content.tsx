@@ -12,7 +12,7 @@ export const Content = ({
   userId: string | undefined
 }) => {
   return (
-    <div className='border-b border-l-0 border-r-0 border-t-0 border-solid border-slate-300'>
+    <div>
       {isEditMode
         ? userId && (
             <div className='p-3'>

@@ -50,7 +50,7 @@ export const AnswerBody = async ({ answer, userId }: { answer: AnswerType; userI
   }
 
   return (
-    <div className='rounded-lg border border-solid border-slate-300 pb-5'>
+    <div className='rounded-lg border border-solid border-slate-300'>
       <div className='rounded-t-lg border-b border-l-0 border-r-0 border-t-0 border-solid border-slate-300 bg-[#f6f8fa] px-2'>
         <div className='flex justify-between'>
           <div className='flex items-center space-x-2'>

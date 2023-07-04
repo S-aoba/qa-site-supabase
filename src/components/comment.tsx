@@ -43,7 +43,7 @@ export const Comment = ({ comment, userId }: { comment: CommentType; userId: str
     }
   }
   return (
-    <div className='border-b border-l-0 border-r-0 border-t-0 border-solid border-slate-300'>
+    <div className='border-b-0 border-l-0 border-r-0 border-t border-solid border-slate-300'>
       <div className='flex justify-between space-x-2 bg-[#d3e0ec] p-2'>
         <div className='flex space-x-2'>
           <div className='relative h-6 w-6'>
