@@ -57,6 +57,17 @@ export const AnswerCreateForm = ({ userId, question }: { userId: string; questio
         return
       }
 
+      // 質問募集中テーブルから該当の質問を削除
+      const { error: deleteQuestionError } = await supabase
+        .from('question_waiting_answers')
+        .delete()
+        .eq('question_id', question.id)
+
+      if (deleteQuestionError) {
+        setMessage('予期せぬエラーが発生しました。' + deleteQuestionError.message)
+        return
+      }
+
       setAnswerContent('')
       router.refresh()
     } catch (error) {

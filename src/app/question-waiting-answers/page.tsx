@@ -6,17 +6,25 @@ import type { Database } from '@/lib/database.types'
 
 const QuestionWaitingAnswersPage = async () => {
   const supabase = createServerComponentClient<Database>({ cookies })
-  const { data: questions } = await supabase
-    .from('questions')
-    .select('*')
-    .is('answered_list', null)
-    .order('updated_at', { ascending: false }).limit(10)
+
+  const { data: questionWaitingAnswers } = await supabase
+    .from('question_waiting_answers')
+    .select('questions(*)')
+    .limit(10)
 
   return (
-    <main className='flex flex-col justify-center space-y-4'>
-      {questions?.map((question) => {
-        return <Card key={question.id} question={question} />
-      })}
+    <main className='flex flex-col justify-center items-center space-y-4'>
+      {questionWaitingAnswers?.length === 0 ? (
+        <div>質問はありません</div>
+      ) : (
+        questionWaitingAnswers?.map((questionWaitingAnswer) => {
+          return (
+            questionWaitingAnswer.questions && (
+              <Card key={questionWaitingAnswer.questions?.id} question={questionWaitingAnswer.questions} />
+            )
+          )
+        })
+      )}
     </main>
   )
 }

@@ -206,6 +206,28 @@ export interface Database {
           }
         ]
       }
+      question_waiting_answers: {
+        Row: {
+          id: string
+          question_id: string
+        }
+        Insert: {
+          id?: string
+          question_id: string
+        }
+        Update: {
+          id?: string
+          question_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "question_waiting_answers_question_id_fkey"
+            columns: ["question_id"]
+            referencedRelation: "questions"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       questions: {
         Row: {
           coding_problem: string

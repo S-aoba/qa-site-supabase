@@ -60,18 +60,32 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
     const { title, coding_problem, tags } = props
 
     try {
-      const { error } = await supabase.from('questions').insert({
-        title: title,
-        content: editedQuestionContent,
-        tags: tags,
-        coding_problem: coding_problem,
-        user_id: userId,
-      })
+      const { data: question, error: createQuestionError } = await supabase
+        .from('questions')
+        .upsert({
+          title: title,
+          content: editedQuestionContent,
+          tags: tags,
+          coding_problem: coding_problem,
+          user_id: userId,
+        })
+        .select("*")
+        .single()
 
-      if (error) {
-        setMessage('予期せぬエラーが発生しました。' + error.message)
+      if (createQuestionError) {
+        setMessage('予期せぬエラーが発生しました。' + createQuestionError.message)
         return
       }
+
+      const { error: createQuestionWaitingAnswers } = await supabase.from('question_waiting_answers').insert({
+        question_id: question.id,
+      })
+
+      if (createQuestionWaitingAnswers) {
+        setMessage('予期せぬエラーが発生しました。' + createQuestionWaitingAnswers.message)
+        return
+      }
+
       setEditedQuestionContent('')
       router.push('/')
     } catch (error) {

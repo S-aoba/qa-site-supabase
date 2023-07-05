@@ -31,6 +31,26 @@ export const AnswerBody = async ({ answer, userId }: { answer: AnswerType; userI
         return
       }
 
+      // 回答が他にも存在するかどうか確認
+      const { data: otherAnswers, error: otherAnswersError } = await supabase
+        .from('answers')
+        .select('*')
+        .eq('question_id', answer.question_id)
+
+      if (otherAnswersError) {
+        setMessage('予期せぬエラーが発生しました。' + otherAnswersError.message)
+        return
+      }
+      // 回答が存在していなければ、質問を募集中テーブルに追加
+      if (otherAnswers.length === 0) {
+        const { error: questionWaitingAnswersError } = await supabase.from('question_waiting_answers').insert({
+          question_id: answer.question_id,
+        })
+        if (questionWaitingAnswersError) {
+          setMessage('予期せぬエラーが発生しました。' + questionWaitingAnswersError.message)
+        }
+      }
+
       setEditedAnswer('')
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
@@ -89,7 +109,7 @@ export const AnswerBody = async ({ answer, userId }: { answer: AnswerType; userI
       {comments?.map((comment) => {
         return <Comment key={comment.id} comment={comment} userId={userId} />
       })}
-      <CommentCreateForm answer={answer} userId={userId}/>
+      <CommentCreateForm answer={answer} userId={userId} />
     </div>
   )
 }
