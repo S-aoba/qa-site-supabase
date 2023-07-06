@@ -78,14 +78,18 @@ export const Header = ({
             </div>
           ) : (
             <div className='flex items-center space-x-5 px-10'>
-              <Link href='/auth/login' className='rounded-lg bg-blue-500 p-2 text-white no-underline hover:bg-blue-600'>
-                Login
+              <Link href='/auth/login' className='no-underline'>
+                <Button
+                  type='submit'
+                  className='rounded-lg border border-solid border-slate-300 bg-white text-black hover:transform-none hover:bg-white hover:border-black'
+                >
+                  Log In
+                </Button>
               </Link>
-              <Link
-                href='/auth/signup'
-                className='rounded-lg bg-slate-500 p-2 text-white no-underline hover:bg-slate-600'
-              >
-                Signup
+              <Link href='/auth/signup' className='no-underline'>
+                <Button type='submit' className='rounded-lg bg-black hover:transform-none hover:opacity-75 hover:bg-black'>
+                  Sign Up
+                </Button>
               </Link>
             </div>
           )}
