@@ -52,7 +52,7 @@ export const Logout = () => {
           ) : (
             <Button
               type='submit'
-              className='w-full rounded-full bg-red-500 p-2 text-sm font-bold text-white hover:brightness-95 hover:bg-red-500'
+              className='w-full rounded-full bg-red-500 p-2 text-sm font-bold text-white hover:transform-none hover:bg-red-500 hover:brightness-95'
             >
               ログアウト
             </Button>

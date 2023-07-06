@@ -164,12 +164,17 @@ export const Profile = () => {
             <div className='relative mb-5 h-24 w-24'>
               <Image src={avatarUrl} className='rounded-full object-cover' alt='avatar' fill sizes='auto' priority />
             </div>
-            <FileInput id='avatar' onChange={handleOnUploadImage} placeholder='画像を選択する' styles={{
-              input: {
-                border: '1px solid #cbd5e1',
-                ':focus': { border: '1px solid #cbd5e1' },
-              },
-            }}/>
+            <FileInput
+              id='avatar'
+              onChange={handleOnUploadImage}
+              placeholder='画像を選択する'
+              styles={{
+                input: {
+                  border: '1px solid #cbd5e1',
+                  ':focus': { border: '1px solid #cbd5e1' },
+                },
+              }}
+            />
             {fileMessage && <div className='my-5 text-center text-red-500'>{fileMessage}</div>}
           </div>
         </div>
@@ -271,7 +276,7 @@ export const Profile = () => {
           ) : (
             <Button
               type='submit'
-              className='w-full rounded-full bg-slate-500 p-2 text-sm font-bold text-white hover:bg-slate-500 hover:brightness-95'
+              className='w-full rounded-full bg-slate-500 p-2 text-sm font-bold text-white hover:transform-none hover:bg-slate-500 hover:brightness-95'
             >
               変更
             </Button>
