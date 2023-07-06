@@ -66,8 +66,11 @@ export const LoginForm = () => {
   }
   return (
     <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className='mb-3'>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className='flex flex-col rounded-lg border border-solid border-slate-300 bg-[#f6f8fa] p-5'
+      >
+        <div className=''>
           <TextInput
             type='email'
             styles={{
@@ -83,7 +86,7 @@ export const LoginForm = () => {
           <div className='my-3 text-center text-sm text-red-500'>{errors.email?.message}</div>
         </div>
 
-        <div className='mb-5'>
+        <div className=''>
           <PasswordInput
             type='password'
             styles={{
@@ -98,14 +101,13 @@ export const LoginForm = () => {
           />
           <div className='my-3 text-center text-sm text-red-500'>{errors.password?.message}</div>
         </div>
-
-        <div className='mb-5'>
+        <div>
           {isLoading ? (
             <Loading />
           ) : (
             <Button
               type='submit'
-              className='w-full rounded-full bg-slate-500 p-2 text-sm font-bold text-white hover:transform-none hover:bg-slate-500 hover:brightness-95'
+              className='w-full rounded-lg bg-black p-2 text-sm font-bold text-white hover:transform-none hover:bg-black hover:opacity-75'
             >
               ログイン
             </Button>
@@ -115,14 +117,11 @@ export const LoginForm = () => {
 
       {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
 
-      <div className='mb-5 text-center text-sm'>
-        <Link href='/auth/reset-password' className='font-bold text-gray-500'>
+      <div className=' mt-5 flex flex-col space-y-3 rounded-lg border border-solid border-slate-300 p-5 text-center text-sm'>
+        <Link href='/auth/reset-password' className='font-bold text-slate-500 hover:text-slate-600'>
           パスワードを忘れた方はこちら
         </Link>
-      </div>
-
-      <div className='text-center text-sm'>
-        <Link href='/auth/signup' className='font-bold text-gray-500'>
+        <Link href='/auth/signup' className='font-bold text-slate-500 hover:text-slate-600'>
           アカウントを作成する
         </Link>
       </div>
