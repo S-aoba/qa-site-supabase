@@ -82,9 +82,11 @@ export const SignupForm = () => {
   }
   return (
     <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {/* 名前 */}
-        <div className='mb-3'>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className='flex flex-col rounded-lg border border-solid border-slate-300 bg-[#f6f8fa] p-5'
+      >
+        <div>
           <TextInput
             type='text'
             styles={{
@@ -99,9 +101,7 @@ export const SignupForm = () => {
           />
           <div className='my-3 text-center text-sm text-red-500'>{errors.username?.message}</div>
         </div>
-
-        {/* メールアドレス */}
-        <div className='mb-3'>
+        <div>
           <TextInput
             type='email'
             styles={{
@@ -117,8 +117,7 @@ export const SignupForm = () => {
           <div className='my-3 text-center text-sm text-red-500'>{errors.email?.message}</div>
         </div>
 
-        {/* パスワード */}
-        <div className='mb-5'>
+        <div>
           <PasswordInput
             type='password'
             styles={{
@@ -133,17 +132,15 @@ export const SignupForm = () => {
           />
           <div className='my-3 text-center text-sm text-red-500'>{errors.password?.message}</div>
         </div>
-
-        {/* サインアップボタン */}
-        <div className='mb-5'>
+        <div>
           {isLoading ? (
             <Loading />
           ) : (
             <Button
               type='submit'
-              className='w-full rounded-full bg-slate-500 p-2 text-sm font-bold text-white hover:transform-none hover:bg-slate-500 hover:brightness-95'
+              className='w-full rounded-lg bg-black font-bold text-white hover:transform-none hover:bg-black hover:opacity-75'
             >
-              サインアップ
+              新規登録
             </Button>
           )}
         </div>
@@ -151,8 +148,9 @@ export const SignupForm = () => {
 
       {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
 
-      <div className='text-center text-sm'>
-        <Link href='/auth/login' className='font-bold text-gray-500'>
+      <div className='mt-5 flex items-center  space-x-2 rounded-lg border border-solid border-slate-300 p-5 text-sm'>
+        <span>既にアカウントはお持ちですか?</span>
+        <Link href='/auth/login' className='font-bold text-slate-500 hover:text-slate-600'>
           ログインはこちら
         </Link>
       </div>
