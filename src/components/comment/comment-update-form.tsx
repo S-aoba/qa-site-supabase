@@ -34,12 +34,12 @@ export const CommentUpdateForm = ({ commentId }: { commentId: string }) => {
         setMessage('予期せぬエラーが発生しました。' + updateCommentError.message)
         return
       }
-      router.refresh()
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
       return
     } finally {
       setIsLoading(false)
+      router.refresh()
     }
   }
 
