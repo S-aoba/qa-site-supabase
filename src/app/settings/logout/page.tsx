@@ -2,7 +2,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
-import { Logout } from '@/components/logout'
+import { Logout } from '@/components/setting/logout'
 import type { Database } from '@/lib/database.types'
 
 // ログアウトページ

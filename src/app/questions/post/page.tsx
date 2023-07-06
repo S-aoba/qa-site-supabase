@@ -2,7 +2,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
-import { QuestionPost } from '@/components/question-post'
+import { QuestionPost } from '@/components/question/question-post'
 import type { Database } from '@/lib/database.types'
 
 // メールアドレス変更ページ

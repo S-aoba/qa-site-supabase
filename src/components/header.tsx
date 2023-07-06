@@ -11,7 +11,7 @@ import type { NotificationType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
 import { profileAtom } from '@/store/profile-atom'
 
-import { Notification } from './notification'
+import { Notification } from './notification/notification'
 
 type ProfileType = Database['public']['Tables']['profiles']['Row']
 

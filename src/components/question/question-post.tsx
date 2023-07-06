@@ -14,7 +14,7 @@ import type { Database } from '@/lib/database.types'
 import { profileAtom } from '@/store/profile-atom'
 import { editedQuestionAtom, editedQuestionContentAtom, isEditModeAtom } from '@/store/question-atom'
 
-import { useContentEditor } from '../common/hooks/useContentEditor'
+import { useContentEditor } from '../../common/hooks/useContentEditor'
 
 const schema = z.object({
   title: z
@@ -69,7 +69,7 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
           coding_problem: coding_problem,
           user_id: userId,
         })
-        .select("*")
+        .select('*')
         .single()
 
       if (createQuestionError) {

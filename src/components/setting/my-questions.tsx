@@ -3,7 +3,7 @@ import { cookies } from 'next/headers'
 
 import type { Database } from '@/lib/database.types'
 
-import { Card } from './card'
+import { Card } from '../card'
 
 export const MyQuestions = async ({ userId }: { userId: string }) => {
   const supabase = createServerComponentClient<Database>({ cookies })
