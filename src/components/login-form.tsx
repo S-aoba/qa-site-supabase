@@ -109,7 +109,7 @@ export const LoginForm = () => {
               type='submit'
               className='w-full rounded-lg bg-black font-bold text-white hover:transform-none hover:bg-black hover:opacity-75'
             >
-              Log In
+              ログイン
             </Button>
           )}
         </div>
