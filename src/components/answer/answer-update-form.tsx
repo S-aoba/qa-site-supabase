@@ -7,10 +7,9 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 import Loading from '@/app/loading'
+import { useContentEditor } from '@/common/hooks/useContentEditor'
 import type { Database } from '@/lib/database.types'
 import { editedAnswerAtom } from '@/store/answer-atom'
-
-import { useContentEditor } from '../common/hooks/useContentEditor'
 
 export const AnswerUpdateForm = ({ answerId }: { answerId: string }) => {
   const { editor } = useContentEditor({ type: 'answer' })

@@ -11,7 +11,7 @@ import { useState } from 'react'
 import type { Database } from '@/lib/database.types'
 import { editedQuestionAtom, editedQuestionContentAtom, isEditModeAtom } from '@/store/question-atom'
 
-import { Answer } from './answer'
+import { Answer } from '../answer/answer'
 
 export const Question = async ({ userId }: { userId: string | undefined }) => {
   const router = useRouter()

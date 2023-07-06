@@ -10,9 +10,9 @@ import type { AnswerType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
 import { editedAnswerAtom } from '@/store/answer-atom'
 
+import { Comment } from '../comment/comment'
+import { CommentCreateForm } from '../comment/comment-create-form'
 import { Content } from './answer-content'
-import { Comment } from './comment'
-import { CommentCreateForm } from './comment-create-form'
 
 export const AnswerBody = async ({ answer, userId }: { answer: AnswerType; userId: string | undefined }) => {
   const router = useRouter()

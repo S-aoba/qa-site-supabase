@@ -9,12 +9,11 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 import Loading from '@/app/loading'
+import { useContentEditor } from '@/common/hooks/useContentEditor'
 import type { QuestionType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
 import { editedAnswerAtom } from '@/store/answer-atom'
 import { profileAtom } from '@/store/profile-atom'
-
-import { useContentEditor } from '../common/hooks/useContentEditor'
 
 export const AnswerCreateForm = ({ userId, question }: { userId: string; question: QuestionType }) => {
   const user = useAtomValue(profileAtom)
