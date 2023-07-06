@@ -97,6 +97,7 @@ export const SignupForm = () => {
             }}
             placeholder='名前'
             id='username'
+            autoComplete='username'
             {...register('username', { required: true })}
           />
           <div className='my-3 text-center text-sm text-red-500'>{errors.username?.message}</div>
@@ -112,6 +113,7 @@ export const SignupForm = () => {
             }}
             placeholder='メールアドレス'
             id='email'
+            autoComplete='email'
             {...register('email', { required: true })}
           />
           <div className='my-3 text-center text-sm text-red-500'>{errors.email?.message}</div>
@@ -128,6 +130,7 @@ export const SignupForm = () => {
             }}
             placeholder='パスワード'
             id='password'
+            autoComplete='current-password'
             {...register('password', { required: true })}
           />
           <div className='my-3 text-center text-sm text-red-500'>{errors.password?.message}</div>

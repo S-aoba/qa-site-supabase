@@ -81,6 +81,7 @@ export const LoginForm = () => {
             }}
             placeholder='メールアドレス'
             id='email'
+            autoComplete='email'
             {...register('email', { required: true })}
           />
           <div className='my-3 text-center text-sm text-red-500'>{errors.email?.message}</div>
@@ -97,6 +98,7 @@ export const LoginForm = () => {
             }}
             placeholder='パスワード'
             id='password'
+            autoComplete='current-password'
             {...register('password', { required: true })}
           />
           <div className='my-3 text-center text-sm text-red-500'>{errors.password?.message}</div>
