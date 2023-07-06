@@ -107,9 +107,9 @@ export const LoginForm = () => {
           ) : (
             <Button
               type='submit'
-              className='w-full rounded-lg bg-black p-2 text-sm font-bold text-white hover:transform-none hover:bg-black hover:opacity-75'
+              className='w-full rounded-lg bg-black font-bold text-white hover:transform-none hover:bg-black hover:opacity-75'
             >
-              ログイン
+              Log In
             </Button>
           )}
         </div>
