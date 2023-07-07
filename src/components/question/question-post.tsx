@@ -87,13 +87,12 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
       }
 
       setEditedQuestionContent('')
+      setLoading(false)
       router.push('/')
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
-      return
-    } finally {
       setLoading(false)
-      router.refresh()
+      return
     }
   }
 
@@ -117,13 +116,12 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
         return
       }
       setEditedQuestionContent('')
+      setLoading(false)
       router.push(`/${profile.username}/questions/${editedQuestion.id}`)
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
-      return
-    } finally {
       setLoading(false)
-      router.refresh()
+      return
     }
   }
 

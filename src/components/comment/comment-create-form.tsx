@@ -51,19 +51,18 @@ export const CommentCreateForm = ({ answer, userId }: { answer: AnswerType; user
         setMessage('予期せぬエラーが発生しました。' + createCommentError.message)
         return
       }
-
-      router.refresh()
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
       return
     } finally {
       setIsLoading(false)
+      router.refresh()
     }
   }
   return (
     <>
       {userId && (
-        <div className='p-2 border-b-0 border-l-0 border-t border-r-0 border-solid border-slate-300'>
+        <div className='border-b-0 border-l-0 border-r-0 border-t border-solid border-slate-300 p-2'>
           <div className='flex items-center space-x-2  pt-2 font-semibold text-slate-400'>
             <div className='relative h-6 w-6'>
               <Image src={avatarUrl} className='rounded-full object-cover' alt='avatar' fill sizes='auto' priority />

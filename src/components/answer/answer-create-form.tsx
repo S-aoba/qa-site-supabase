@@ -68,12 +68,12 @@ export const AnswerCreateForm = ({ userId, question }: { userId: string; questio
       }
 
       setAnswerContent('')
-      router.refresh()
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
       return
     } finally {
       setLoading(false)
+      router.refresh()
     }
   }
 
