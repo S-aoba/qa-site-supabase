@@ -2,11 +2,13 @@
 
 import { Button } from '@mantine/core'
 import type { Session } from '@supabase/supabase-js'
+import { IconSearch } from '@tabler/icons-react'
 import { useSetAtom } from 'jotai'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect } from 'react'
 
+import { useGetWindowSize } from '@/common/hooks/useGetWindowSize'
 import type { NotificationType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
 import { profileAtom } from '@/store/profile-atom'
@@ -25,6 +27,7 @@ export const Header = ({
   notifications: NotificationType[] | null
 }) => {
   const setUser = useSetAtom(profileAtom)
+  const { windowSize } = useGetWindowSize()
 
   // 状態管理にユーザー情報を保存
   useEffect(() => {
@@ -50,11 +53,15 @@ export const Header = ({
             QA
           </Link>
         </div>
-        <div className=' flex w-7/12'>
-          <input
-            type='text'
-            className=' h-full w-3/6 rounded-lg border border-solid border-gray-300 px-2 text-sm outline-slate-400'
-          />
+        <div className=' flex w-7/12 items-center'>
+          {windowSize.width > 1023 ? (
+            <input
+              type='text'
+              className=' h-full w-3/6 rounded-lg border border-solid border-gray-300 px-2 text-sm outline-slate-400'
+            />
+          ) : (
+            <IconSearch className='stroke-slate-500 hover:cursor-pointer hover:stroke-slate-600' />
+          )}
           {session ? (
             <div className='flex items-center space-x-5 pl-5 pr-10'>
               <Notification notifications={notifications} />
