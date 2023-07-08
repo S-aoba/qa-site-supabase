@@ -88,7 +88,7 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
 
       setEditedQuestionContent('')
       setLoading(false)
-      router.push('/')
+      router.push(`/${profile.username}/questions/${question.id}`)
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
       setLoading(false)
