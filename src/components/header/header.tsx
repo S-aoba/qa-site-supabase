@@ -1,10 +1,7 @@
 'use client'
 
-import { Button } from '@mantine/core'
 import type { Session } from '@supabase/supabase-js'
-import { useSetAtom } from 'jotai'
-import Image from 'next/image'
-import Link from 'next/link'
+import { useAtom } from 'jotai'
 import { useEffect } from 'react'
 
 import type { NotificationType } from '@/common/types'
@@ -13,7 +10,9 @@ import { profileAtom } from '@/store/profile-atom'
 
 import { Notification } from '../notification/notification'
 import { HeaderLogo } from './header-logo'
+import { HeaderNoSession } from './header-no-session'
 import { HeaderSearch } from './header-search'
+import { HeaderWithSession } from './header-with-session'
 
 type ProfileType = Database['public']['Tables']['profiles']['Row']
 
@@ -26,7 +25,7 @@ export const Header = ({
   profile: ProfileType | null
   notifications: NotificationType[] | null
 }) => {
-  const setUser = useSetAtom(profileAtom)
+  const [user, setUser] = useAtom(profileAtom)
 
   // 状態管理にユーザー情報を保存
   useEffect(() => {
@@ -51,45 +50,11 @@ export const Header = ({
         <div className=' flex w-7/12'>
           <HeaderSearch />
           {session ? (
-            <div className='flex items-center space-x-5 pl-5 pr-10'>
+            <HeaderWithSession avatar_url={user.avatar_url}>
               <Notification notifications={notifications} />
-              <Link href='/settings/profile'>
-                <div className='relative h-10 w-10'>
-                  <Image
-                    src={profile && profile.avatar_url ? profile.avatar_url : '/default.png'}
-                    className='rounded-full object-cover'
-                    alt='avatar'
-                    fill
-                    sizes='auto'
-                    priority
-                  />
-                </div>
-              </Link>
-              <Link href={'/questions/post'} className='no-underline'>
-                <Button type='submit' className='bg-slate-500 hover:transform-none hover:bg-slate-600'>
-                  投稿する
-                </Button>
-              </Link>
-            </div>
+            </HeaderWithSession>
           ) : (
-            <div className='flex items-center space-x-5 px-10'>
-              <Link href='/auth/login' className='no-underline'>
-                <Button
-                  type='submit'
-                  className='rounded-lg border border-solid border-slate-300 bg-white text-black hover:transform-none hover:border-black hover:bg-white'
-                >
-                  ログイン
-                </Button>
-              </Link>
-              <Link href='/auth/signup' className='no-underline'>
-                <Button
-                  type='submit'
-                  className='rounded-lg bg-black hover:transform-none hover:bg-black hover:opacity-75'
-                >
-                  新規登録
-                </Button>
-              </Link>
-            </div>
+            <HeaderNoSession />
           )}
         </div>
       </div>
