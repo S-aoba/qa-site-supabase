@@ -12,6 +12,7 @@ import type { Database } from '@/lib/database.types'
 import { profileAtom } from '@/store/profile-atom'
 
 import { Notification } from '../notification/notification'
+import { HeaderLogo } from './header-logo'
 import { HeaderSearch } from './header-search'
 
 type ProfileType = Database['public']['Tables']['profiles']['Row']
@@ -46,11 +47,7 @@ export const Header = ({
   return (
     <header className='flex h-fit flex-col items-center justify-center bg-[#f6f8fa] p-3 font-mono text-base'>
       <div className='container mx-auto flex w-full justify-between'>
-        <div className='flex items-center'>
-          <Link href={'/'} className='text-2xl text-black no-underline'>
-            QA
-          </Link>
-        </div>
+        <HeaderLogo />
         <div className=' flex w-7/12'>
           <HeaderSearch />
           {session ? (
