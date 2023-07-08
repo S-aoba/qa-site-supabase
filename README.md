@@ -1,4 +1,33 @@
-# This is Next.js starter kit
+# QA site with supabase
 
-## if you git change remoteUrl
-- git remote set-url origin (url)
+## About
+It is a QA site that uses supabase as its backend
+
+## Technologies
+frontend
+- typescript
+- next.js
+- tailwind
+- mantine
+- zod
+- jotai
+
+backend
+- supabase
+
+## Functional
+- signup
+- login
+- logout
+- create question
+- create answer
+- create comment
+- create notification
+- update question
+- update answer
+- update comment
+- delete question
+- delete answer
+- delete comment
+- delete notification
+- search question
