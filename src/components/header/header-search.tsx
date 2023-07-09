@@ -22,24 +22,28 @@ export const HeaderSearch = () => {
   }
 
   return (
-    <form onSubmit={handleOnSubmit}>
-      {windowSize.width > 1023 ? (
-        <TextInput
-          type='text'
-          autoComplete='on'
-          placeholder='質問を検索'
-          size='md'
-          withAsterisk
-          styles={{
-            input: {
-              border: '1px solid #cbd5e1',
-              ':focus': { border: '1px solid #cbd5e1' },
-            },
-          }}
-          onChange={handleOnChange}
-        />
+    <form onSubmit={handleOnSubmit} className='w-full'>
+      {windowSize.width > 991 ? (
+        <div className='w-full pl-16'>
+          <TextInput
+            type='text'
+            autoComplete='on'
+            placeholder='質問を検索'
+            size='md'
+            withAsterisk
+            styles={{
+              input: {
+                border: '1px solid #cbd5e1',
+                ':focus': { border: '1px solid #cbd5e1' },
+              },
+            }}
+            onChange={handleOnChange}
+          />
+        </div>
       ) : (
-        <IconSearch className='stroke-slate-500 hover:cursor-pointer hover:stroke-slate-600' />
+        <div className='flex w-full justify-end'>
+          <IconSearch className='stroke-slate-500 hover:cursor-pointer hover:stroke-slate-600' />
+        </div>
       )}
     </form>
   )

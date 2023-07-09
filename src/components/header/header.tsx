@@ -1,10 +1,7 @@
 'use client'
 
-import { Button } from '@mantine/core'
 import type { Session } from '@supabase/supabase-js'
-import { useSetAtom } from 'jotai'
-import Image from 'next/image'
-import Link from 'next/link'
+import { useAtom } from 'jotai'
 import { useEffect } from 'react'
 
 import type { NotificationType } from '@/common/types'
@@ -12,7 +9,10 @@ import type { Database } from '@/lib/database.types'
 import { profileAtom } from '@/store/profile-atom'
 
 import { Notification } from '../notification/notification'
+import { HeaderLogo } from './header-logo'
+import { HeaderNoSession } from './header-no-session'
 import { HeaderSearch } from './header-search'
+import { HeaderWithSession } from './header-with-session'
 
 type ProfileType = Database['public']['Tables']['profiles']['Row']
 
@@ -25,7 +25,7 @@ export const Header = ({
   profile: ProfileType | null
   notifications: NotificationType[] | null
 }) => {
-  const setUser = useSetAtom(profileAtom)
+  const [user, setUser] = useAtom(profileAtom)
 
   // 状態管理にユーザー情報を保存
   useEffect(() => {
@@ -45,53 +45,19 @@ export const Header = ({
 
   return (
     <header className='flex h-fit flex-col items-center justify-center bg-[#f6f8fa] p-3 font-mono text-base'>
-      <div className='container mx-auto flex w-full justify-between'>
-        <div className='flex items-center'>
-          <Link href={'/'} className='text-2xl text-black no-underline'>
-            QA
-          </Link>
-        </div>
-        <div className=' flex w-7/12'>
+      <div className='flex w-full max-w-[1000px] items-center justify-between px-3'>
+        <HeaderLogo />
+        <div className='flex w-full items-center justify-between space-x-4'>
           <HeaderSearch />
           {session ? (
-            <div className='flex items-center space-x-5 pl-5 pr-10'>
-              <Notification notifications={notifications} />
-              <Link href='/settings/profile'>
-                <div className='relative h-10 w-10'>
-                  <Image
-                    src={profile && profile.avatar_url ? profile.avatar_url : '/default.png'}
-                    className='rounded-full object-cover'
-                    alt='avatar'
-                    fill
-                    sizes='auto'
-                    priority
-                  />
-                </div>
-              </Link>
-              <Link href={'/questions/post'} className='no-underline'>
-                <Button type='submit' className='bg-slate-500 hover:transform-none hover:bg-slate-600'>
-                  投稿する
-                </Button>
-              </Link>
+            <div className='flex items-center space-x-2'>
+              <HeaderWithSession avatar_url={user.avatar_url}>
+                <Notification notifications={notifications} />
+              </HeaderWithSession>
             </div>
           ) : (
-            <div className='flex items-center space-x-5 px-10'>
-              <Link href='/auth/login' className='no-underline'>
-                <Button
-                  type='submit'
-                  className='rounded-lg border border-solid border-slate-300 bg-white text-black hover:transform-none hover:border-black hover:bg-white'
-                >
-                  ログイン
-                </Button>
-              </Link>
-              <Link href='/auth/signup' className='no-underline'>
-                <Button
-                  type='submit'
-                  className='rounded-lg bg-black hover:transform-none hover:bg-black hover:opacity-75'
-                >
-                  新規登録
-                </Button>
-              </Link>
+            <div className='flex space-x-2'>
+              <HeaderNoSession />
             </div>
           )}
         </div>
