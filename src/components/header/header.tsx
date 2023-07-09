@@ -45,16 +45,20 @@ export const Header = ({
 
   return (
     <header className='flex h-fit flex-col items-center justify-center bg-[#f6f8fa] p-3 font-mono text-base'>
-      <div className='container mx-auto flex w-full justify-between'>
+      <div className='flex w-full max-w-[1000px] items-center justify-between px-3'>
         <HeaderLogo />
-        <div className=' flex w-7/12'>
+        <div className='flex w-full items-center justify-between space-x-4'>
           <HeaderSearch />
           {session ? (
-            <HeaderWithSession avatar_url={user.avatar_url}>
-              <Notification notifications={notifications} />
-            </HeaderWithSession>
+            <div className='flex items-center space-x-2'>
+              <HeaderWithSession avatar_url={user.avatar_url}>
+                <Notification notifications={notifications} />
+              </HeaderWithSession>
+            </div>
           ) : (
-            <HeaderNoSession />
+            <div className='flex space-x-2'>
+              <HeaderNoSession />
+            </div>
           )}
         </div>
       </div>

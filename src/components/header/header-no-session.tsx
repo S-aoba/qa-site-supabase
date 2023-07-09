@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export const HeaderNoSession = () => {
   return (
-    <div className='flex items-center space-x-5 px-10'>
+    <>
       <Link href='/auth/login' className='no-underline'>
         <Button
           type='submit'
@@ -17,6 +17,6 @@ export const HeaderNoSession = () => {
           新規登録
         </Button>
       </Link>
-    </div>
+    </>
   )
 }

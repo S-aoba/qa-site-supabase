@@ -5,7 +5,7 @@ import type { ReactNode } from 'react'
 
 export const HeaderWithSession = ({ avatar_url, children }: { avatar_url: string | null; children: ReactNode }) => {
   return (
-    <div className='flex items-center space-x-5 pl-5 pr-10'>
+    <>
       {children}
       <Link href='/settings/profile'>
         <div className='relative h-10 w-10'>
@@ -24,6 +24,6 @@ export const HeaderWithSession = ({ avatar_url, children }: { avatar_url: string
           投稿する
         </Button>
       </Link>
-    </div>
+    </>
   )
 }
