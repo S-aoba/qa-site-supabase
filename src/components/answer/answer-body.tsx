@@ -1,73 +1,22 @@
 'use client'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { IconEdit, IconTrash } from '@tabler/icons-react'
-import { useSetAtom } from 'jotai'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 import type { AnswerType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
-import { editedAnswerAtom } from '@/store/answer-atom'
 
 import { Comment } from '../comment/comment'
 import { CommentCreateForm } from '../comment/comment-create-form'
+import { AnswerActions } from './answer-actions'
 import { Content } from './answer-content'
 
 export const AnswerBody = async ({ answer, userId }: { answer: AnswerType; userId: string | undefined }) => {
-  const router = useRouter()
-  const [_, setMessage] = useState('')
-  const setEditedAnswer = useSetAtom(editedAnswerAtom)
   const [isEditMode, setIsEditMode] = useState(false)
 
   const supabase = createClientComponentClient<Database>()
   const { data: profile } = await supabase.from('profiles').select('*').eq('id', answer?.user_id).single()
   const { data: comments } = await supabase.from('comments').select('*').eq('answer_id', answer.id)
-  const handleDeleteAnswer = async () => {
-    try {
-      const { error: deleteAnswerError } = await supabase.from('answers').delete().eq('id', answer.id)
-      if (deleteAnswerError) {
-        setMessage('予期せぬエラーが発生しました。' + deleteAnswerError.message)
-        return
-      }
-
-      // 回答が他にも存在するかどうか確認
-      const { data: otherAnswers, error: otherAnswersError } = await supabase
-        .from('answers')
-        .select('*')
-        .eq('question_id', answer.question_id)
-
-      if (otherAnswersError) {
-        setMessage('予期せぬエラーが発生しました。' + otherAnswersError.message)
-        return
-      }
-      // 回答が存在していなければ、質問を募集中テーブルに追加
-      if (otherAnswers.length === 0) {
-        const { error: questionWaitingAnswersError } = await supabase.from('question_waiting_answers').insert({
-          question_id: answer.question_id,
-        })
-        if (questionWaitingAnswersError) {
-          setMessage('予期せぬエラーが発生しました。' + questionWaitingAnswersError.message)
-        }
-      }
-
-      setEditedAnswer('')
-    } catch (error) {
-      setMessage('エラーが発生しました。' + error)
-      return
-    } finally {
-      router.refresh()
-    }
-  }
-
-  const handleSetIsEditMode = () => {
-    if (!isEditMode) {
-      setIsEditMode(true)
-      setEditedAnswer(answer.content)
-      return
-    }
-    setIsEditMode(false)
-  }
 
   return (
     <div className='rounded-lg border border-solid border-slate-300'>
@@ -91,18 +40,7 @@ export const AnswerBody = async ({ answer, userId }: { answer: AnswerType; userI
               <span className='text-sm'>投稿日: {answer.created_at.slice(0, 10)}</span>
             </div>
           </div>
-          {userId === answer.user_id && (
-            <div className='flex items-center space-x-2'>
-              <IconEdit
-                className='text-slate-500 hover:cursor-pointer hover:text-slate-700'
-                onClick={handleSetIsEditMode}
-              />
-              <IconTrash
-                className='text-slate-500 hover:cursor-pointer hover:text-slate-700'
-                onClick={handleDeleteAnswer}
-              />
-            </div>
-          )}
+          <AnswerActions userId={userId} answer={answer} isEditMode={isEditMode} setIsEditMode={setIsEditMode} />
         </div>
       </div>
       <Content answer={answer} isEditMode={isEditMode} userId={userId} />
