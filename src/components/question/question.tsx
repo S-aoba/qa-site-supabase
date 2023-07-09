@@ -1,24 +1,17 @@
 'use client'
 
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { IconEdit, IconTrash } from '@tabler/icons-react'
-import { useSetAtom } from 'jotai'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 
 import type { Database } from '@/lib/database.types'
-import { editedQuestionAtom, editedQuestionContentAtom, isEditModeAtom } from '@/store/question-atom'
 
 import { Answer } from '../answer/answer'
+import { QuestionActions } from './question-actions'
 
 export const Question = async ({ userId }: { userId: string | undefined }) => {
-  const router = useRouter()
-
-  const setEditedQuestion = useSetAtom(editedQuestionAtom)
-  const setQuestionDescription = useSetAtom(editedQuestionContentAtom)
-  const setIsEditMode = useSetAtom(isEditModeAtom)
   const supabase = createClientComponentClient<Database>()
 
   const [message, setMessage] = useState('')
@@ -28,35 +21,6 @@ export const Question = async ({ userId }: { userId: string | undefined }) => {
 
   const { data: question } = await supabase.from('questions').select('*').eq('id', question_id).single()
   const { data: profile } = await supabase.from('profiles').select('*').eq('id', question?.user_id).single()
-
-  const handleSetQuestion = () => {
-    if (!question) return
-    setQuestionDescription(question.content)
-    setEditedQuestion({
-      id: question.id,
-      title: question.title,
-      coding_problem: question.coding_problem,
-      tags: question.tags,
-    })
-    setIsEditMode(true)
-  }
-
-  const handleDeleteQuestion = async () => {
-    if (question === null) return
-    try {
-      const { error } = await supabase.from('questions').delete().eq('id', question.id)
-      if (error) {
-        setMessage('予期せぬエラーが発生しました。' + error.message)
-        return
-      }
-      router.push('/')
-    } catch (error) {
-      setMessage('エラーが発生しました。' + error)
-      return
-    } finally {
-      router.refresh()
-    }
-  }
 
   return (
     <>
@@ -88,20 +52,7 @@ export const Question = async ({ userId }: { userId: string | undefined }) => {
                   {question?.coding_problem}
                 </span>
               </div>
-              {userId === question?.user_id && (
-                <div className='flex items-center space-x-2'>
-                  <Link href={'/questions/post'} className='flex items-center'>
-                    <IconEdit
-                      className='text-slate-500 hover:cursor-pointer hover:text-slate-700'
-                      onClick={handleSetQuestion}
-                    />
-                  </Link>
-                  <IconTrash
-                    className='text-slate-500 hover:cursor-pointer hover:text-slate-700'
-                    onClick={handleDeleteQuestion}
-                  />
-                </div>
-              )}
+              <QuestionActions userId={userId} question={question} setMessage={setMessage} />
             </div>
             <div className='flex space-x-3 py-2 text-sm'>
               {question?.tags.map((tag, index) => {
