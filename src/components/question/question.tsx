@@ -61,16 +61,13 @@ export const Question = async ({ userId }: { userId: string | undefined }) => {
   return (
     <>
       <div className='p-2'>
-        {/* Title */}
         <div className='text-center'>
           <h1>{question?.title}</h1>
         </div>
         <div className='rounded-lg border border-solid border-slate-300 pb-5'>
           <div className='rounded-t-lg border-b border-l-0 border-r-0 border-t-0 border-solid border-slate-300 bg-[#f6f8fa] px-2'>
-            {/* user and question info */}
             <div className='flex justify-between '>
               <div className='flex items-center space-x-2'>
-                {/* userIcon */}
                 <div className='relative h-6 w-6'>
                   <Image
                     src={profile && profile.avatar_url ? profile.avatar_url : '/default.png'}
@@ -81,11 +78,9 @@ export const Question = async ({ userId }: { userId: string | undefined }) => {
                     priority
                   />
                 </div>
-                {/* username */}
                 <div>
                   <p className='text-sm'>{profile?.username}</p>
                 </div>
-                {/* question posted day */}
                 <div>
                   <span className='text-sm'>投稿日: {question?.created_at.slice(0, 10)}</span>
                 </div>
@@ -108,7 +103,6 @@ export const Question = async ({ userId }: { userId: string | undefined }) => {
                 </div>
               )}
             </div>
-            {/* tags */}
             <div className='flex space-x-3 py-2 text-sm'>
               {question?.tags.map((tag, index) => {
                 return (
@@ -133,7 +127,6 @@ export const Question = async ({ userId }: { userId: string | undefined }) => {
               })}
             </div>
           </div>
-          {/* description */}
           {question && <div className='break-words p-3' dangerouslySetInnerHTML={{ __html: question.content }} />}
         </div>
       </div>
