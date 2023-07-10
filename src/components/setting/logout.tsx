@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation'
 import type { FormEvent } from 'react'
 import { useState } from 'react'
 
-import Loading from '@/app/loading'
 import type { Database } from '@/lib/database.types'
 
 // ログアウト
@@ -47,16 +46,13 @@ export const Logout = () => {
       {/* ログアウトボタン */}
       <form onSubmit={handleOnSubmit}>
         <div className='mb-5'>
-          {isLoading ? (
-            <Loading />
-          ) : (
-            <Button
-              type='submit'
-              className='w-full rounded-full bg-red-500 p-2 text-sm font-bold text-white hover:transform-none hover:bg-red-500 hover:brightness-95'
-            >
-              ログアウト
-            </Button>
-          )}
+          <Button
+            type='submit'
+            className='w-full rounded-full bg-red-500 p-2 text-sm font-bold text-white hover:transform-none hover:bg-red-500 hover:brightness-95'
+            loading={isLoading}
+          >
+            {isLoading ? 'ログアウト中' : 'ログアウト'}
+          </Button>
         </div>
       </form>
 

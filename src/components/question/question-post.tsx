@@ -9,10 +9,9 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import * as z from 'zod'
 
-import Loading from '@/app/loading'
 import type { Database } from '@/lib/database.types'
 import { profileAtom } from '@/store/profile-atom'
-import { editedQuestionAtom, editedQuestionContentAtom, isEditModeAtom } from '@/store/question-atom'
+import { editedQuestionAtom, editedQuestionContentAtom } from '@/store/question-atom'
 
 import { useContentEditor } from '../../common/hooks/useContentEditor'
 
@@ -28,7 +27,6 @@ const schema = z.object({
 export const QuestionPost = ({ userId }: { userId: string }) => {
   const editedQuestion = useAtomValue(editedQuestionAtom)
   const [editedQuestionContent, setEditedQuestionContent] = useAtom(editedQuestionContentAtom)
-  const isEditMode = useAtomValue(isEditModeAtom)
   const profile = useAtomValue(profileAtom)
 
   const { editor } = useContentEditor({ type: 'question' })
@@ -48,14 +46,6 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
   })
 
   const handleOnSubmit = async (props: { title: string; coding_problem: string; tags: string[] }) => {
-    if (!isEditMode) {
-      createQuestion(props)
-    } else {
-      updateQuestion(props)
-    }
-  }
-
-  const createQuestion = async (props: { title: string; coding_problem: string; tags: string[] }) => {
     setLoading(true)
     const { title, coding_problem, tags } = props
 
@@ -89,35 +79,6 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
       setEditedQuestionContent('')
       setLoading(false)
       router.push(`/${profile.username}/questions/${question.id}`)
-    } catch (error) {
-      setMessage('エラーが発生しました。' + error)
-      setLoading(false)
-      return
-    }
-  }
-
-  const updateQuestion = async (props: { title: string; coding_problem: string; tags: string[] }) => {
-    setLoading(true)
-    const { title, coding_problem, tags } = props
-
-    try {
-      const { error } = await supabase
-        .from('questions')
-        .update({
-          title: title,
-          content: editedQuestionContent,
-          tags: tags,
-          coding_problem: coding_problem,
-        })
-        .eq('id', editedQuestion.id)
-
-      if (error) {
-        setMessage('予期せぬエラーが発生しました。' + error.message)
-        return
-      }
-      setEditedQuestionContent('')
-      setLoading(false)
-      router.push(`/${profile.username}/questions/${editedQuestion.id}`)
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
       setLoading(false)
@@ -171,13 +132,9 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
           <RichTextEditor.Content />
         </RichTextEditor>
         <div className='flex w-full justify-end px-3'>
-          {isLoading ? (
-            <Loading />
-          ) : (
-            <Button type='submit' className='bg-slate-500 hover:transform-none hover:bg-slate-600'>
-              {isEditMode ? '質問を更新する' : '質問を送信する'}
-            </Button>
-          )}
+          <Button type='submit' className='bg-slate-500 hover:transform-none hover:bg-slate-600' loading={isLoading}>
+            {isLoading ? '質問を送信中' : '質問を送信'}
+          </Button>
         </div>
       </form>
       {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}

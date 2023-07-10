@@ -6,7 +6,6 @@ import { useAtomValue } from 'jotai'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-import Loading from '@/app/loading'
 import { useContentEditor } from '@/common/hooks/useContentEditor'
 import type { Database } from '@/lib/database.types'
 import { editedCommentAtom } from '@/store/comment-atom'
@@ -53,13 +52,9 @@ export const CommentUpdateForm = ({ commentId }: { commentId: string }) => {
           <RichTextEditor.Content />
         </RichTextEditor>
         <div className='flex w-full justify-end p-3'>
-          {isLoading ? (
-            <Loading />
-          ) : (
-            <Button type='submit' className='bg-slate-500 hover:transform-none hover:bg-slate-600'>
-              コメントを更新する
-            </Button>
-          )}
+          <Button type='submit' className='bg-slate-500 hover:transform-none hover:bg-slate-600' loading={isLoading}>
+            {isLoading ? 'コメントを更新中' : 'コメントを更新'}
+          </Button>
         </div>
       </form>
       {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}

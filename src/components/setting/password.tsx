@@ -9,7 +9,6 @@ import type { SubmitHandler } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
-import Loading from '@/app/loading'
 import type { Database } from '@/lib/database.types'
 
 type Schema = z.infer<typeof schema>
@@ -119,16 +118,13 @@ export const Password = () => {
 
         {/* 変更ボタン */}
         <div className='mb-5'>
-          {isLoading ? (
-            <Loading />
-          ) : (
-            <Button
-              type='submit'
-              className='w-full rounded-full bg-slate-500 p-2 text-sm font-bold text-white hover:transform-none hover:bg-slate-500 hover:brightness-95'
-            >
-              変更
-            </Button>
-          )}
+          <Button
+            type='submit'
+            className='w-full rounded-full bg-slate-500 p-2 text-sm font-bold text-white hover:transform-none hover:bg-slate-500 hover:brightness-95'
+            loading={isLoading}
+          >
+            {isLoading ? '変更中' : '変更'}
+          </Button>
         </div>
 
         {/* メッセージ */}

@@ -105,7 +105,7 @@ export const AnswerActions = ({
               onClick={handleDeleteAnswer}
               loading={isLoading}
             >
-              削除する
+              {isLoading ? '削除中' : '削除'}
             </Button>
           </div>
         </div>

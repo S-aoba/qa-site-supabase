@@ -88,14 +88,14 @@ export const QuestionActions = ({
               onClick={handleDeleteQuestion}
               loading={isLoading}
             >
-              削除する
+              {isLoading ? '削除中' : '削除'}
             </Button>
           </div>
         </div>
       </Modal>
       {userId === question?.user_id && (
         <div className='flex items-center space-x-2'>
-          <Link href={'/questions/post'} className='flex items-center'>
+          <Link href={'/questions/edit'} className='flex items-center'>
             <IconEdit
               className='text-slate-500 hover:cursor-pointer hover:text-slate-700'
               onClick={handleSetQuestion}

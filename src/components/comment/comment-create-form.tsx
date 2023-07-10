@@ -7,7 +7,6 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
-import Loading from '@/app/loading'
 import { useContentEditor } from '@/common/hooks/useContentEditor'
 import type { AnswerType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
@@ -77,13 +76,13 @@ export const CommentCreateForm = ({ answer, userId }: { answer: AnswerType; user
               <RichTextEditor.Content />
             </RichTextEditor>
             <div className='flex w-full justify-end p-3'>
-              {isLoading ? (
-                <Loading />
-              ) : (
-                <Button type='submit' className='bg-slate-500 hover:transform-none hover:bg-slate-600'>
-                  コメントを投稿
-                </Button>
-              )}
+              <Button
+                type='submit'
+                className='bg-slate-500 hover:transform-none hover:bg-slate-600'
+                loading={isLoading}
+              >
+                {isLoading ? 'コメントを投稿中' : 'コメントを投稿'}
+              </Button>
             </div>
           </form>
           {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}

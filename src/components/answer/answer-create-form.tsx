@@ -8,7 +8,6 @@ import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-import Loading from '@/app/loading'
 import { useContentEditor } from '@/common/hooks/useContentEditor'
 import type { QuestionType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
@@ -88,13 +87,9 @@ export const AnswerCreateForm = ({ userId, question }: { userId: string; questio
             <RichTextEditor.Content />
           </RichTextEditor>
           <div className='flex w-full justify-end p-3'>
-            {isLoading ? (
-              <Loading />
-            ) : (
-              <Button type='submit' className='bg-slate-500 hover:transform-none hover:bg-slate-600'>
-                回答を投稿
-              </Button>
-            )}
+            <Button type='submit' className='bg-slate-500 hover:transform-none hover:bg-slate-600' loading={isLoading}>
+              {isLoading ? '回答を送信中' : '回答を送信'}
+            </Button>
           </div>
         </form>
       ) : null}
