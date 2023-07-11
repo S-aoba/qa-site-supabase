@@ -9,17 +9,17 @@ import { useRouter } from 'next/navigation'
 import type { Dispatch, SetStateAction } from 'react'
 import { useState } from 'react'
 
-import type { AnswerType } from '@/common/types'
+import type { AnswerType, ProfileType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
 import { editedAnswerAtom } from '@/store/answer-atom'
 
 export const AnswerActions = ({
-  userId,
+  profile,
   answer,
   isEditMode,
   setIsEditMode,
 }: {
-  userId: string | undefined
+  profile: ProfileType | null
   answer: AnswerType
   isEditMode: boolean
   setIsEditMode: Dispatch<SetStateAction<boolean>>
@@ -113,7 +113,7 @@ export const AnswerActions = ({
           </div>
         </div>
       </Modal>
-      {userId === answer.user_id && (
+      {profile && profile.id === answer.user_id && (
         <div className='flex items-center space-x-2'>
           <IconEdit
             className='text-slate-500 hover:cursor-pointer hover:text-slate-700'

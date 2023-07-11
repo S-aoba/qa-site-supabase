@@ -2,13 +2,13 @@
 
 import { useState } from 'react'
 
-import type { CommentType } from '@/common/types'
+import type { CommentType, ProfileType } from '@/common/types'
 
 import { CommentActions } from './comment-actions'
 import { CommentContent } from './comment-content'
 import { CommentUserInfo } from './comment-user-info'
 
-export const CommentBody = ({ comment, userId }: { comment: CommentType; userId: string | undefined }) => {
+export const CommentBody = ({ comment, profile }: { comment: CommentType; profile: ProfileType | null }) => {
   const [isEditMode, setIsEditMode] = useState(false)
   const [message, setMessage] = useState('')
 
@@ -17,7 +17,7 @@ export const CommentBody = ({ comment, userId }: { comment: CommentType; userId:
       <div className='flex justify-between space-x-2 bg-[#d3e0ec] p-2'>
         <CommentUserInfo avatar_url={comment.avatar_url} username={comment.username} />
         <CommentActions
-          userId={userId}
+          profile={profile}
           comment={comment}
           isEditMode={isEditMode}
           setIsEditMode={setIsEditMode}

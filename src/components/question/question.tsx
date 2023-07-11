@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 
+import NotFound from '@/app/not-found'
 import type { Database } from '@/lib/database.types'
 
 import { Answer } from '../answer/answer'
@@ -19,8 +20,16 @@ export const Question = async ({ userId }: { userId: string | undefined }) => {
   const pathname = usePathname()
   const question_id = pathname.split('/')[3]
 
-  const { data: question } = await supabase.from('questions').select('*').eq('id', question_id).single()
-  const { data: profile } = await supabase.from('profiles').select('*').eq('id', question?.user_id).single()
+  const { data: question, error } = await supabase
+    .from('questions')
+    .select('*, answers(*), profiles(*)')
+    .eq('id', question_id)
+    .single()
+
+  if (error) return <NotFound />
+
+  const answers = question.answers
+  const profile = question.profiles
 
   return (
     <>
@@ -83,7 +92,7 @@ export const Question = async ({ userId }: { userId: string | undefined }) => {
       </div>
       {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
 
-      {question && <Answer userId={userId} question={question} />}
+      {question && <Answer answers={answers} profile={profile} question={question} />}
     </>
   )
 }

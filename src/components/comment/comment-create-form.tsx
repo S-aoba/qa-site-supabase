@@ -14,7 +14,7 @@ import type { Database } from '@/lib/database.types'
 import { editedCommentAtom } from '@/store/comment-atom'
 import { profileAtom } from '@/store/profile-atom'
 
-export const CommentCreateForm = ({ answer, userId }: { answer: AnswerType; userId: string | undefined }) => {
+export const CommentCreateForm = ({ answer }: { answer: AnswerType }) => {
   const supabase = createClientComponentClient<Database>()
 
   const [message, setMessage] = useState('')
@@ -61,7 +61,7 @@ export const CommentCreateForm = ({ answer, userId }: { answer: AnswerType; user
   }
   return (
     <>
-      {userId && (
+      {
         <div className='border-b-0 border-l-0 border-r-0 border-t border-solid border-slate-300 p-2'>
           <div className='flex items-center space-x-2  pt-2 font-semibold text-slate-400'>
             <div className='relative h-6 w-6'>
@@ -88,7 +88,7 @@ export const CommentCreateForm = ({ answer, userId }: { answer: AnswerType; user
           </form>
           {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
         </div>
-      )}
+      }
     </>
   )
 }

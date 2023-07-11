@@ -263,7 +263,7 @@ export interface Database {
           {
             foreignKeyName: "questions_user_id_fkey"
             columns: ["user_id"]
-            referencedRelation: "users"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           }
         ]

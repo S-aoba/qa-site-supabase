@@ -9,18 +9,18 @@ import { useSetAtom } from 'jotai'
 import { useRouter } from 'next/navigation'
 import { type Dispatch, useState } from 'react'
 
-import type { CommentType } from '@/common/types'
+import type { CommentType, ProfileType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
 import { editedCommentAtom } from '@/store/comment-atom'
 
 export const CommentActions = ({
-  userId,
+  profile,
   comment,
   isEditMode,
   setIsEditMode,
   setMessage,
 }: {
-  userId: string | undefined
+  profile: ProfileType | null
   comment: CommentType
   isEditMode: boolean
   setIsEditMode: Dispatch<SetStateAction<boolean>>
@@ -90,7 +90,7 @@ export const CommentActions = ({
           </div>
         </div>
       </Modal>
-      {userId === comment.user_id && (
+      {profile && profile.id === comment.user_id && (
         <div className='flex space-x-2'>
           <IconEdit className='text-slate-500 hover:cursor-pointer hover:text-slate-700' onClick={handleSetComment} />
           <IconTrash
