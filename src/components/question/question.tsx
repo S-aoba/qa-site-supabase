@@ -9,7 +9,7 @@ import { useState } from 'react'
 import NotFound from '@/app/not-found'
 import type { Database } from '@/lib/database.types'
 
-import { Answer } from '../answer/answer'
+import { AnswerList } from '../answer/answer-list'
 import { QuestionActions } from './question-actions'
 
 export const Question = async ({ userId }: { userId: string | undefined }) => {
@@ -92,7 +92,7 @@ export const Question = async ({ userId }: { userId: string | undefined }) => {
       </div>
       {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
 
-      {question && <Answer answers={answers} profile={profile} question={question} />}
+      {question && <AnswerList answers={answers} profile={profile} question={question} />}
     </>
   )
 }
