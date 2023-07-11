@@ -1,3 +1,5 @@
+'use client'
+
 import type { AnswerType } from '@/common/types'
 
 import { AnswerBody } from './answer-body'
