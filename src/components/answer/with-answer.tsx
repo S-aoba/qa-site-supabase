@@ -2,7 +2,7 @@
 
 import type { AnswerType, ProfileType } from '@/common/types'
 
-import { AnswerBody } from './answer-body'
+import { Answer } from './answer'
 
 export const WithAnswer = ({ answers, profile }: { answers: AnswerType[]; profile: ProfileType | null }) => {
   return (
@@ -10,7 +10,7 @@ export const WithAnswer = ({ answers, profile }: { answers: AnswerType[]; profil
       <div className='p-2 text-2xl font-semibold'>回答</div>
       <div className='space-y-4 py-4'>
         {answers.map((answer) => {
-          return <AnswerBody key={answer.id} answer={answer} profile={profile} />
+          return <Answer key={answer.id} answer={answer} profile={profile} />
         })}
       </div>
     </>
