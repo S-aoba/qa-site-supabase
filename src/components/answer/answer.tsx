@@ -6,7 +6,7 @@ import { AnswerCreateForm } from './answer-create-form'
 import { NoAnswerMessage } from './no-answer-message'
 import { WithAnswer } from './with-answer'
 
-export const Answer = async ({
+export const Answer = ({
   answers,
   profile,
   question,
