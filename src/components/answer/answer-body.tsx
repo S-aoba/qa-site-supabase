@@ -7,7 +7,7 @@ import type { AnswerType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
 
 import { Comment } from '../comment/comment'
-import { Content } from './answer-content'
+import { AnswerContent } from './answer-content'
 import { AnswerSettings } from './answer-settings'
 
 export const AnswerBody = async ({ answer, userId }: { answer: AnswerType; userId: string | undefined }) => {
@@ -25,7 +25,7 @@ export const AnswerBody = async ({ answer, userId }: { answer: AnswerType; userI
         isEditMode={isEditMode}
         setIsEditMode={setIsEditMode}
       />
-      <Content answer={answer} isEditMode={isEditMode} userId={userId} />
+      <AnswerContent answer={answer} isEditMode={isEditMode} userId={userId} />
       <Comment answer={answer} userId={userId} />
     </div>
   )

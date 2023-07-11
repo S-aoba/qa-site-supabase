@@ -2,7 +2,7 @@ import type { AnswerType } from '@/common/types'
 
 import { AnswerUpdateForm } from './answer-update-form'
 
-export const Content = ({
+export const AnswerContent = ({
   answer,
   isEditMode,
   userId,
