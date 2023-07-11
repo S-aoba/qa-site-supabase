@@ -4,8 +4,7 @@ import type { Session } from '@supabase/supabase-js'
 import { useAtom } from 'jotai'
 import { useEffect } from 'react'
 
-import type { NotificationType } from '@/common/types'
-import type { Database } from '@/lib/database.types'
+import type { NotificationType, ProfileType } from '@/common/types'
 import { profileAtom } from '@/store/profile-atom'
 
 import { Notification } from '../notification/notification'
@@ -13,8 +12,6 @@ import { HeaderLogo } from './header-logo'
 import { HeaderNoSession } from './header-no-session'
 import { HeaderSearch } from './header-search'
 import { HeaderWithSession } from './header-with-session'
-
-type ProfileType = Database['public']['Tables']['profiles']['Row']
 
 export const Header = ({
   session,
