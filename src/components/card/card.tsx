@@ -7,6 +7,10 @@ import Link from 'next/link'
 import type { QuestionType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
 
+/**
+ * @package
+ */
+
 export const Card = async ({ question }: { question: QuestionType }) => {
   const supabase = createServerComponentClient<Database>({ cookies })
   const { data: profile } = await supabase.from('profiles').select('*').eq('id', question.user_id).single()

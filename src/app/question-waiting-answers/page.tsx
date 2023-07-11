@@ -13,7 +13,7 @@ const QuestionWaitingAnswersPage = async () => {
     .limit(10)
 
   return (
-    <main className='flex flex-col justify-center items-center space-y-4'>
+    <main className='flex flex-col items-center justify-center space-y-4'>
       {questionWaitingAnswers?.length === 0 ? (
         <div>質問はありません</div>
       ) : (

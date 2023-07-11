@@ -1,9 +1,8 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 
+import { Card } from '@/components/card'
 import type { Database } from '@/lib/database.types'
-
-import { Card } from '../card'
 
 export const MyQuestions = async ({ userId }: { userId: string }) => {
   const supabase = createServerComponentClient<Database>({ cookies })
