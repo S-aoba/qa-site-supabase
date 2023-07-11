@@ -1,5 +1,6 @@
 'use client'
 
+import type { NextPage } from 'next'
 import type { Dispatch, SetStateAction } from 'react'
 
 import type { AnswerType, ProfileType } from '@/common/types'
@@ -7,18 +8,20 @@ import type { AnswerType, ProfileType } from '@/common/types'
 import { AnswerActions } from './answer-actions'
 import { AnswerUserInfo } from './answer-user-info'
 
-export const AnswerSettings = ({
-  answer,
-  userId,
-  profile,
-  isEditMode,
-  setIsEditMode,
-}: {
+type AnswerSettingsProps = {
   answer: AnswerType
   userId: string | undefined
   profile: ProfileType | null
   isEditMode: boolean
   setIsEditMode: Dispatch<SetStateAction<boolean>>
+}
+
+export const AnswerSettings: NextPage<AnswerSettingsProps> = ({
+  answer,
+  userId,
+  profile,
+  isEditMode,
+  setIsEditMode,
 }) => {
   return (
     <div className='rounded-t-lg border-b border-l-0 border-r-0 border-t-0 border-solid border-slate-300 bg-[#f6f8fa] px-2'>
