@@ -122,6 +122,7 @@ export interface Database {
       }
       notifications: {
         Row: {
+          answer_id: string
           avatar_url: string | null
           created_at: string
           id: string
@@ -132,6 +133,7 @@ export interface Database {
           username: string
         }
         Insert: {
+          answer_id: string
           avatar_url?: string | null
           created_at?: string
           id?: string
@@ -142,6 +144,7 @@ export interface Database {
           username: string
         }
         Update: {
+          answer_id?: string
           avatar_url?: string | null
           created_at?: string
           id?: string
@@ -152,6 +155,12 @@ export interface Database {
           username?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "notifications_answer_id_fkey"
+            columns: ["answer_id"]
+            referencedRelation: "answers"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "notifications_question_id_fkey"
             columns: ["question_id"]

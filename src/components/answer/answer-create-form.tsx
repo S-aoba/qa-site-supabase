@@ -28,9 +28,9 @@ export const AnswerCreateForm = ({ userId, question }: { userId: string; questio
     setLoading(true)
 
     try {
-      const { error: createAnswerError } = await supabase
+      const { data: answer, error: createAnswerError } = await supabase
         .from('answers')
-        .insert({
+        .upsert({
           user_id: userId,
           question_id: pathname.split('/')[3],
           content: answerContent,
@@ -49,6 +49,7 @@ export const AnswerCreateForm = ({ userId, question }: { userId: string; questio
         username: user.username,
         title: question.title,
         avatar_url: user.avatar_url,
+        answer_id: answer.id,
       })
       if (createNotificationError) {
         setMessage('予期せぬエラーが発生しました。' + createNotificationError.message)
