@@ -79,21 +79,28 @@ export const AnswerCreateForm = ({ userId, question }: { userId: string; questio
   return (
     <>
       {userId ? (
-        <form className='py-2' onSubmit={handleOnSubmit}>
-          <RichTextEditor
-            editor={editor}
-            className=' min-h-[400px] w-full rounded-md border border-solid border-slate-300 shadow'
-          >
-            <RichTextEditor.Content />
-          </RichTextEditor>
-          <div className='flex w-full justify-end p-3'>
-            <Button type='submit' className='bg-slate-500 hover:transform-none hover:bg-slate-600' loading={isLoading}>
-              {isLoading ? '回答を送信中' : '回答を送信'}
-            </Button>
-          </div>
-        </form>
+        <div className='flex flex-col space-y-5 pt-5'>
+          <span className='text-2xl font-semibold'>回答する</span>
+          <form onSubmit={handleOnSubmit}>
+            <RichTextEditor
+              editor={editor}
+              className=' min-h-[400px] w-full rounded-md border border-solid border-slate-300 shadow'
+            >
+              <RichTextEditor.Content />
+            </RichTextEditor>
+            <div className='flex w-full justify-end p-3'>
+              <Button
+                type='submit'
+                className='bg-slate-500 hover:transform-none hover:bg-slate-600'
+                loading={isLoading}
+              >
+                {isLoading ? '回答を送信中' : '回答を送信'}
+              </Button>
+            </div>
+          </form>
+          {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
+        </div>
       ) : null}
-      {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
     </>
   )
 }

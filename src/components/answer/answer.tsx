@@ -8,6 +8,7 @@ import type { Database } from '@/lib/database.types'
 
 import { AnswerBody } from './answer-body'
 import { AnswerCreateForm } from './answer-create-form'
+import { NoAnswerMessage } from './no-answer-message'
 
 export const Answer = async ({ userId, question }: { userId: string | undefined; question: QuestionType }) => {
   const supabase = createClientComponentClient<Database>()
@@ -19,13 +20,19 @@ export const Answer = async ({ userId, question }: { userId: string | undefined;
 
   return (
     <div className='p-2'>
-      <div className='p-2 text-2xl font-semibold'>Answer</div>
-      <div className='space-y-4 py-4'>
-        {answers?.map((answer) => {
-          return <AnswerBody key={answer.id} answer={answer} userId={userId} />
-        })}
-        {userId && <AnswerCreateForm userId={userId} question={question} />}
-      </div>
+      {answers !== null && answers.length > 0 ? (
+        <>
+          <div className='p-2 text-2xl font-semibold'>回答</div>
+          <div className='space-y-4 py-4'>
+            {answers?.map((answer) => {
+              return <AnswerBody key={answer.id} answer={answer} userId={userId} />
+            })}
+          </div>
+        </>
+      ) : (
+        <NoAnswerMessage />
+      )}
+      {userId && <AnswerCreateForm userId={userId} question={question} />}
     </div>
   )
 }
