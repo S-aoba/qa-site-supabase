@@ -1,3 +1,5 @@
+'use client'
+
 import { Button, Modal } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'

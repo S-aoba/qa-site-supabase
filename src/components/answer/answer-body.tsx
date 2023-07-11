@@ -1,4 +1,5 @@
 'use client'
+
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Image from 'next/image'
 import { useState } from 'react'
