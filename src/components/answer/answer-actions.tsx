@@ -70,6 +70,7 @@ export const AnswerActions = ({
       return
     } finally {
       setIsLoading(false)
+      handleDeleteAnswerClose()
       router.refresh()
     }
   }
