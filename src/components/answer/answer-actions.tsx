@@ -4,25 +4,18 @@ import { Button, Modal } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { IconEdit, IconTrash } from '@tabler/icons-react'
-import { useSetAtom } from 'jotai'
+import { useAtom, useSetAtom } from 'jotai'
 import { useRouter } from 'next/navigation'
-import type { Dispatch, SetStateAction } from 'react'
 import { useState } from 'react'
 
 import type { AnswerType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
-import { editedAnswerAtom } from '@/store/answer-atom'
+import { editedAnswerAtom, isAnswerEditModeAtom } from '@/store/answer-atom'
 
-export const AnswerActions = ({
-  answer,
-  isEditMode,
-  setIsEditMode,
-}: {
-  answer: AnswerType
-  isEditMode: boolean
-  setIsEditMode: Dispatch<SetStateAction<boolean>>
-}) => {
+export const AnswerActions = ({ answer }: { answer: AnswerType }) => {
   const supabase = createClientComponentClient<Database>()
+
+  const [isEditMode, setIsEditMode] = useAtom(isAnswerEditModeAtom)
 
   const [isLoading, setIsLoading] = useState(false)
 

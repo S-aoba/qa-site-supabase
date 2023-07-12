@@ -3,7 +3,7 @@
 import { Button } from '@mantine/core'
 import { RichTextEditor } from '@mantine/tiptap'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { useAtom } from 'jotai'
+import { useAtom, useSetAtom } from 'jotai'
 import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/navigation'
 import type { FormEvent } from 'react'
@@ -11,10 +11,12 @@ import { useState } from 'react'
 
 import { useContentEditor } from '@/common/hooks/useContentEditor'
 import type { Database } from '@/lib/database.types'
-import { editedAnswerAtom } from '@/store/answer-atom'
+import { editedAnswerAtom, isAnswerEditModeAtom } from '@/store/answer-atom'
 
 export const AnswerUpdateForm = ({ answerId }: { answerId: string }) => {
   const [isDisabled, setIsDisabled] = useState(true)
+
+  const setIsEditMode = useSetAtom(isAnswerEditModeAtom)
 
   const { answerEditor } = useContentEditor(setIsDisabled)
   const [isLoading, setLoading] = useState(false)
@@ -49,7 +51,7 @@ export const AnswerUpdateForm = ({ answerId }: { answerId: string }) => {
       setAnswerContent('')
       answerEditor.commands.setContent('')
       setLoading(false)
-      router.refresh()
+      setIsEditMode(false)
     }
   }
 
