@@ -39,7 +39,7 @@ export const Question = async ({ userId }: { userId: string | undefined }) => {
         </div>
         <div className='rounded-lg border border-solid border-slate-300 pb-5'>
           <div className='rounded-t-lg border-b border-l-0 border-r-0 border-t-0 border-solid border-slate-300 bg-[#f6f8fa] px-2'>
-            <div className='flex justify-between '>
+            <div className='flex justify-between'>
               <div className='flex items-center space-x-2'>
                 <div className='relative h-6 w-6'>
                   <Image
@@ -51,12 +51,8 @@ export const Question = async ({ userId }: { userId: string | undefined }) => {
                     priority
                   />
                 </div>
-                <div>
-                  <p className='text-sm'>{profile?.username}</p>
-                </div>
-                <div>
-                  <span className='text-sm'>投稿日: {question?.created_at.slice(0, 10)}</span>
-                </div>
+                <p className='text-sm'>{profile?.username}</p>
+                <span className='text-sm'>投稿日: {question?.created_at.slice(0, 10)}</span>
                 <span className='line-clamp-1 w-fit max-w-[500px] rounded-lg bg-slate-500 px-2 py-1 text-sm leading-5 text-stone-50'>
                   {question?.coding_problem}
                 </span>

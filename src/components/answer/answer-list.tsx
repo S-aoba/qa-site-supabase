@@ -18,7 +18,7 @@ export const AnswerList = ({
   userId: string | undefined
 }) => {
   return (
-    <div className='p-2'>
+    <div>
       {answers !== null && answers.length > 0 ? (
         <WithAnswer answers={answers} profile={profile} userId={userId} />
       ) : (
