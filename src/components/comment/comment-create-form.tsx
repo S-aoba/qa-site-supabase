@@ -19,7 +19,8 @@ export const CommentCreateForm = ({ answer }: { answer: AnswerType }) => {
 
   const [message, setMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const { commentEditor } = useContentEditor({ type: 'comment' })
+  const [isDisabled, setIsDisabled] = useState(true)
+  const { commentEditor } = useContentEditor(setIsDisabled)
   const user = useAtomValue(profileAtom)
   const router = useRouter()
   const [avatarUrl, setAvatarUrl] = useState('/default.png')
@@ -81,6 +82,7 @@ export const CommentCreateForm = ({ answer }: { answer: AnswerType }) => {
                 type='submit'
                 className='bg-slate-500 hover:transform-none hover:bg-slate-600'
                 loading={isLoading}
+                disabled={isDisabled}
               >
                 {isLoading ? 'コメントを投稿中' : 'コメントを投稿'}
               </Button>

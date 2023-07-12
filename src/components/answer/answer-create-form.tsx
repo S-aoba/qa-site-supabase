@@ -26,8 +26,10 @@ export const AnswerCreateForm = ({
   profile: ProfileType | null
 }) => {
   const user = useAtomValue(profileAtom)
-  const { editor } = useContentEditor({ type: 'answer' })
   const [isLoading, setLoading] = useState(false)
+  const [isDisabled, setIsDisabled] = useState(true)
+  const { answerEditor } = useContentEditor(setIsDisabled)
+
   const supabase = createClientComponentClient<Database>()
   const pathname = usePathname()
   const [answerContent, setAnswerContent] = useAtom(editedAnswerAtom)
@@ -107,13 +109,18 @@ export const AnswerCreateForm = ({
       <div className='px-2 py-5'>
         <form onSubmit={handleOnSubmit}>
           <RichTextEditor
-            editor={editor}
+            editor={answerEditor}
             className=' min-h-[400px] w-full rounded-md border border-solid border-slate-300 shadow'
           >
             <RichTextEditor.Content />
           </RichTextEditor>
           <div className='flex w-full justify-end px-3 pt-3'>
-            <Button type='submit' className='bg-slate-500 hover:transform-none hover:bg-slate-600' loading={isLoading}>
+            <Button
+              type='submit'
+              className='bg-slate-500 hover:transform-none hover:bg-slate-600'
+              loading={isLoading}
+              disabled={isDisabled}
+            >
               {isLoading ? '回答を送信中' : '回答を送信'}
             </Button>
           </div>
