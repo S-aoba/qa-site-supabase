@@ -46,6 +46,8 @@ export const QuestionEdit = () => {
   })
 
   const handleOnSubmit = async (props: { title: string; coding_problem: string; tags: string[] }) => {
+    if (!questionEditor) return
+
     setLoading(true)
     const { title, coding_problem, tags } = props
 
@@ -65,18 +67,17 @@ export const QuestionEdit = () => {
         return
       }
       setEditedQuestionContent('')
-      setLoading(false)
+      questionEditor.commands.setContent('')
       router.push(`/${profile.username}/questions/${editedQuestion.id}`)
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
-      setLoading(false)
       return
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
-    // ページリロードするとmantineのコンポーネントが初期化される
-    // おそらくまだ app routerに対応していなからだと思う。挙動は、大丈夫そうなのでこのまま実装する。
     <>
       <form className=' flex flex-col justify-center gap-y-7' onSubmit={handleForm.onSubmit(handleOnSubmit)}>
         <TextInput

@@ -6,6 +6,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useAtom } from 'jotai'
 import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/navigation'
+import type { FormEvent } from 'react'
 import { useState } from 'react'
 
 import { useContentEditor } from '@/common/hooks/useContentEditor'
@@ -23,7 +24,10 @@ export const AnswerUpdateForm = ({ answerId }: { answerId: string }) => {
   const [message, setMessage] = useState('')
   const router = useRouter()
 
-  const handleOnSubmit = async () => {
+  const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (!answerEditor) return
+
     setLoading(true)
 
     try {
@@ -37,12 +41,13 @@ export const AnswerUpdateForm = ({ answerId }: { answerId: string }) => {
         setMessage('予期せぬエラーが発生しました。' + error.message)
         return
       }
-      setAnswerContent('')
       router.push(`${pathname}`)
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
       return
     } finally {
+      setAnswerContent('')
+      answerEditor.commands.setContent('')
       setLoading(false)
       router.refresh()
     }

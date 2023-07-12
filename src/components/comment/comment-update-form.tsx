@@ -3,8 +3,9 @@
 import { Button } from '@mantine/core'
 import { RichTextEditor } from '@mantine/tiptap'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { useAtomValue } from 'jotai'
+import { useAtom } from 'jotai'
 import { useRouter } from 'next/navigation'
+import type { FormEvent } from 'react'
 import { useState } from 'react'
 
 import { useContentEditor } from '@/common/hooks/useContentEditor'
@@ -18,11 +19,14 @@ export const CommentUpdateForm = ({ commentId }: { commentId: string }) => {
   const [isDisabled, setIsDisabled] = useState(true)
 
   const { commentEditor } = useContentEditor(setIsDisabled)
-  const comment = useAtomValue(editedCommentAtom)
+  const [comment, setContent] = useAtom(editedCommentAtom)
   const [message, setMessage] = useState('')
   const router = useRouter()
 
-  const handleOnSubmit = async () => {
+  const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (!commentEditor) return
+
     setIsLoading(true)
 
     try {
@@ -40,6 +44,8 @@ export const CommentUpdateForm = ({ commentId }: { commentId: string }) => {
       setMessage('エラーが発生しました。' + error)
       return
     } finally {
+      setContent('')
+      commentEditor.commands.setContent('')
       setIsLoading(false)
       router.refresh()
     }
