@@ -3,20 +3,22 @@
 import { Button } from '@mantine/core'
 import { RichTextEditor } from '@mantine/tiptap'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { useAtom } from 'jotai'
+import { useAtom, useSetAtom } from 'jotai'
 import { useRouter } from 'next/navigation'
 import type { FormEvent } from 'react'
 import { useState } from 'react'
 
 import { useContentEditor } from '@/common/hooks/useContentEditor'
 import type { Database } from '@/lib/database.types'
-import { editedCommentAtom } from '@/store/comment-atom'
+import { editedCommentAtom, isCommentEditModeAtom } from '@/store/comment-atom'
 
 export const CommentUpdateForm = ({ commentId }: { commentId: string }) => {
   const supabase = createClientComponentClient<Database>()
 
   const [isLoading, setIsLoading] = useState(false)
   const [isDisabled, setIsDisabled] = useState(true)
+
+  const setIsEditMode = useSetAtom(isCommentEditModeAtom)
 
   const { commentEditor } = useContentEditor(setIsDisabled)
   const [comment, setContent] = useAtom(editedCommentAtom)
@@ -47,6 +49,7 @@ export const CommentUpdateForm = ({ commentId }: { commentId: string }) => {
       setContent('')
       commentEditor.commands.setContent('')
       setIsLoading(false)
+      setIsEditMode(false)
       router.refresh()
     }
   }

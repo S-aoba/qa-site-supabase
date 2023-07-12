@@ -17,24 +17,16 @@ export const CommentBody = ({
   profile: ProfileType | null
   userId: string | undefined
 }) => {
-  const [isEditMode, setIsEditMode] = useState(false)
+  // const [isEditMode, setIsEditMode] = useState(false)
   const [message, setMessage] = useState('')
 
   return (
     <div className='border-b-0 border-l-0 border-r-0 border-t border-solid border-slate-300'>
       <div className='flex justify-between space-x-2 bg-[#d3e0ec] p-2'>
         <CommentUserInfo avatar_url={comment.avatar_url} username={comment.username} />
-        {userId && (
-          <CommentActions
-            profile={profile}
-            comment={comment}
-            isEditMode={isEditMode}
-            setIsEditMode={setIsEditMode}
-            setMessage={setMessage}
-          />
-        )}
+        {userId && <CommentActions profile={profile} comment={comment} setMessage={setMessage} />}
       </div>
-      <CommentContent isEditMode={isEditMode} comment={comment} />
+      <CommentContent comment={comment} />
       {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
     </div>
   )

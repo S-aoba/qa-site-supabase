@@ -5,30 +5,27 @@ import { useDisclosure } from '@mantine/hooks'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { IconEdit, IconTrash } from '@tabler/icons-react'
 import type { SetStateAction } from 'jotai'
-import { useSetAtom } from 'jotai'
+import { useAtom, useSetAtom } from 'jotai'
 import { useRouter } from 'next/navigation'
 import { type Dispatch, useState } from 'react'
 
 import type { CommentType, ProfileType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
-import { editedCommentAtom } from '@/store/comment-atom'
+import { editedCommentAtom, isCommentEditModeAtom } from '@/store/comment-atom'
 
 export const CommentActions = ({
   profile,
   comment,
-  isEditMode,
-  setIsEditMode,
   setMessage,
 }: {
   profile: ProfileType | null
   comment: CommentType
-  isEditMode: boolean
-  setIsEditMode: Dispatch<SetStateAction<boolean>>
   setMessage: Dispatch<SetStateAction<string>>
 }) => {
   const router = useRouter()
   const supabase = createClientComponentClient<Database>()
   const setComment = useSetAtom(editedCommentAtom)
+  const [isEditMode, setIsEditMode] = useAtom(isCommentEditModeAtom)
 
   const [isLoading, setIsLoading] = useState(false)
 
