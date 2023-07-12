@@ -23,7 +23,7 @@ export const Comment = async ({
   return (
     <>
       {comments?.map((comment) => {
-        return <CommentBody key={comment.id} comment={comment} profile={profile} />
+        return <CommentBody key={comment.id} comment={comment} profile={profile} userId={userId} />
       })}
       {userId && <CommentCreateForm answer={answer} />}
     </>

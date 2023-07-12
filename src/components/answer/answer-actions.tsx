@@ -9,17 +9,15 @@ import { useRouter } from 'next/navigation'
 import type { Dispatch, SetStateAction } from 'react'
 import { useState } from 'react'
 
-import type { AnswerType, ProfileType } from '@/common/types'
+import type { AnswerType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
 import { editedAnswerAtom } from '@/store/answer-atom'
 
 export const AnswerActions = ({
-  profile,
   answer,
   isEditMode,
   setIsEditMode,
 }: {
-  profile: ProfileType | null
   answer: AnswerType
   isEditMode: boolean
   setIsEditMode: Dispatch<SetStateAction<boolean>>
@@ -113,18 +111,13 @@ export const AnswerActions = ({
           </div>
         </div>
       </Modal>
-      {profile && profile.id === answer.user_id && (
-        <div className='flex items-center space-x-2'>
-          <IconEdit
-            className='text-slate-500 hover:cursor-pointer hover:text-slate-700'
-            onClick={handleSetIsEditMode}
-          />
-          <IconTrash
-            className='text-slate-500 hover:cursor-pointer hover:text-slate-700'
-            onClick={handleDeleteQuestionOpen}
-          />
-        </div>
-      )}
+      <div className='flex items-center space-x-2'>
+        <IconEdit className='text-slate-500 hover:cursor-pointer hover:text-slate-700' onClick={handleSetIsEditMode} />
+        <IconTrash
+          className='text-slate-500 hover:cursor-pointer hover:text-slate-700'
+          onClick={handleDeleteQuestionOpen}
+        />
+      </div>
     </>
   )
 }

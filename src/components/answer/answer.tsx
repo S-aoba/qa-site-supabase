@@ -16,7 +16,7 @@ export const Answer = ({
 }) => {
   return (
     <div className='rounded-lg border border-solid border-slate-300'>
-      <AnswerBody answer={answer} profile={profile} />
+      <AnswerBody answer={answer} profile={profile} userId={userId} />
       <Comment answer={answer} profile={profile} userId={userId} />
     </div>
   )
