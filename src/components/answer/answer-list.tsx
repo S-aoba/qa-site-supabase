@@ -10,10 +10,12 @@ export const AnswerList = ({
   answers,
   profile,
   question,
+  userId
 }: {
   answers: AnswerType[]
   profile: ProfileType | null
   question: QuestionType
+  userId: string | undefined
 }) => {
   return (
     <div className='p-2'>
@@ -22,7 +24,7 @@ export const AnswerList = ({
       ) : (
         <NoAnswerMessage />
       )}
-      {profile && <AnswerCreateForm userId={profile.id} question={question} />}
+      {userId && <AnswerCreateForm userId={userId} question={question} />}
     </div>
   )
 }

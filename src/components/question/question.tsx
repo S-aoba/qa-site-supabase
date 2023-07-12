@@ -92,7 +92,7 @@ export const Question = async ({ userId }: { userId: string | undefined }) => {
       </div>
       {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
 
-      {question && <AnswerList answers={answers} profile={profile} question={question} />}
+      {question && <AnswerList answers={answers} profile={profile} question={question} userId={userId} />}
     </>
   )
 }

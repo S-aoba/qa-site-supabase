@@ -80,8 +80,10 @@ export const AnswerCreateForm = ({ userId, question }: { userId: string; questio
   return (
     <>
       {userId ? (
-        <div className='flex flex-col space-y-5 pt-5'>
-          <span className='text-2xl font-semibold'>回答する</span>
+        <div className='rounded-lg border border-solid border-slate-300 pb-5'>
+          <div className='rounded-t-lg border-b border-l-0 border-r-0 border-t-0 border-solid border-slate-300 bg-[#f6f8fa] p-2'>
+            <span className='text-2xl font-semibold'>回答する</span>
+          </div>
           <form onSubmit={handleOnSubmit}>
             <RichTextEditor
               editor={editor}
