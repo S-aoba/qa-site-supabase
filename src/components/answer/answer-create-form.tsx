@@ -92,7 +92,7 @@ export const AnswerCreateForm = ({
   }
 
   return (
-    <div className='rounded-lg border border-solid border-slate-300'>
+    <div className='min-h-full rounded-lg border border-solid border-slate-300'>
       <div className='flex items-center space-x-2 rounded-t-lg border-b border-l-0 border-r-0 border-t-0 border-solid border-slate-300 bg-[#f6f8fa] p-2'>
         <div className='relative h-10 w-10'>
           <Image
@@ -110,7 +110,13 @@ export const AnswerCreateForm = ({
         <form onSubmit={handleOnSubmit}>
           <RichTextEditor
             editor={answerEditor}
-            className=' min-h-[400px] w-full rounded-md border border-solid border-slate-300 shadow'
+            styles={{
+              root: { border: '1px solid #cbd5e1', ':focus': { border: '1px solid #cbd5e1' } },
+              content: {
+                backgroundColor: '#f6f8fa',
+                minHeight: '400px',
+              },
+            }}
           >
             <RichTextEditor.Content />
           </RichTextEditor>

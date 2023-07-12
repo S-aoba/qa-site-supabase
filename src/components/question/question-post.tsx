@@ -127,7 +127,13 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
 
         <RichTextEditor
           editor={questionEditor}
-          className=' min-h-[400px] w-full rounded-md border border-solid border-slate-300 shadow'
+          styles={{
+            root: { border: '1px solid #cbd5e1', ':focus': { border: '1px solid #cbd5e1' } },
+            content: {
+              backgroundColor: '#f6f8fa',
+              minHeight: '400px',
+            },
+          }}
         >
           <RichTextEditor.Content />
         </RichTextEditor>
