@@ -24,7 +24,7 @@ export const AnswerList = ({
       ) : (
         <NoAnswerMessage />
       )}
-      {userId && <AnswerCreateForm userId={userId} question={question} />}
+      {userId && <AnswerCreateForm userId={userId} question={question} profile={profile} />}
     </div>
   )
 }

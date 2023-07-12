@@ -4,17 +4,27 @@ import { Button } from '@mantine/core'
 import { RichTextEditor } from '@mantine/tiptap'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useAtom, useAtomValue } from 'jotai'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/navigation'
+import type { FormEvent } from 'react'
 import { useState } from 'react'
 
 import { useContentEditor } from '@/common/hooks/useContentEditor'
-import type { QuestionType } from '@/common/types'
+import type { ProfileType, QuestionType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
 import { editedAnswerAtom } from '@/store/answer-atom'
 import { profileAtom } from '@/store/profile-atom'
 
-export const AnswerCreateForm = ({ userId, question }: { userId: string; question: QuestionType }) => {
+export const AnswerCreateForm = ({
+  userId,
+  question,
+  profile,
+}: {
+  userId: string
+  question: QuestionType
+  profile: ProfileType | null
+}) => {
   const user = useAtomValue(profileAtom)
   const { editor } = useContentEditor({ type: 'answer' })
   const [isLoading, setLoading] = useState(false)
@@ -24,7 +34,9 @@ export const AnswerCreateForm = ({ userId, question }: { userId: string; questio
   const [message, setMessage] = useState('')
   const router = useRouter()
 
-  const handleOnSubmit = async () => {
+  const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
     setLoading(true)
 
     try {
@@ -78,32 +90,36 @@ export const AnswerCreateForm = ({ userId, question }: { userId: string; questio
   }
 
   return (
-    <>
-      {userId ? (
-        <div className='rounded-lg border border-solid border-slate-300 pb-5'>
-          <div className='rounded-t-lg border-b border-l-0 border-r-0 border-t-0 border-solid border-slate-300 bg-[#f6f8fa] p-2'>
-            <span className='text-2xl font-semibold'>回答する</span>
-          </div>
-          <form onSubmit={handleOnSubmit}>
-            <RichTextEditor
-              editor={editor}
-              className=' min-h-[400px] w-full rounded-md border border-solid border-slate-300 shadow'
-            >
-              <RichTextEditor.Content />
-            </RichTextEditor>
-            <div className='flex w-full justify-end p-3'>
-              <Button
-                type='submit'
-                className='bg-slate-500 hover:transform-none hover:bg-slate-600'
-                loading={isLoading}
-              >
-                {isLoading ? '回答を送信中' : '回答を送信'}
-              </Button>
-            </div>
-          </form>
-          {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
+    <div className='rounded-lg border border-solid border-slate-300'>
+      <div className='flex items-center space-x-2 rounded-t-lg border-b border-l-0 border-r-0 border-t-0 border-solid border-slate-300 bg-[#f6f8fa] p-2'>
+        <div className='relative h-10 w-10'>
+          <Image
+            src={profile && profile.avatar_url ? profile.avatar_url : '/default.png'}
+            className='rounded-full object-cover'
+            alt='avatar'
+            fill
+            sizes='auto'
+            priority
+          />
         </div>
-      ) : null}
-    </>
+        <span className='text-xl font-semibold text-slate-600'>回答する</span>
+      </div>
+      <div className='px-2 py-5'>
+        <form onSubmit={handleOnSubmit}>
+          <RichTextEditor
+            editor={editor}
+            className=' min-h-[400px] w-full rounded-md border border-solid border-slate-300 shadow'
+          >
+            <RichTextEditor.Content />
+          </RichTextEditor>
+          <div className='flex w-full justify-end px-3 pt-3'>
+            <Button type='submit' className='bg-slate-500 hover:transform-none hover:bg-slate-600' loading={isLoading}>
+              {isLoading ? '回答を送信中' : '回答を送信'}
+            </Button>
+          </div>
+        </form>
+        {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
+      </div>
+    </div>
   )
 }
