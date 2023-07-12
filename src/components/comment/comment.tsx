@@ -8,7 +8,15 @@ import type { Database } from '@/lib/database.types'
 import { CommentBody } from './comment-body'
 import { CommentCreateForm } from './comment-create-form'
 
-export const Comment = async ({ answer, profile }: { answer: AnswerType; profile: ProfileType | null }) => {
+export const Comment = async ({
+  answer,
+  profile,
+  userId,
+}: {
+  answer: AnswerType
+  profile: ProfileType | null
+  userId: string | undefined
+}) => {
   const supabase = createClientComponentClient<Database>()
   const { data: comments } = await supabase.from('comments').select('*').eq('answer_id', answer.id)
 
@@ -17,7 +25,7 @@ export const Comment = async ({ answer, profile }: { answer: AnswerType; profile
       {comments?.map((comment) => {
         return <CommentBody key={comment.id} comment={comment} profile={profile} />
       })}
-      <CommentCreateForm answer={answer} />
+      {userId && <CommentCreateForm answer={answer} />}
     </>
   )
 }

@@ -10,7 +10,7 @@ export const AnswerList = ({
   answers,
   profile,
   question,
-  userId
+  userId,
 }: {
   answers: AnswerType[]
   profile: ProfileType | null
@@ -20,7 +20,7 @@ export const AnswerList = ({
   return (
     <div className='p-2'>
       {answers !== null && answers.length > 0 ? (
-        <WithAnswer answers={answers} profile={profile} />
+        <WithAnswer answers={answers} profile={profile} userId={userId} />
       ) : (
         <NoAnswerMessage />
       )}
