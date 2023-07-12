@@ -38,6 +38,7 @@ export const AnswerCreateForm = ({
 
   const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    if (!answerEditor) return
 
     setLoading(true)
 
@@ -80,12 +81,12 @@ export const AnswerCreateForm = ({
         setMessage('予期せぬエラーが発生しました。' + deleteQuestionError.message)
         return
       }
-
-      setAnswerContent('')
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
       return
     } finally {
+      setAnswerContent('')
+      answerEditor.commands.setContent('')
       setLoading(false)
       router.refresh()
     }

@@ -46,6 +46,7 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
   })
 
   const handleOnSubmit = async (props: { title: string; coding_problem: string; tags: string[] }) => {
+    if (!questionEditor) return
     setLoading(true)
     const { title, coding_problem, tags } = props
 
@@ -77,12 +78,13 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
       }
 
       setEditedQuestionContent('')
-      setLoading(false)
+      questionEditor.commands.setContent('')
       router.push(`/${profile.username}/questions/${question.id}`)
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
-      setLoading(false)
       return
+    } finally {
+      setLoading(false)
     }
   }
 

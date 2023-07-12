@@ -12,7 +12,7 @@ import { editedQuestionContentAtom } from '@/store/question-atom'
 
 export const useContentEditor = (setIsDisabled?: Dispatch<SetStateAction<boolean>>) => {
   const [editedQuestionDescription, setEditedQuestionDescription] = useAtom(editedQuestionContentAtom)
-  const [answerDescription, setAnswerDescription] = useAtom(editedAnswerAtom)
+  const [answerContent, setAnswerContent] = useAtom(editedAnswerAtom)
   const [comment, setComment] = useAtom(editedCommentAtom)
 
   const questionEditor = useEditor({
@@ -34,16 +34,16 @@ export const useContentEditor = (setIsDisabled?: Dispatch<SetStateAction<boolean
   const answerEditor = useEditor({
     extensions: [StarterKit, Link, Placeholder.configure({ placeholder: '回答を入力する' })],
     // 作成と更新時にescapeさせるかどうかは要検討。挙動を合わせるのが難しい
-    content: answerDescription,
+    content: answerContent,
     onUpdate({ editor }) {
       if (!setIsDisabled) return
       // ここでeditorの中身が空の時にdescriptionを空にする
       if (editor.getText() === '') {
-        setAnswerDescription('')
+        setAnswerContent('')
         setIsDisabled(true)
         return
       } else {
-        setAnswerDescription(editor.getHTML())
+        setAnswerContent(editor.getHTML())
         setIsDisabled(false)
         return
       }

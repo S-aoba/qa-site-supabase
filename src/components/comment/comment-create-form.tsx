@@ -3,9 +3,10 @@
 import { Button } from '@mantine/core'
 import { RichTextEditor } from '@mantine/tiptap'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { useAtomValue } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import type { FormEvent } from 'react'
 import { useEffect, useState } from 'react'
 
 import { useContentEditor } from '@/common/hooks/useContentEditor'
@@ -25,7 +26,7 @@ export const CommentCreateForm = ({ answer }: { answer: AnswerType }) => {
   const router = useRouter()
   const [avatarUrl, setAvatarUrl] = useState('/default.png')
 
-  const content = useAtomValue(editedCommentAtom)
+  const [content, setContent] = useAtom(editedCommentAtom)
 
   // アバター画像の取得
   useEffect(() => {
@@ -34,7 +35,10 @@ export const CommentCreateForm = ({ answer }: { answer: AnswerType }) => {
     }
   }, [user])
 
-  const handleCreateComment = async () => {
+  const handleCreateComment = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (!commentEditor) return
+
     setIsLoading(true)
     try {
       const { error: createCommentError } = await supabase
@@ -56,6 +60,8 @@ export const CommentCreateForm = ({ answer }: { answer: AnswerType }) => {
       setMessage('エラーが発生しました。' + error)
       return
     } finally {
+      setContent('')
+      commentEditor.commands.setContent('')
       setIsLoading(false)
       router.refresh()
     }
