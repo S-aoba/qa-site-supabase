@@ -29,7 +29,7 @@ export const QuestionEdit = () => {
   const [editedQuestionContent, setEditedQuestionContent] = useAtom(editedQuestionContentAtom)
   const profile = useAtomValue(profileAtom)
 
-  const { editor } = useContentEditor({ type: 'question' })
+  const { questionEditor } = useContentEditor()
   const supabase = createClientComponentClient<Database>()
   const [isLoading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
@@ -114,7 +114,7 @@ export const QuestionEdit = () => {
         />
 
         <RichTextEditor
-          editor={editor}
+          editor={questionEditor}
           className=' min-h-[400px] w-full rounded-md border border-solid border-slate-300 shadow'
         >
           <RichTextEditor.Content />

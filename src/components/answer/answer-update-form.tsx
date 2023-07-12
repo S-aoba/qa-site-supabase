@@ -13,7 +13,9 @@ import type { Database } from '@/lib/database.types'
 import { editedAnswerAtom } from '@/store/answer-atom'
 
 export const AnswerUpdateForm = ({ answerId }: { answerId: string }) => {
-  const { editor } = useContentEditor({ type: 'answer' })
+  const [isDisabled, setIsDisabled] = useState(true)
+
+  const { answerEditor } = useContentEditor(setIsDisabled)
   const [isLoading, setLoading] = useState(false)
   const supabase = createClientComponentClient<Database>()
   const pathname = usePathname()
@@ -50,13 +52,18 @@ export const AnswerUpdateForm = ({ answerId }: { answerId: string }) => {
     <>
       <form className='py-2' onSubmit={handleOnSubmit}>
         <RichTextEditor
-          editor={editor}
+          editor={answerEditor}
           className=' min-h-[400px] w-full rounded-md border border-solid border-slate-300 shadow'
         >
           <RichTextEditor.Content />
         </RichTextEditor>
         <div className='flex w-full justify-end p-3'>
-          <Button type='submit' className='bg-slate-500 hover:transform-none hover:bg-slate-600' loading={isLoading}>
+          <Button
+            type='submit'
+            className='bg-slate-500 hover:transform-none hover:bg-slate-600'
+            loading={isLoading}
+            disabled={isDisabled}
+          >
             {isLoading ? '回答を更新中' : '回答を更新'}
           </Button>
         </div>

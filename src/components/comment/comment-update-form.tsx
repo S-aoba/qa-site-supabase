@@ -15,7 +15,9 @@ export const CommentUpdateForm = ({ commentId }: { commentId: string }) => {
   const supabase = createClientComponentClient<Database>()
 
   const [isLoading, setIsLoading] = useState(false)
-  const { commentEditor } = useContentEditor({ type: 'comment' })
+  const [isDisabled, setIsDisabled] = useState(true)
+
+  const { commentEditor } = useContentEditor(setIsDisabled)
   const comment = useAtomValue(editedCommentAtom)
   const [message, setMessage] = useState('')
   const router = useRouter()
@@ -53,7 +55,12 @@ export const CommentUpdateForm = ({ commentId }: { commentId: string }) => {
           <RichTextEditor.Content />
         </RichTextEditor>
         <div className='flex w-full justify-end p-3'>
-          <Button type='submit' className='bg-slate-500 hover:transform-none hover:bg-slate-600' loading={isLoading}>
+          <Button
+            type='submit'
+            className='bg-slate-500 hover:transform-none hover:bg-slate-600'
+            loading={isLoading}
+            disabled={isDisabled}
+          >
             {isLoading ? 'コメントを更新中' : 'コメントを更新'}
           </Button>
         </div>
