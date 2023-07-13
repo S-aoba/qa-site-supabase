@@ -7,6 +7,7 @@ import type { Database } from '@/lib/database.types'
 
 import { AnswerList } from '../answer/answer-list'
 import { QuestionActions } from './question-actions'
+import { QuestionMessage } from './question-message'
 import { QuestionTags } from './question-tags'
 import { QuestionUserInfo } from './question-user-info'
 
@@ -48,6 +49,7 @@ export const Question = async ({ session, question_id }: { session: Session | nu
         </div>
       </div>
       <AnswerList profile={profile} question={question} session={session} />
+      {!session && <QuestionMessage />}
     </>
   )
 }
