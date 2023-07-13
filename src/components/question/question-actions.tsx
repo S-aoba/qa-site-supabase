@@ -2,6 +2,7 @@
 
 import { Button, Modal } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
+import type { Session } from '@supabase/auth-helpers-nextjs'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { IconEdit, IconTrash } from '@tabler/icons-react'
 import { useSetAtom } from 'jotai'
@@ -13,7 +14,7 @@ import type { QuestionType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
 import { editedQuestionAtom, editedQuestionContentAtom, isEditModeAtom } from '@/store/question-atom'
 
-export const QuestionActions = ({ userId, question }: { userId: string | undefined; question: QuestionType }) => {
+export const QuestionActions = ({ session, question }: { session: Session; question: QuestionType }) => {
   const supabase = createClientComponentClient<Database>()
 
   const router = useRouter()
@@ -88,7 +89,7 @@ export const QuestionActions = ({ userId, question }: { userId: string | undefin
           </div>
         </div>
       </Modal>
-      {userId === question.user_id && (
+      {session.user.id === question.user_id && (
         <div className='flex items-center space-x-2'>
           <Link href={'/questions/edit'} className='flex items-center'>
             <IconEdit

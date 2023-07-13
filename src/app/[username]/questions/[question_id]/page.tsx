@@ -14,6 +14,6 @@ const QuestionPage = async ({ params }: { params: { username: string; question_i
     data: { session },
   } = await supabase.auth.getSession()
 
-  return <Question userId={session?.user.id} question_id={params.question_id} />
+  return <Question session={session} question_id={params.question_id} />
 }
 export default QuestionPage
