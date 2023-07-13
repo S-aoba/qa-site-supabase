@@ -17,13 +17,12 @@ export const Question = async ({ session, question_id }: { session: Session | nu
 
   const { data: question, error } = await supabase
     .from('questions')
-    .select('*, answers(*), profiles(*)')
+    .select('*, profiles(*)')
     .eq('id', question_id)
     .single()
 
   if (error || question.profiles === null) return <NotFound />
 
-  const answers = question.answers
   const profile = question.profiles
 
   return (
@@ -48,7 +47,7 @@ export const Question = async ({ session, question_id }: { session: Session | nu
           {question && <div className='break-words p-3' dangerouslySetInnerHTML={{ __html: question.content }} />}
         </div>
       </div>
-      <AnswerList answers={answers} profile={profile} question={question} session={session} />
+      <AnswerList profile={profile} question={question} session={session} />
     </>
   )
 }
