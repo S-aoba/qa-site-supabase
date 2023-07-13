@@ -1,5 +1,3 @@
-'use client'
-
 import Image from 'next/image'
 
 export const CommentUserInfo = ({ avatar_url, username }: { avatar_url: string | null; username: string }) => {

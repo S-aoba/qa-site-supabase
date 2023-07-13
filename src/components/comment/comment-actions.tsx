@@ -4,30 +4,24 @@ import { Button, Modal } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { IconEdit, IconTrash } from '@tabler/icons-react'
-import type { SetStateAction } from 'jotai'
 import { useAtom, useSetAtom } from 'jotai'
 import { useRouter } from 'next/navigation'
-import { type Dispatch, useState } from 'react'
+import { useState } from 'react'
 
 import type { CommentType, ProfileType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
 import { editedCommentAtom, isCommentEditModeAtom } from '@/store/comment-atom'
 
-export const CommentActions = ({
-  profile,
-  comment,
-  setMessage,
-}: {
-  profile: ProfileType | null
-  comment: CommentType
-  setMessage: Dispatch<SetStateAction<string>>
-}) => {
+export const CommentActions = ({ profile, comment }: { profile: ProfileType | null; comment: CommentType }) => {
   const router = useRouter()
+
   const supabase = createClientComponentClient<Database>()
+
+  const [message, setMessage] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+
   const setComment = useSetAtom(editedCommentAtom)
   const [isEditMode, setIsEditMode] = useAtom(isCommentEditModeAtom)
-
-  const [isLoading, setIsLoading] = useState(false)
 
   const [isDeleteAnswerOpened, { open: handleDeleteQuestionOpen, close: handleDeleteAnswerClose }] =
     useDisclosure(false)
@@ -66,6 +60,7 @@ export const CommentActions = ({
               <span>削除してもよろしいですか？</span>
               <span>この手順は取り消すことはできません。</span>
             </div>
+            {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
           </div>
           <div className='flex w-full justify-end gap-x-3'>
             <Button
