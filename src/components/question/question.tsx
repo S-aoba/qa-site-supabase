@@ -1,24 +1,19 @@
-'use client'
-
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import { cookies } from 'next/headers'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { useState } from 'react'
 
 import NotFound from '@/app/not-found'
 import type { Database } from '@/lib/database.types'
 
 import { AnswerList } from '../answer/answer-list'
-import { QuestionActions } from './question-actions'
 
-export const Question = async ({ userId }: { userId: string | undefined }) => {
-  const supabase = createClientComponentClient<Database>()
+export const Question = async ({ userId, question_id }: { userId: string | undefined; question_id: string }) => {
+  const supabase = createServerComponentClient<Database>({
+    cookies,
+  })
 
-  const [message, setMessage] = useState('')
-
-  const pathname = usePathname()
-  const question_id = pathname.split('/')[3]
+  // const [message, setMessage] = useState('')
 
   const { data: question, error } = await supabase
     .from('questions')
@@ -57,7 +52,7 @@ export const Question = async ({ userId }: { userId: string | undefined }) => {
                   {question?.coding_problem}
                 </span>
               </div>
-              <QuestionActions userId={userId} question={question} setMessage={setMessage} />
+              {/* <QuestionActions userId={userId} question={question} setMessage={setMessage} /> */}
             </div>
             <div className='flex space-x-3 py-2 text-sm'>
               {question?.tags.map((tag, index) => {
@@ -86,7 +81,7 @@ export const Question = async ({ userId }: { userId: string | undefined }) => {
           {question && <div className='break-words p-3' dangerouslySetInnerHTML={{ __html: question.content }} />}
         </div>
       </div>
-      {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
+      {/* {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>} */}
 
       {question && <AnswerList answers={answers} profile={profile} question={question} userId={userId} />}
     </>

@@ -4,7 +4,7 @@ import { cookies } from 'next/headers'
 import { Question } from '@/components/question/question'
 import type { Database } from '@/lib/database.types'
 
-const QuestionPage = async () => {
+const QuestionPage = async ({ params }: { params: { username: string; question_id: string } }) => {
   const supabase = createServerComponentClient<Database>({
     cookies,
   })
@@ -14,6 +14,6 @@ const QuestionPage = async () => {
     data: { session },
   } = await supabase.auth.getSession()
 
-  return <Question userId={session?.user.id} />
+  return <Question userId={session?.user.id} question_id={params.question_id} />
 }
 export default QuestionPage
