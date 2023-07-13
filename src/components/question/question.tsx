@@ -44,7 +44,7 @@ export const Question = async ({ session, question_id }: { session: Session | nu
             </div>
             <QuestionTags tags={question.tags} />
           </div>
-          {question && <div className='break-words p-3' dangerouslySetInnerHTML={{ __html: question.content }} />}
+          <div className='break-words p-3' dangerouslySetInnerHTML={{ __html: question.content }} />
         </div>
       </div>
       <AnswerList profile={profile} question={question} session={session} />
