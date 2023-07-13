@@ -1,5 +1,7 @@
 'use client'
 
+import type { Session } from '@supabase/auth-helpers-nextjs'
+
 import type { AnswerType, ProfileType } from '@/common/types'
 
 import { Answer } from './answer'
@@ -7,11 +9,11 @@ import { Answer } from './answer'
 export const WithAnswer = ({
   answers,
   profile,
-  userId,
+  session,
 }: {
   answers: AnswerType[]
   profile: ProfileType | null
-  userId: string | undefined
+  session: Session | null
 }) => {
   return (
     <div className='pb-10'>
@@ -20,7 +22,7 @@ export const WithAnswer = ({
       </div>
       <div className='flex flex-col space-y-4'>
         {answers.map((answer) => {
-          return <Answer key={answer.id} answer={answer} profile={profile} userId={userId} />
+          return <Answer key={answer.id} answer={answer} profile={profile} session={session} />
         })}
       </div>
     </div>

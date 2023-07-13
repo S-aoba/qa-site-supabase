@@ -1,5 +1,7 @@
 'use client'
 
+import type { Session } from '@supabase/auth-helpers-nextjs'
+
 import type { AnswerType, ProfileType, QuestionType } from '@/common/types'
 
 import { AnswerCreateForm } from './answer-create-form'
@@ -10,21 +12,21 @@ export const AnswerList = ({
   answers,
   profile,
   question,
-  userId,
+  session,
 }: {
   answers: AnswerType[]
   profile: ProfileType | null
   question: QuestionType
-  userId: string | undefined
+  session: Session | null
 }) => {
   return (
     <div>
       {answers !== null && answers.length > 0 ? (
-        <WithAnswer answers={answers} profile={profile} userId={userId} />
+        <WithAnswer answers={answers} profile={profile} session={session} />
       ) : (
         <NoAnswerMessage />
       )}
-      {userId && <AnswerCreateForm userId={userId} question={question} profile={profile} />}
+      {session && <AnswerCreateForm userId={session.user.id} question={question} profile={profile} />}
     </div>
   )
 }

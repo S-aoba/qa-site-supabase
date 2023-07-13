@@ -1,5 +1,7 @@
 'use client'
 
+import type { Session } from '@supabase/auth-helpers-nextjs'
+
 import type { AnswerType, ProfileType } from '@/common/types'
 
 import { Comment } from '../comment/comment'
@@ -8,16 +10,16 @@ import { AnswerBody } from './answer-body'
 export const Answer = ({
   answer,
   profile,
-  userId,
+  session,
 }: {
   answer: AnswerType
   profile: ProfileType | null
-  userId: string | undefined
+  session: Session | null
 }) => {
   return (
     <div className='rounded-lg border border-solid border-slate-300'>
-      <AnswerBody answer={answer} profile={profile} userId={userId} />
-      <Comment answer={answer} profile={profile} userId={userId} />
+      <AnswerBody answer={answer} profile={profile} session={session} />
+      <Comment answer={answer} profile={profile} session={session} />
     </div>
   )
 }
