@@ -1,35 +1,29 @@
-'use client'
-
 import type { Session } from '@supabase/auth-helpers-nextjs'
-import { useAtomValue } from 'jotai'
-import type { ReactNode } from 'react'
 
-import type { AnswerType } from '@/common/types'
-import { isAnswerEditModeAtom } from '@/store/answer-atom'
+import type { AnswerType, ProfileType } from '@/common/types'
 
 import { AnswerActions } from './answer-actions'
 import { AnswerContent } from './answer-content'
+import { AnswerUserInfo } from './answer-user-info'
 
 export const AnswerBody = ({
   answer,
   session,
-  children,
+  profile,
 }: {
   answer: AnswerType
   session: Session | null
-  children: ReactNode
+  profile: ProfileType | null
 }) => {
-  const isEditMode = useAtomValue(isAnswerEditModeAtom)
-
   return (
     <>
       <div className='rounded-t-lg border-b border-l-0 border-r-0 border-t-0 border-solid border-slate-300 bg-[#f6f8fa] px-2'>
         <div className='flex justify-between'>
-          {children}
+          <AnswerUserInfo profile={profile} created_at={answer.created_at} />
           {session && <AnswerActions answer={answer} />}
         </div>
       </div>
-      <AnswerContent answer={answer} isEditMode={isEditMode} />
+      <AnswerContent answer={answer} />
     </>
   )
 }

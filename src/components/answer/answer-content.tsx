@@ -1,10 +1,15 @@
 'use client'
 
+import { useAtomValue } from 'jotai'
+
 import type { AnswerType } from '@/common/types'
+import { isAnswerEditModeAtom } from '@/store/answer-atom'
 
 import { AnswerUpdateForm } from './answer-update-form'
 
-export const AnswerContent = ({ answer, isEditMode }: { answer: AnswerType; isEditMode: boolean }) => {
+export const AnswerContent = ({ answer }: { answer: AnswerType }) => {
+  const isEditMode = useAtomValue(isAnswerEditModeAtom)
+
   return (
     <div>
       {isEditMode ? (
