@@ -4,27 +4,21 @@ import { Button, Modal } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { IconEdit, IconTrash } from '@tabler/icons-react'
-import type { SetStateAction } from 'jotai'
 import { useSetAtom } from 'jotai'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { type Dispatch, useState } from 'react'
+import { useState } from 'react'
 
 import type { QuestionType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
 import { editedQuestionAtom, editedQuestionContentAtom, isEditModeAtom } from '@/store/question-atom'
 
-export const QuestionActions = ({
-  userId,
-  question,
-  setMessage,
-}: {
-  userId: string | undefined
-  question: QuestionType | null
-  setMessage: Dispatch<SetStateAction<string>>
-}) => {
+export const QuestionActions = ({ userId, question }: { userId: string | undefined; question: QuestionType }) => {
+  const supabase = createClientComponentClient<Database>()
+
   const router = useRouter()
 
+  const [message, setMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
   const [isDeleteQuestionOpened, { open: handleDeleteQuestionOpen, close: handleDeleteQuestionClose }] =
@@ -33,9 +27,8 @@ export const QuestionActions = ({
   const setEditedQuestion = useSetAtom(editedQuestionAtom)
   const setQuestionDescription = useSetAtom(editedQuestionContentAtom)
   const setIsEditMode = useSetAtom(isEditModeAtom)
-  const supabase = createClientComponentClient<Database>()
+
   const handleSetQuestion = () => {
-    if (!question) return
     setQuestionDescription(question.content)
     setEditedQuestion({
       id: question.id,
@@ -47,7 +40,6 @@ export const QuestionActions = ({
   }
 
   const handleDeleteQuestion = async () => {
-    if (question === null) return
     setIsLoading(true)
     try {
       const { error } = await supabase.from('questions').delete().eq('id', question.id)
@@ -74,6 +66,7 @@ export const QuestionActions = ({
               <span>削除してもよろしいですか？</span>
               <span>この手順は取り消すことはできません。</span>
             </div>
+            {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
           </div>
           <div className='flex w-full justify-end gap-x-3'>
             <Button
@@ -95,7 +88,7 @@ export const QuestionActions = ({
           </div>
         </div>
       </Modal>
-      {userId === question?.user_id && (
+      {userId === question.user_id && (
         <div className='flex items-center space-x-2'>
           <Link href={'/questions/edit'} className='flex items-center'>
             <IconEdit

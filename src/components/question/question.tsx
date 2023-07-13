@@ -5,6 +5,7 @@ import NotFound from '@/app/not-found'
 import type { Database } from '@/lib/database.types'
 
 import { AnswerList } from '../answer/answer-list'
+import { QuestionActions } from './question-actions'
 import { QuestionTags } from './question-tags'
 import { QuestionUserInfo } from './question-user-info'
 
@@ -12,8 +13,6 @@ export const Question = async ({ userId, question_id }: { userId: string | undef
   const supabase = createServerComponentClient<Database>({
     cookies,
   })
-
-  // const [message, setMessage] = useState('')
 
   const { data: question, error } = await supabase
     .from('questions')
@@ -41,15 +40,13 @@ export const Question = async ({ userId, question_id }: { userId: string | undef
                 username={profile.username}
                 coding_problem={question.coding_problem}
               />
-              {/* <QuestionActions userId={userId} question={question} setMessage={setMessage} /> */}
+              <QuestionActions userId={userId} question={question} />
             </div>
             <QuestionTags tags={question.tags} />
           </div>
           {question && <div className='break-words p-3' dangerouslySetInnerHTML={{ __html: question.content }} />}
         </div>
       </div>
-      {/* {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>} */}
-
       {question && <AnswerList answers={answers} profile={profile} question={question} userId={userId} />}
     </>
   )
