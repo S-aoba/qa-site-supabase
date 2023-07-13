@@ -1,8 +1,8 @@
-'use client'
-
 import type { Session } from '@supabase/auth-helpers-nextjs'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import { cookies } from 'next/headers'
 
+import NotFound from '@/app/not-found'
 import type { AnswerType, ProfileType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
 
@@ -18,15 +18,20 @@ export const Comment = async ({
   profile: ProfileType | null
   session: Session | null
 }) => {
-  const supabase = createClientComponentClient<Database>()
-  const { data: comments } = await supabase.from('comments').select('*').eq('answer_id', answer.id)
+  const supabase = createServerComponentClient<Database>({
+    cookies,
+  })
+  const { data: comments, error } = await supabase.from('comments').select('*').eq('answer_id', answer.id)
+  if (error) return <NotFound />
 
   return (
-    <>
-      {comments?.map((comment) => {
-        return <CommentBody key={comment.id} comment={comment} profile={profile} session={session} />
-      })}
+    <div>
+      {comments.length > 0
+        ? comments.map((comment) => {
+            return <CommentBody key={comment.id} comment={comment} profile={profile} session={session} />
+          })
+        : null}
       {session && <CommentCreateForm answer={answer} />}
-    </>
+    </div>
   )
 }
