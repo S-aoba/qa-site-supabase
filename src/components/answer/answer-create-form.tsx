@@ -2,19 +2,11 @@
 
 import { Button } from '@mantine/core'
 import { RichTextEditor } from '@mantine/tiptap'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { useAtom, useAtomValue } from 'jotai'
 import Image from 'next/image'
-import { usePathname } from 'next/navigation'
-import { useRouter } from 'next/navigation'
-import type { FormEvent } from 'react'
-import { useState } from 'react'
 
-import { useContentEditor } from '@/common/hooks/useContentEditor'
 import type { ProfileType, QuestionType } from '@/common/types'
-import type { Database } from '@/lib/database.types'
-import { editedAnswerAtom } from '@/store/answer-atom'
-import { profileAtom } from '@/store/profile-atom'
+
+import { useAnswer } from './useAnswer'
 
 export const AnswerCreateForm = ({
   userId,
@@ -25,72 +17,7 @@ export const AnswerCreateForm = ({
   question: QuestionType
   profile: ProfileType | null
 }) => {
-  const user = useAtomValue(profileAtom)
-  const [isLoading, setLoading] = useState(false)
-  const [isDisabled, setIsDisabled] = useState(true)
-  const { answerEditor } = useContentEditor(setIsDisabled)
-
-  const supabase = createClientComponentClient<Database>()
-  const pathname = usePathname()
-  const [answerContent, setAnswerContent] = useAtom(editedAnswerAtom)
-  const [message, setMessage] = useState('')
-  const router = useRouter()
-
-  const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (!answerEditor) return
-
-    setLoading(true)
-
-    try {
-      const { data: answer, error: createAnswerError } = await supabase
-        .from('answers')
-        .upsert({
-          user_id: userId,
-          question_id: pathname.split('/')[3],
-          content: answerContent,
-        })
-        .select()
-        .single()
-
-      if (createAnswerError) {
-        setMessage('予期せぬエラーが発生しました。' + createAnswerError.message)
-        return
-      }
-
-      const { error: createNotificationError } = await supabase.from('notifications').insert({
-        user_id: question.user_id,
-        question_id: question.id,
-        username: user.username,
-        title: question.title,
-        avatar_url: user.avatar_url,
-        answer_id: answer.id,
-      })
-      if (createNotificationError) {
-        setMessage('予期せぬエラーが発生しました。' + createNotificationError.message)
-        return
-      }
-
-      // 質問募集中テーブルから該当の質問を削除
-      const { error: deleteQuestionError } = await supabase
-        .from('question_waiting_answers')
-        .delete()
-        .eq('question_id', question.id)
-
-      if (deleteQuestionError) {
-        setMessage('予期せぬエラーが発生しました。' + deleteQuestionError.message)
-        return
-      }
-    } catch (error) {
-      setMessage('エラーが発生しました。' + error)
-      return
-    } finally {
-      setAnswerContent('')
-      answerEditor.commands.setContent('')
-      setLoading(false)
-      router.refresh()
-    }
-  }
+  const { handleOnSubmit, isLoading, isDisabled, message, answerEditor } = useAnswer({ question, userId })
 
   return (
     <div className='min-h-full rounded-lg border border-solid border-slate-300'>
