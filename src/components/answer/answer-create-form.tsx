@@ -6,7 +6,7 @@ import Image from 'next/image'
 
 import type { ProfileType, QuestionType } from '@/common/types'
 
-import { useAnswer } from './useAnswer'
+import { useCreateAnswer } from './useCreateAnswer'
 
 export const AnswerCreateForm = ({
   userId,
@@ -17,7 +17,7 @@ export const AnswerCreateForm = ({
   question: QuestionType
   profile: ProfileType | null
 }) => {
-  const { handleOnSubmit, isLoading, isDisabled, message, answerEditor } = useAnswer({ question, userId })
+  const { handleOnSubmit, isLoading, isDisabled, message, answerEditor } = useCreateAnswer({ question, userId })
 
   return (
     <div className='min-h-full rounded-lg border border-solid border-slate-300'>

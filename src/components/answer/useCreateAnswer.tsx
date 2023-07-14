@@ -11,14 +11,15 @@ import type { Database } from '@/lib/database.types'
 import { editedAnswerAtom } from '@/store/answer-atom'
 import { profileAtom } from '@/store/profile-atom'
 
-export const useAnswer = ({ question, userId }: { question: QuestionType; userId: string }) => {
+export const useCreateAnswer = ({ question, userId }: { question: QuestionType; userId: string }) => {
   const [isLoading, setLoading] = useState(false)
   const [isDisabled, setIsDisabled] = useState(true)
-  const { answerEditor } = useContentEditor(setIsDisabled)
-
   const [message, setMessage] = useState('')
   const router = useRouter()
+
   const supabase = createClientComponentClient<Database>()
+
+  const { answerEditor } = useContentEditor(setIsDisabled)
 
   const user = useAtomValue(profileAtom)
   const [answerContent, setAnswerContent] = useAtom(editedAnswerAtom)
