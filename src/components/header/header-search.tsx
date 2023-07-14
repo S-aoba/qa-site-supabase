@@ -1,17 +1,15 @@
 'use client'
 import { TextInput } from '@mantine/core'
+import { useViewportSize } from '@mantine/hooks'
 import { IconSearch } from '@tabler/icons-react'
 import { useRouter } from 'next/navigation'
 import type { ChangeEvent } from 'react'
 import { type FormEvent, useState } from 'react'
 
-import { useGetWindowSize } from '@/common/hooks/useGetWindowSize'
-
 export const HeaderSearch = () => {
   const [searchValue, setSearchValue] = useState('')
   const router = useRouter()
-  const { windowSize } = useGetWindowSize()
-
+  const { width } = useViewportSize()
   const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     router.push('/questions/search' + '?q=' + searchValue)
@@ -23,7 +21,7 @@ export const HeaderSearch = () => {
 
   return (
     <form onSubmit={handleOnSubmit} className='w-full'>
-      {windowSize.width > 991 ? (
+      {width > 991 ? (
         <div className='w-full pl-16'>
           <TextInput
             type='text'
