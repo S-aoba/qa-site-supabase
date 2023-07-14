@@ -1,29 +1,31 @@
+'use client'
 import type { Session } from '@supabase/auth-helpers-nextjs'
+import { Provider as JotaiProvider } from 'jotai'
+import type { ReactNode } from 'react'
 
-import type { AnswerType, ProfileType } from '@/common/types'
+import type { AnswerType } from '@/common/types'
 
 import { AnswerActions } from './answer-actions'
 import { AnswerContent } from './answer-content'
-import { AnswerUserInfo } from './answer-user-info'
 
 export const AnswerBody = ({
   answer,
   session,
-  profile,
+  children,
 }: {
   answer: AnswerType
   session: Session | null
-  profile: ProfileType | null
+  children: ReactNode
 }) => {
   return (
-    <>
+    <JotaiProvider>
       <div className='rounded-t-lg border-b border-l-0 border-r-0 border-t-0 border-solid border-slate-300 bg-[#f6f8fa] px-2'>
         <div className='flex justify-between'>
-          <AnswerUserInfo profile={profile} created_at={answer.created_at} />
+          {children}
           {session && <AnswerActions answer={answer} />}
         </div>
       </div>
       <AnswerContent answer={answer} />
-    </>
+    </JotaiProvider>
   )
 }
