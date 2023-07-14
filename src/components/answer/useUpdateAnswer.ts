@@ -8,10 +8,13 @@ import type { FormEvent } from 'react'
 import { useState } from 'react'
 
 import { useContentEditor } from '@/common/hooks/useContentEditor'
+import { useAnswerFormAlert } from '@/components/answer/useAnswerFormAlert'
 import type { Database } from '@/lib/database.types'
 import { editedAnswerAtom, isAnswerEditModeAtom } from '@/store/answer-atom'
 
 export const useUpdateAnswer = (answerId: string) => {
+  useAnswerFormAlert()
+
   const [isDisabled, setIsDisabled] = useState(true)
   const [isLoading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
