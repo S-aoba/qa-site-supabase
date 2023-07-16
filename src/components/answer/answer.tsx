@@ -18,7 +18,7 @@ export const Answer = ({
   return (
     <div className='rounded-lg border border-solid border-slate-300'>
       <AnswerBody answer={answer} session={session}>
-        <AnswerUserInfo profile={profile} created_at={answer.created_at} />
+        <AnswerUserInfo profile={profile} created_at={answer.created_at} updated_at={answer.updated_at} />
       </AnswerBody>
       <CommentList answer={answer} profile={profile} session={session} />
     </div>

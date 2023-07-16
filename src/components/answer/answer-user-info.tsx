@@ -2,7 +2,15 @@ import Image from 'next/image'
 
 import type { ProfileType } from '@/common/types'
 
-export const AnswerUserInfo = ({ profile, created_at }: { profile: ProfileType | null; created_at: string }) => {
+export const AnswerUserInfo = ({
+  profile,
+  created_at,
+  updated_at,
+}: {
+  profile: ProfileType | null
+  created_at: string
+  updated_at: string
+}) => {
   return (
     <div className='flex items-center space-x-2'>
       <div className='relative h-6 w-6'>
@@ -18,9 +26,8 @@ export const AnswerUserInfo = ({ profile, created_at }: { profile: ProfileType |
       <div>
         <p className='text-sm'>{profile?.username}</p>
       </div>
-      <div>
-        <span className='text-sm'>投稿日: {created_at.slice(0, 10)}</span>
-      </div>
+      {created_at !== updated_at && <span className='text-sm'>更新日: {updated_at.slice(0, 10)}</span>}
+      <span className='text-sm'>投稿日: {created_at.slice(0, 10)}</span>
     </div>
   )
 }

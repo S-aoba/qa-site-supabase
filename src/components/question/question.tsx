@@ -37,6 +37,7 @@ export const Question = async ({ session, question_id }: { session: Session | nu
             <div className='flex justify-between'>
               <QuestionUserInfo
                 created_at={question.created_at}
+                updated_at={question.updated_at}
                 avatar_url={profile.avatar_url}
                 username={profile.username}
                 coding_problem={question.coding_problem}
