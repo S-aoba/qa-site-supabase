@@ -12,7 +12,11 @@ import { useContentEditor } from '@/common/hooks/useContentEditor'
 import type { Database } from '@/lib/database.types'
 import { editedCommentAtom, isCommentEditModeAtom } from '@/store/comment-atom'
 
+import { useCommentFormAlert } from './useCommentFormAlert'
+
 export const CommentUpdateForm = ({ commentId }: { commentId: string }) => {
+  useCommentFormAlert()
+
   const supabase = createClientComponentClient<Database>()
 
   const [isLoading, setIsLoading] = useState(false)

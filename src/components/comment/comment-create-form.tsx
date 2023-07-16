@@ -15,7 +15,11 @@ import type { Database } from '@/lib/database.types'
 import { editedCommentAtom } from '@/store/comment-atom'
 import { profileAtom } from '@/store/profile-atom'
 
+import { useCommentFormAlert } from './useCommentFormAlert'
+
 export const CommentCreateForm = ({ answer }: { answer: AnswerType }) => {
+  useCommentFormAlert()
+
   const supabase = createClientComponentClient<Database>()
 
   const [message, setMessage] = useState('')
