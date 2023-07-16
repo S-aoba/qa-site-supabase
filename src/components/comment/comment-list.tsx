@@ -19,7 +19,12 @@ export const CommentList = async ({
   const supabase = createServerComponentClient<Database>({
     cookies,
   })
-  const { data: comments, error } = await supabase.from('comments').select('*').eq('answer_id', answer.id)
+  const { data: comments, error } = await supabase
+    .from('comments')
+    .select('*')
+    .eq('answer_id', answer.id)
+    .order('created_at')
+
   if (error) return <NotFound />
 
   return <Comment comments={comments} answer={answer} profile={profile} session={session} />
