@@ -74,6 +74,7 @@ export const QuestionEdit = () => {
       return
     } finally {
       setLoading(false)
+      router.refresh()
     }
   }
 
