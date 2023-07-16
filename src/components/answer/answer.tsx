@@ -2,7 +2,7 @@ import type { Session } from '@supabase/auth-helpers-nextjs'
 
 import type { AnswerType, ProfileType } from '@/common/types'
 
-import { Comment } from '../comment/comment'
+import { CommentList } from '../comment/comment-list'
 import { AnswerBody } from './answer-body'
 import { AnswerUserInfo } from './answer-user-info'
 
@@ -20,7 +20,7 @@ export const Answer = ({
       <AnswerBody answer={answer} session={session}>
         <AnswerUserInfo profile={profile} created_at={answer.created_at} />
       </AnswerBody>
-      <Comment answer={answer} profile={profile} session={session} />
+      <CommentList answer={answer} profile={profile} session={session} />
     </div>
   )
 }

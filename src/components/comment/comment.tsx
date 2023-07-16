@@ -1,41 +1,55 @@
-import type { Session } from '@supabase/auth-helpers-nextjs'
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
+'use client'
 
-import NotFound from '@/app/not-found'
-import type { AnswerType, ProfileType } from '@/common/types'
-import type { Database } from '@/lib/database.types'
+import type { Session } from '@supabase/auth-helpers-nextjs'
+import { useState } from 'react'
+
+import type { AnswerType, CommentType, ProfileType } from '@/common/types'
 
 import { CommentBody } from './comment-body'
 import { CommentCreateForm } from './comment-create-form'
-import { CommentUserInfo } from './comment-user-info'
 
-export const Comment = async ({
+export const Comment = ({
+  comments,
   answer,
   profile,
   session,
 }: {
+  comments: CommentType[]
   answer: AnswerType
   profile: ProfileType | null
   session: Session | null
 }) => {
-  const supabase = createServerComponentClient<Database>({
-    cookies,
-  })
-  const { data: comments, error } = await supabase.from('comments').select('*').eq('answer_id', answer.id)
-  if (error) return <NotFound />
+  const [isDisplayComments, setIsDisplayComments] = useState(false)
 
+  const handleOpenComment = () => {
+    setIsDisplayComments(true)
+  }
+
+  const handleCloseComment = () => {
+    setIsDisplayComments(false)
+  }
   return (
     <div>
-      {comments.length > 0
-        ? comments.map((comment) => {
-            return (
-              <CommentBody key={comment.id} comment={comment} profile={profile} session={session}>
-                <CommentUserInfo avatar_url={comment.avatar_url} username={comment.username} />
-              </CommentBody>
-            )
+      {comments.length > 0 ? (
+        isDisplayComments ? (
+          comments.map((comment) => {
+            return <CommentBody key={comment.id} comment={comment} profile={profile} session={session} />
           })
-        : null}
+        ) : (
+          <div className='border-b-0 border-l-0 border-r-0 border-t border-solid border-slate-300 text-end font-semibold text-slate-400 hover:cursor-pointer hover:text-slate-600 hover:underline hover:underline-offset-2'>
+            <span className='inline-block p-2' onClick={handleOpenComment}>
+              コメントを表示する
+            </span>
+          </div>
+        )
+      ) : null}
+      {isDisplayComments && (
+        <div className='border-b-0 border-l-0 border-r-0 border-t border-solid border-slate-300 text-end font-semibold text-slate-400 hover:cursor-pointer hover:text-slate-600 hover:underline hover:underline-offset-2'>
+          <span className='inline-block p-2' onClick={handleCloseComment}>
+            コメントを非表示にする
+          </span>
+        </div>
+      )}
       {session && <CommentCreateForm answer={answer} />}
     </div>
   )
