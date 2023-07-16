@@ -24,7 +24,7 @@ export const AnswerUserInfo = ({
         />
       </div>
       <div>
-        <p className='text-sm'>{profile?.username}</p>
+        <p className='max-w-[150px] truncate text-sm'>{profile?.username}</p>
       </div>
       {created_at !== updated_at && <span className='text-sm'>更新日: {updated_at.slice(0, 10)}</span>}
       <span className='text-sm'>投稿日: {created_at.slice(0, 10)}</span>

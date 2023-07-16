@@ -25,7 +25,7 @@ export const CommentUserInfo = ({
           priority
         />
       </div>
-      <span>{username}</span>
+      <span className='max-w-[150px] truncate text-sm'>{username}</span>
       {created_at !== updated_at && <span className='text-sm'>更新日: {updated_at.slice(0, 10)}</span>}
       <span className='text-sm'>投稿日: {created_at.slice(0, 10)}</span>
     </div>

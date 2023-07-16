@@ -27,7 +27,7 @@ export const QuestionUserInfo: NextPage<QuestionUserInfoProps> = ({
           priority
         />
       </div>
-      <p className='text-sm'>{username}</p>
+      <p className='truncate max-w-[150px] text-sm'>{username}</p>
       {created_at !== updated_at && <span className='text-sm'>更新日: {updated_at.slice(0, 10)}</span>}
       <span className='text-sm'>投稿日: {created_at.slice(0, 10)}</span>
       <span className='line-clamp-1 w-fit max-w-[500px] rounded-lg bg-slate-500 px-2 py-1 text-sm leading-5 text-stone-50'>
