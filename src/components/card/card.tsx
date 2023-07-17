@@ -16,51 +16,57 @@ export const Card = async ({ question }: { question: QuestionType }) => {
   const { data: profile } = await supabase.from('profiles').select('*').eq('id', question.user_id).single()
   const { data: answers } = await supabase.from('answers').select('*').eq('question_id', question.id) //もっと他にいい方法を考える
 
+  // 2023/07/15の日付を作成
+  const targetDate = new Date(question.created_at.slice(0, 10))
+
+  // 今日の日付を取得
+  const today = new Date()
+
+  // 日付の差を計算
+  const timeDifference = targetDate.getTime() - today.getTime()
+
+  // 日数に変換（絶対値を使用）
+  const daysDifference = Math.abs(Math.ceil(timeDifference / (1000 * 60 * 60 * 24)))
+
   return (
-    <div className='flex h-fit w-full items-center gap-x-3 rounded-lg border border-solid border-slate-300 bg-white px-2 py-4'>
-      <Image
-        src={`/lang-icon/${question.tags[0]}.svg`}
-        className='rounded-full'
-        alt='language-icon'
-        width={40}
-        height={40}
-        sizes='auto'
-        priority
-      />
-      <div className='flex w-full flex-col justify-center'>
-        <div className='flex items-center gap-x-2 text-xs'>
-          <span className='line-clamp-1 w-fit max-w-[500px] rounded-lg bg-slate-500 px-2 py-1 leading-5 text-stone-50'>
-            {question.coding_problem}
-          </span>
-          <div className='flex flex-col gap-y-1 text-gray-500'>
-            <div className='flex items-center gap-x-2'>
-              <span>投稿日: {question.created_at.slice(0, 10)}</span>
-              <div className='flex items-center gap-x-1'>
-                <IconMessageCircle size={18} />
-                {answers?.length}
-              </div>
-            </div>
-            <div className=' flex items-center gap-x-2'>
-              <div className='relative h-6 w-6'>
-                <Image
-                  src={profile && profile.avatar_url ? profile.avatar_url : '/default.png'}
-                  className='rounded-full object-cover'
-                  alt='avatar'
-                  fill
-                  sizes='auto'
-                  priority
-                />
-              </div>
-              <span className='line-clamp-1 w-fit max-w-[150px]'>{profile && profile.username}</span>
-            </div>
-          </div>
+    <div className='grid w-full grid-cols-12 rounded-lg border border-solid border-slate-300'>
+      <div className='col-span-2 flex items-center justify-center rounded-bl-lg rounded-tl-lg bg-slate-500 md:col-span-1'>
+        <Image
+          src={`/lang-icon/${question.tags[0]}.svg`}
+          className='rounded-full outline-dotted outline-4 outline-offset-4 outline-white'
+          alt='language-icon'
+          width={40}
+          height={40}
+          priority
+        />
+      </div>
+      <div className='col-span-10 flex w-full flex-col space-y-2 py-3 pl-2 md:col-span-11'>
+        <div className='w-fit max-w-[300px] truncate rounded-lg bg-slate-500 px-2 text-stone-50'>
+          {question.coding_problem}
         </div>
-        <Link
-          href={`/${profile?.username}/questions/${question.id}`}
-          className='line-clamp-1 font-semibold text-black no-underline hover:underline hover:underline-offset-4'
-        >
-          {question.title}
-        </Link>
+        <div className='flex items-center space-x-2 text-sm'>
+          <Image
+            src={profile && profile.avatar_url ? profile.avatar_url : '/default.png'}
+            alt='avatar'
+            width={30}
+            height={30}
+            priority
+          />
+          <Link href={'/'} className='w-fit max-w-[100px] truncate text-black no-underline'>
+            {profile && profile.username}
+          </Link>
+          <span>{daysDifference === 0 ? '今日' : `${daysDifference}日前`}</span>
+          <IconMessageCircle size={18} />
+          {answers?.length}
+        </div>
+        <div className='w-full truncate'>
+          <Link
+            href={`/${profile?.username}/questions/${question.id}`}
+            className='font-semibold text-black no-underline hover:underline hover:underline-offset-4'
+          >
+            {question.title}
+          </Link>
+        </div>
       </div>
     </div>
   )

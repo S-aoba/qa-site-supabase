@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Provider>
           <SupabaseListener />
           <Navigation />
-          <main className='container mx-auto max-w-screen-md flex-1 px-1 py-5'>{children}</main>
+          <main className='container mx-auto max-w-screen-lg p-5'>{children}</main>
         </Provider>
       </body>
     </html>
