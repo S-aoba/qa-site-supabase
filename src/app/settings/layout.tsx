@@ -1,5 +1,6 @@
 'use client'
 
+import { useViewportSize } from '@mantine/hooks'
 import {
   IconHelpHexagon,
   IconKey,
@@ -48,27 +49,52 @@ const subNavigation = [
 // レイアウト
 const SettingsLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname()
+  const { width } = useViewportSize()
 
   return (
-    <div className='grid grid-cols-12 gap-3'>
-      <div className='col-span-2 flex flex-col space-y-1 text-sm font-bold'>
-        {subNavigation.map((item, index) => {
-          return (
-            <Link
-              href={item.href}
-              key={index}
-              className={`${
-                item.href == pathname && 'bg-slate-900 text-white hover:bg-slate-900 hover:text-white'
-              } flex items-center justify-start rounded-full px-3 py-2 text-black no-underline hover:bg-slate-200`}
-            >
-              <item.icon className='mr-2 inline-block h-5 w-5' />
-              {item.name}
-            </Link>
-          )
-        })}
-      </div>
-      <div className='col-span-10'>{children}</div>
-    </div>
+    <>
+      {width >= 1019 ? (
+        <div className='grid grid-cols-12 gap-3'>
+          <div className='col-span-2 flex flex-col space-y-1 text-sm font-bold'>
+            {subNavigation.map((item, index) => {
+              return (
+                <Link
+                  href={item.href}
+                  key={index}
+                  className={`${
+                    item.href == pathname && 'bg-slate-900 text-white hover:bg-slate-900 hover:text-white'
+                  } flex items-center justify-start rounded-full px-3 py-2 text-black no-underline hover:bg-slate-200`}
+                >
+                  <item.icon className='mr-2 inline-block h-5 w-5' />
+                  {item.name}
+                </Link>
+              )
+            })}
+          </div>
+          <div className='col-span-10'>{children}</div>
+        </div>
+      ) : (
+        <div className='flex w-full flex-col'>
+          <div className='flex w-full space-x-2 overflow-x-scroll pb-5 text-sm font-bold'>
+            {subNavigation.map((item, index) => {
+              return (
+                <Link
+                  href={item.href}
+                  key={index}
+                  className={`${
+                    item.href == pathname && 'bg-slate-900 text-white hover:bg-slate-900 hover:text-white'
+                  } flex min-w-fit flex-col items-center justify-start rounded-full px-3 py-2 text-black no-underline hover:bg-slate-200`}
+                >
+                  <item.icon className='mr-2 inline-block h-5 w-5' />
+                  {item.name}
+                </Link>
+              )
+            })}
+          </div>
+          <div className='pt-4'>{children}</div>
+        </div>
+      )}
+    </>
   )
 }
 
