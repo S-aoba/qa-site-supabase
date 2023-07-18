@@ -1,9 +1,9 @@
 'use client'
 
-import { Button, Modal } from '@mantine/core'
+import { Button, Menu, Modal } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { IconEdit, IconTrash } from '@tabler/icons-react'
+import { IconEdit, IconMenu2, IconTrash } from '@tabler/icons-react'
 import { useAtom, useSetAtom } from 'jotai'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -19,8 +19,7 @@ export const AnswerActions = ({ answer }: { answer: AnswerType }) => {
 
   const [isLoading, setIsLoading] = useState(false)
 
-  const [isDeleteAnswerOpened, { open: handleDeleteQuestionOpen, close: handleDeleteAnswerClose }] =
-    useDisclosure(false)
+  const [isDeleteAnswerOpened, { open: handleDeleteAnswerOpen, close: handleDeleteAnswerClose }] = useDisclosure(false)
 
   const router = useRouter()
   const [_, setMessage] = useState('')
@@ -104,12 +103,20 @@ export const AnswerActions = ({ answer }: { answer: AnswerType }) => {
           </div>
         </div>
       </Modal>
-      <div className='flex items-center space-x-2'>
-        <IconEdit className='text-slate-500 hover:cursor-pointer hover:text-slate-700' onClick={handleSetIsEditMode} />
-        <IconTrash
-          className='text-slate-500 hover:cursor-pointer hover:text-slate-700'
-          onClick={handleDeleteQuestionOpen}
-        />
+      <div className='flex items-center'>
+        <Menu>
+          <Menu.Target>
+            <IconMenu2 className='hover:cursor-pointer hover:bg-slate-200' />
+          </Menu.Target>
+          <Menu.Dropdown>
+            <Menu.Item icon={<IconEdit />} onClick={handleSetIsEditMode}>
+              編集
+            </Menu.Item>
+            <Menu.Item icon={<IconTrash />} onClick={handleDeleteAnswerOpen}>
+              削除
+            </Menu.Item>
+          </Menu.Dropdown>
+        </Menu>
       </div>
     </>
   )

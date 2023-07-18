@@ -1,9 +1,9 @@
 'use client'
 
-import { Button, Modal } from '@mantine/core'
+import { Button, Menu, Modal } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { IconEdit, IconTrash } from '@tabler/icons-react'
+import { IconEdit, IconMenu2, IconTrash } from '@tabler/icons-react'
 import { useAtom, useSetAtom } from 'jotai'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -23,8 +23,7 @@ export const CommentActions = ({ profile, comment }: { profile: ProfileType | nu
   const setComment = useSetAtom(editedCommentAtom)
   const [isEditMode, setIsEditMode] = useAtom(isCommentEditModeAtom)
 
-  const [isDeleteAnswerOpened, { open: handleDeleteQuestionOpen, close: handleDeleteAnswerClose }] =
-    useDisclosure(false)
+  const [isDeleteCommentOpened, { open: handleDeleteCommentOpen, close: handleDeleteAnswerClose }] = useDisclosure(false)
 
   const handleSetComment = () => {
     if (!isEditMode) {
@@ -53,7 +52,7 @@ export const CommentActions = ({ profile, comment }: { profile: ProfileType | nu
   }
   return (
     <>
-      <Modal opened={isDeleteAnswerOpened} onClose={handleDeleteAnswerClose} centered withCloseButton={false}>
+      <Modal opened={isDeleteCommentOpened} onClose={handleDeleteAnswerClose} centered withCloseButton={false}>
         <div className='w-full p-5'>
           <div className='mb-4 border-b border-l-0 border-r-0 border-t-0 border-solid border-gray-200'>
             <div className='mb-4 flex flex-col rounded-md bg-gray-100 p-3'>
@@ -83,12 +82,20 @@ export const CommentActions = ({ profile, comment }: { profile: ProfileType | nu
         </div>
       </Modal>
       {profile && profile.id === comment.user_id && (
-        <div className='flex space-x-2'>
-          <IconEdit className='text-slate-500 hover:cursor-pointer hover:text-slate-700' onClick={handleSetComment} />
-          <IconTrash
-            className='text-slate-500 hover:cursor-pointer hover:text-slate-700'
-            onClick={handleDeleteQuestionOpen}
-          />
+        <div className='flex items-center'>
+          <Menu>
+            <Menu.Target>
+              <IconMenu2 className='hover:cursor-pointer hover:bg-slate-200' />
+            </Menu.Target>
+            <Menu.Dropdown>
+              <Menu.Item icon={<IconEdit />} onClick={handleSetComment}>
+                編集
+              </Menu.Item>
+              <Menu.Item icon={<IconTrash />} onClick={handleDeleteCommentOpen}>
+                削除
+              </Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
         </div>
       )}
     </>
