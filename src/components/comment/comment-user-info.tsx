@@ -26,8 +26,10 @@ export const CommentUserInfo = ({
         />
       </div>
       <span className='max-w-[150px] truncate text-sm'>{username}</span>
-      {created_at !== updated_at && <span className='text-sm'>更新日: {updated_at.slice(0, 10)}</span>}
-      <span className='text-sm'>投稿日: {created_at.slice(0, 10)}</span>
+      <div className='flex flex-col space-y-2 sm:flex-row sm:space-x-2 sm:items-center sm:space-y-0'>
+        {created_at !== updated_at && <span className='text-sm'>更新日: {updated_at.slice(0, 10)}</span>}
+        <span className='text-sm'>投稿日: {created_at.slice(0, 10)}</span>
+      </div>
     </div>
   )
 }
