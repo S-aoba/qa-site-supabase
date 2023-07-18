@@ -42,7 +42,7 @@ export const Question = async ({ session, question_id }: { session: Session | nu
                 username={profile.username}
                 coding_problem={question.coding_problem}
               />
-              {session && <QuestionActions session={session} question={question} />}
+              {session && session.user.id === question.user_id && <QuestionActions question={question} />}
             </div>
             <QuestionTags tags={question.tags} />
           </div>

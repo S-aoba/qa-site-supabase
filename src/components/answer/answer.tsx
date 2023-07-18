@@ -20,7 +20,7 @@ export const Answer = ({
       <AnswerBody answer={answer} session={session}>
         <AnswerUserInfo profile={profile} created_at={answer.created_at} updated_at={answer.updated_at} />
       </AnswerBody>
-      <CommentList answer={answer} profile={profile} session={session} />
+      <CommentList answer={answer} session={session} />
     </div>
   )
 }

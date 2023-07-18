@@ -2,7 +2,6 @@
 
 import { Button, Menu, Modal } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import type { Session } from '@supabase/auth-helpers-nextjs'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { IconEdit, IconMenu2, IconTrash } from '@tabler/icons-react'
 import { useSetAtom } from 'jotai'
@@ -14,7 +13,7 @@ import type { QuestionType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
 import { editedQuestionAtom, editedQuestionContentAtom, isEditModeAtom } from '@/store/question-atom'
 
-export const QuestionActions = ({ session, question }: { session: Session; question: QuestionType }) => {
+export const QuestionActions = ({ question }: { question: QuestionType }) => {
   const supabase = createClientComponentClient<Database>()
 
   const router = useRouter()
@@ -89,25 +88,23 @@ export const QuestionActions = ({ session, question }: { session: Session; quest
           </div>
         </div>
       </Modal>
-      {session.user.id === question.user_id && (
-        <div className='flex items-center'>
-          <Menu>
-            <Menu.Target>
-              <IconMenu2 className='hover:cursor-pointer hover:bg-slate-200' />
-            </Menu.Target>
-            <Menu.Dropdown>
-              <Link href={'/questions/edit'} className='no-underline'>
-                <Menu.Item icon={<IconEdit />} onClick={handleSetQuestion}>
-                  編集
-                </Menu.Item>
-              </Link>
-              <Menu.Item icon={<IconTrash />} onClick={handleDeleteQuestionOpen}>
-                削除
+      <div className='flex items-center'>
+        <Menu>
+          <Menu.Target>
+            <IconMenu2 className='hover:cursor-pointer hover:bg-slate-200' />
+          </Menu.Target>
+          <Menu.Dropdown>
+            <Link href={'/questions/edit'} className='no-underline'>
+              <Menu.Item icon={<IconEdit />} onClick={handleSetQuestion}>
+                編集
               </Menu.Item>
-            </Menu.Dropdown>
-          </Menu>
-        </div>
-      )}
+            </Link>
+            <Menu.Item icon={<IconTrash />} onClick={handleDeleteQuestionOpen}>
+              削除
+            </Menu.Item>
+          </Menu.Dropdown>
+        </Menu>
+      </div>
     </>
   )
 }

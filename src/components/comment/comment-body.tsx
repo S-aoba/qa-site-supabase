@@ -3,21 +3,13 @@
 import type { Session } from '@supabase/auth-helpers-nextjs'
 import { Provider as JotaiProvider } from 'jotai'
 
-import type { CommentType, ProfileType } from '@/common/types'
+import type { CommentType } from '@/common/types'
 
 import { CommentActions } from './comment-actions'
 import { CommentContent } from './comment-content'
 import { CommentUserInfo } from './comment-user-info'
 
-export const CommentBody = ({
-  comment,
-  profile,
-  session,
-}: {
-  comment: CommentType
-  profile: ProfileType | null
-  session: Session | null
-}) => {
+export const CommentBody = ({ comment, session }: { comment: CommentType; session: Session | null }) => {
   return (
     <JotaiProvider>
       <div className='border-b-0 border-l-0 border-r-0 border-t border-solid border-slate-300'>
@@ -28,7 +20,7 @@ export const CommentBody = ({
             created_at={comment.created_at}
             updated_at={comment.updated_at}
           />
-          {session && <CommentActions profile={profile} comment={comment} />}
+          {session && session.user.id === comment.user_id && <CommentActions comment={comment} />}
         </div>
         <CommentContent comment={comment} />
       </div>

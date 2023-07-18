@@ -8,11 +8,11 @@ import { useAtom, useSetAtom } from 'jotai'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-import type { CommentType, ProfileType } from '@/common/types'
+import type { CommentType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
 import { editedCommentAtom, isCommentEditModeAtom } from '@/store/comment-atom'
 
-export const CommentActions = ({ profile, comment }: { profile: ProfileType | null; comment: CommentType }) => {
+export const CommentActions = ({ comment }: { comment: CommentType }) => {
   const router = useRouter()
 
   const supabase = createClientComponentClient<Database>()
@@ -23,7 +23,8 @@ export const CommentActions = ({ profile, comment }: { profile: ProfileType | nu
   const setComment = useSetAtom(editedCommentAtom)
   const [isEditMode, setIsEditMode] = useAtom(isCommentEditModeAtom)
 
-  const [isDeleteCommentOpened, { open: handleDeleteCommentOpen, close: handleDeleteAnswerClose }] = useDisclosure(false)
+  const [isDeleteCommentOpened, { open: handleDeleteCommentOpen, close: handleDeleteAnswerClose }] =
+    useDisclosure(false)
 
   const handleSetComment = () => {
     if (!isEditMode) {
@@ -81,23 +82,21 @@ export const CommentActions = ({ profile, comment }: { profile: ProfileType | nu
           </div>
         </div>
       </Modal>
-      {profile && profile.id === comment.user_id && (
-        <div className='flex items-center'>
-          <Menu>
-            <Menu.Target>
-              <IconMenu2 className='hover:cursor-pointer hover:bg-slate-200' />
-            </Menu.Target>
-            <Menu.Dropdown>
-              <Menu.Item icon={<IconEdit />} onClick={handleSetComment}>
-                編集
-              </Menu.Item>
-              <Menu.Item icon={<IconTrash />} onClick={handleDeleteCommentOpen}>
-                削除
-              </Menu.Item>
-            </Menu.Dropdown>
-          </Menu>
-        </div>
-      )}
+      <div className='flex items-center'>
+        <Menu>
+          <Menu.Target>
+            <IconMenu2 className='hover:cursor-pointer hover:bg-slate-200' />
+          </Menu.Target>
+          <Menu.Dropdown>
+            <Menu.Item icon={<IconEdit />} onClick={handleSetComment}>
+              編集
+            </Menu.Item>
+            <Menu.Item icon={<IconTrash />} onClick={handleDeleteCommentOpen}>
+              削除
+            </Menu.Item>
+          </Menu.Dropdown>
+        </Menu>
+      </div>
     </>
   )
 }
