@@ -1,7 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, PasswordInput } from '@mantine/core'
+import { PasswordInput } from '@mantine/core'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -10,6 +10,8 @@ import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
 import type { Database } from '@/lib/database.types'
+
+import { Button } from '../ui/button'
 
 type Schema = z.infer<typeof schema>
 
@@ -118,11 +120,7 @@ export const Password = () => {
 
         {/* 変更ボタン */}
         <div className='mb-5'>
-          <Button
-            type='submit'
-            className='w-full rounded-full bg-slate-500 p-2 text-sm font-bold text-white hover:transform-none hover:bg-slate-500 hover:brightness-95'
-            loading={isLoading}
-          >
+          <Button type='submit' variant='submit' loading={isLoading}>
             {isLoading ? '変更中' : '変更'}
           </Button>
         </div>

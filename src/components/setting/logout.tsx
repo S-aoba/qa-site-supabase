@@ -1,12 +1,13 @@
 'use client'
 
-import { Button } from '@mantine/core'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import type { FormEvent } from 'react'
 import { useState } from 'react'
 
 import type { Database } from '@/lib/database.types'
+
+import { Button } from '../ui/button'
 
 // ログアウト
 export const Logout = () => {
@@ -46,11 +47,7 @@ export const Logout = () => {
       {/* ログアウトボタン */}
       <form onSubmit={handleOnSubmit}>
         <div className='mb-5'>
-          <Button
-            type='submit'
-            className='w-full rounded-full bg-red-500 p-2 text-sm font-bold text-white hover:transform-none hover:bg-red-500 hover:brightness-95'
-            loading={isLoading}
-          >
+          <Button type='submit' variant='logout' loading={isLoading}>
             {isLoading ? 'ログアウト中' : 'ログアウト'}
           </Button>
         </div>
