@@ -1,6 +1,5 @@
 'use client'
 
-import { Button } from '@mantine/core'
 import { RichTextEditor } from '@mantine/tiptap'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useAtom, useAtomValue } from 'jotai'
@@ -15,6 +14,7 @@ import type { Database } from '@/lib/database.types'
 import { editedCommentAtom } from '@/store/comment-atom'
 import { profileAtom } from '@/store/profile-atom'
 
+import { Button } from '../ui/button'
 import { useCommentFormAlert } from './useCommentFormAlert'
 
 export const CommentCreateForm = ({ answer }: { answer: AnswerType }) => {
@@ -94,12 +94,7 @@ export const CommentCreateForm = ({ answer }: { answer: AnswerType }) => {
               <RichTextEditor.Content />
             </RichTextEditor>
             <div className='flex w-full justify-end p-3'>
-              <Button
-                type='submit'
-                className='bg-slate-500 hover:transform-none hover:bg-slate-600'
-                loading={isLoading}
-                disabled={isDisabled}
-              >
+              <Button type='submit' variant='submit' loading={isLoading}>
                 {isLoading ? 'コメントを投稿中' : 'コメントを投稿'}
               </Button>
             </div>
