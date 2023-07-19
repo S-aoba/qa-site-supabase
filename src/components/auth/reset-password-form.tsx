@@ -1,7 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, TextInput } from '@mantine/core'
+import { TextInput } from '@mantine/core'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -11,6 +11,8 @@ import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
 import type { Database } from '@/lib/database.types'
+
+import { Button } from '../ui/button'
 
 type Schema = z.infer<typeof schema>
 
@@ -86,11 +88,7 @@ export const ResetPasswordForm = () => {
         </div>
 
         <div>
-          <Button
-            type='submit'
-            className='w-full rounded-lg bg-black font-bold text-white hover:transform-none hover:bg-black hover:opacity-75'
-            loading={isLoading}
-          >
+          <Button type='submit' variant='submit' loading={isLoading}>
             {isLoading ? '送信中' : '送信'}
           </Button>
         </div>

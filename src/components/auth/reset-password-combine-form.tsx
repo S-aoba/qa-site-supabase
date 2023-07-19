@@ -1,7 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, PasswordInput } from '@mantine/core'
+import {  PasswordInput } from '@mantine/core'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -10,6 +10,8 @@ import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
 import type { Database } from '@/lib/database.types'
+
+import { Button } from '../ui/button'
 
 type Schema = z.infer<typeof schema>
 
@@ -123,7 +125,7 @@ export const ResetPasswordCombineForm = () => {
         <div>
           <Button
             type='submit'
-            className='w-full rounded-lg bg-black font-bold text-white hover:transform-none hover:bg-black hover:opacity-75'
+            variant='submit'
             loading={isLoading}
           >
             {isLoading ? '更新中' : '更新'}
