@@ -4,12 +4,19 @@
 
 import type { NextPage } from 'next'
 
-type InputProps = React.InputHTMLAttributes<HTMLInputElement>
+const buttonStyle = {
+  default: null,
+  large: 'h-16 text-3xl',
+}
 
-export const Input: NextPage<InputProps> = ({ ...props }) => {
+type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
+  variant: keyof typeof buttonStyle
+}
+
+export const Input: NextPage<InputProps> = ({ variant, ...props }) => {
   return (
     <input
-      className='w-full rounded border border-solid border-slate-300 px-2 py-2 text-sm font-normal placeholder-slate-400 focus:outline-none'
+      className={`w-full rounded border border-solid border-slate-300 px-2 py-2 text-sm font-normal placeholder-slate-400 focus:outline-none ${buttonStyle[variant]}`}
       {...props}
     />
   )

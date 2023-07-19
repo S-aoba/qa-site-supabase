@@ -76,6 +76,7 @@ export const ResetPasswordForm = () => {
             type='email'
             placeholder='メールアドレス'
             autoComplete='email'
+            variant='default'
             {...register('email', { required: true })}
           />
           <div className='my-3 text-center text-sm text-red-500'>{errors.email?.message}</div>

@@ -92,6 +92,7 @@ export const ResetPasswordCombineForm = () => {
             type='password'
             placeholder='新しいパスワード'
             autoComplete='new-password'
+            variant='default'
             {...register('password', { required: true })}
           />
           <div className='my-3 text-center text-sm text-red-500'>{errors.password?.message}</div>
@@ -104,6 +105,7 @@ export const ResetPasswordCombineForm = () => {
             type='password'
             placeholder='確認用パスワード'
             autoComplete='new-password'
+            variant='default'
             {...register('confirmation', { required: true })}
           />
           <div className='my-3 text-center text-sm text-red-500'>{errors.confirmation?.message}</div>
