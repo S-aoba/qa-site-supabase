@@ -20,11 +20,10 @@ export const CommentUpdateForm = ({ commentId }: { commentId: string }) => {
   const supabase = createClientComponentClient<Database>()
 
   const [isLoading, setIsLoading] = useState(false)
-  const [isDisabled, setIsDisabled] = useState(true)
 
   const setIsEditMode = useSetAtom(isCommentEditModeAtom)
 
-  const { commentEditor } = useContentEditor(setIsDisabled)
+  const { commentEditor } = useContentEditor()
   const [comment, setContent] = useAtom(editedCommentAtom)
   const [message, setMessage] = useState('')
   const router = useRouter()

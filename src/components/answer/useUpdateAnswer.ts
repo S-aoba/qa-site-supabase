@@ -15,7 +15,6 @@ import { editedAnswerAtom, isAnswerEditModeAtom } from '@/store/answer-atom'
 export const useUpdateAnswer = (answerId: string) => {
   useAnswerFormAlert()
 
-  const [isDisabled, setIsDisabled] = useState(true)
   const [isLoading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 
@@ -24,7 +23,7 @@ export const useUpdateAnswer = (answerId: string) => {
 
   const supabase = createClientComponentClient<Database>()
 
-  const { answerEditor } = useContentEditor(setIsDisabled)
+  const { answerEditor } = useContentEditor()
 
   const setIsEditMode = useSetAtom(isAnswerEditModeAtom)
   const [answerContent, setAnswerContent] = useAtom(editedAnswerAtom)
@@ -58,5 +57,5 @@ export const useUpdateAnswer = (answerId: string) => {
     }
   }
 
-  return { handleOnSubmit, isLoading, isDisabled, message, answerEditor }
+  return { handleOnSubmit, isLoading, message, answerEditor }
 }
