@@ -1,7 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, PasswordInput, TextInput } from '@mantine/core'
+import { PasswordInput, TextInput } from '@mantine/core'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -11,6 +11,8 @@ import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
 import type { Database } from '@/lib/database.types'
+
+import { Button } from '../ui/button'
 
 type Schema = z.infer<typeof schema>
 
@@ -135,11 +137,7 @@ export const SignupForm = () => {
           <div className='my-3 text-center text-sm text-red-500'>{errors.password?.message}</div>
         </div>
         <div>
-          <Button
-            type='submit'
-            className='w-full rounded-lg bg-black font-bold text-white hover:transform-none hover:bg-black hover:opacity-75'
-            loading={isLoading}
-          >
+          <Button type='submit' variant='signup' loading={isLoading}>
             {isLoading ? '新規登録中' : '新規登録'}
           </Button>
         </div>

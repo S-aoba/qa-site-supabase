@@ -14,7 +14,10 @@ const buttonColorStyle = {
   submit: 'bg-slate-500 hover:bg-slate-600 text-white border-none',
   link: 'bg-slate-500 hover:bg-slate-600 text-white border-none',
   cancel: 'bg-white hover:border-black text-black border border-solid border-slate-300',
-  delete: "bg-red-500 hover:opacity-75 text-white border-none"
+  delete: "bg-red-500 hover:opacity-75 text-white border-none",
+  login: 'bg-white hover:border-black text-black border border-solid border-slate-300',
+  signup: "bg-black hover:opacity-75 text-white border-none"
+
 }
 
 export const Button: NextPage<ButtonProps> = ({ children, loading, variant, ...props }) => {
