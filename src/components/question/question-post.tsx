@@ -1,6 +1,6 @@
 'use client'
 
-import { MultiSelect, Select, TextInput } from '@mantine/core'
+import { MultiSelect, Select } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { RichTextEditor } from '@mantine/tiptap'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
@@ -15,6 +15,7 @@ import { editedQuestionAtom, editedQuestionContentAtom } from '@/store/question-
 
 import { useContentEditor } from '../../common/hooks/useContentEditor'
 import { Button } from '../ui/button'
+import { Input } from '../ui/input'
 
 const schema = z.object({
   title: z
@@ -94,20 +95,12 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
   return (
     <>
       <form className=' flex flex-col justify-center gap-y-7' onSubmit={handleForm.onSubmit(handleOnSubmit)}>
-        <TextInput
-          {...handleForm.getInputProps('title')}
+        <Input
+          id='title'
+          type='text'
           placeholder='質問タイトル'
-          size='md'
-          withAsterisk
-          maxLength={100}
-          styles={{
-            input: {
-              height: '70px',
-              fontSize: '2rem',
-              border: '1px solid #cbd5e1',
-              ':focus': { border: '1px solid #cbd5e1' },
-            },
-          }}
+          variant='large'
+          {...handleForm.getInputProps('title')}
         />
         <Select
           {...handleForm.getInputProps('coding_problem')}
