@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, MultiSelect, Select, TextInput } from '@mantine/core'
+import { MultiSelect, Select } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { RichTextEditor } from '@mantine/tiptap'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
@@ -14,6 +14,8 @@ import { profileAtom } from '@/store/profile-atom'
 import { editedQuestionAtom, editedQuestionContentAtom } from '@/store/question-atom'
 
 import { useContentEditor } from '../../common/hooks/useContentEditor'
+import { Button } from '../ui/button'
+import { Input } from '../ui/input'
 
 const schema = z.object({
   title: z
@@ -32,6 +34,7 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
   const { questionEditor } = useContentEditor()
   const supabase = createClientComponentClient<Database>()
   const [isLoading, setLoading] = useState(false)
+
   const [message, setMessage] = useState('')
 
   const router = useRouter()
@@ -48,6 +51,7 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
   const handleOnSubmit = async (props: { title: string; coding_problem: string; tags: string[] }) => {
     if (!questionEditor) return
     setLoading(true)
+
     const { title, coding_problem, tags } = props
 
     try {
@@ -89,24 +93,14 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
   }
 
   return (
-    // ページリロードするとmantineのコンポーネントが初期化される
-    // おそらくまだ app routerに対応していなからだと思う。挙動は、大丈夫そうなのでこのまま実装する。
     <>
       <form className=' flex flex-col justify-center gap-y-7' onSubmit={handleForm.onSubmit(handleOnSubmit)}>
-        <TextInput
-          {...handleForm.getInputProps('title')}
+        <Input
+          id='title'
+          type='text'
           placeholder='質問タイトル'
-          size='md'
-          withAsterisk
-          maxLength={100}
-          styles={{
-            input: {
-              height: '70px',
-              fontSize: '2rem',
-              border: '1px solid #cbd5e1',
-              ':focus': { border: '1px solid #cbd5e1' },
-            },
-          }}
+          variant='large'
+          {...handleForm.getInputProps('title')}
         />
         <Select
           {...handleForm.getInputProps('coding_problem')}
@@ -140,7 +134,7 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
           <RichTextEditor.Content />
         </RichTextEditor>
         <div className='flex w-full justify-end px-3'>
-          <Button type='submit' className='bg-slate-500 hover:transform-none hover:bg-slate-600' loading={isLoading}>
+          <Button type='submit' variant='submit' loading={isLoading} disabled={isLoading}>
             {isLoading ? '質問を送信中' : '質問を送信'}
           </Button>
         </div>

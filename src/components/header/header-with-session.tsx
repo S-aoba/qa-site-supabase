@@ -1,7 +1,8 @@
-import { Button } from '@mantine/core'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { ReactNode } from 'react'
+
+import { Button } from '../ui/button'
 
 export const HeaderWithSession = ({ avatar_url, children }: { avatar_url: string | null; children: ReactNode }) => {
   return (
@@ -20,9 +21,7 @@ export const HeaderWithSession = ({ avatar_url, children }: { avatar_url: string
         </div>
       </Link>
       <Link href={'/questions/post'} className='no-underline'>
-        <Button type='submit' className='bg-slate-500 hover:transform-none hover:bg-slate-600'>
-          投稿する
-        </Button>
+        <Button type='button' variant='link'>質問する</Button>
       </Link>
     </>
   )

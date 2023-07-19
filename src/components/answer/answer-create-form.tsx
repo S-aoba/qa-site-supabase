@@ -1,11 +1,11 @@
 'use client'
 
-import { Button } from '@mantine/core'
 import { RichTextEditor } from '@mantine/tiptap'
 import Image from 'next/image'
 
 import type { ProfileType, QuestionType } from '@/common/types'
 
+import { Button } from '../ui/button'
 import { useCreateAnswer } from './useCreateAnswer'
 
 export const AnswerCreateForm = ({
@@ -17,7 +17,7 @@ export const AnswerCreateForm = ({
   question: QuestionType
   profile: ProfileType | null
 }) => {
-  const { handleOnSubmit, isLoading, isDisabled, message, answerEditor } = useCreateAnswer({ question, userId })
+  const { handleOnSubmit, isLoading, message, answerEditor } = useCreateAnswer({ question, userId })
 
   return (
     <div className='min-h-full rounded-lg border border-solid border-slate-300'>
@@ -49,12 +49,7 @@ export const AnswerCreateForm = ({
             <RichTextEditor.Content />
           </RichTextEditor>
           <div className='flex w-full justify-end px-3 pt-3'>
-            <Button
-              type='submit'
-              className='bg-slate-500 hover:transform-none hover:bg-slate-600'
-              loading={isLoading}
-              disabled={isDisabled}
-            >
+            <Button type='submit' variant='submit' loading={isLoading}>
               {isLoading ? '回答を送信中' : '回答を送信'}
             </Button>
           </div>

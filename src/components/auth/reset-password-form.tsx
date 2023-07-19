@@ -1,7 +1,6 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, TextInput } from '@mantine/core'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -11,6 +10,9 @@ import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
 import type { Database } from '@/lib/database.types'
+
+import { Button } from '../ui/button'
+import { Input } from '../ui/input'
 
 type Schema = z.infer<typeof schema>
 
@@ -69,28 +71,19 @@ export const ResetPasswordForm = () => {
         className='flex flex-col rounded-lg border border-solid border-slate-300 bg-[#f6f8fa] p-5'
       >
         <div>
-          <TextInput
-            type='email'
-            styles={{
-              input: {
-                border: '1px solid #cbd5e1',
-                ':focus': { border: '1px solid #cbd5e1' },
-              },
-            }}
-            placeholder='メールアドレス'
+          <Input
             id='email'
+            type='email'
+            placeholder='メールアドレス'
             autoComplete='email'
+            variant='default'
             {...register('email', { required: true })}
           />
           <div className='my-3 text-center text-sm text-red-500'>{errors.email?.message}</div>
         </div>
 
         <div>
-          <Button
-            type='submit'
-            className='w-full rounded-lg bg-black font-bold text-white hover:transform-none hover:bg-black hover:opacity-75'
-            loading={isLoading}
-          >
+          <Button type='submit' variant='submit' loading={isLoading}>
             {isLoading ? '送信中' : '送信'}
           </Button>
         </div>

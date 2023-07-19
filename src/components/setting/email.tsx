@@ -1,7 +1,6 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, TextInput } from '@mantine/core'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -10,6 +9,9 @@ import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
 import type { Database } from '@/lib/database.types'
+
+import { Button } from '../ui/button'
+import { Input } from '../ui/input'
 
 type Schema = z.infer<typeof schema>
 
@@ -80,37 +82,25 @@ export const Email = ({ email }: { email: string | undefined }) => {
     <div>
       <div className='mb-10 text-center text-xl font-bold'>メールアドレス変更</div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {/* 現在のメールアドレス */}
         <div className='mb-5'>
           <div className='mb-1 text-sm font-bold'>現在のメールアドレス</div>
           <div>{email && email}</div>
         </div>
 
-        {/* 新しいメールアドレス */}
         <div className='mb-5'>
           <div className='mb-1 text-sm font-bold'>新しいメールアドレス</div>
-          <TextInput
-            type='email'
-            styles={{
-              input: {
-                border: '1px solid #cbd5e1',
-                ':focus': { border: '1px solid #cbd5e1' },
-              },
-            }}
-            placeholder='新しいメールアドレス'
+          <Input
             id='email'
+            type='email'
+            placeholder='新しいメールアドレス'
+            variant='default'
             {...register('email', { required: true })}
           />
           <div className='my-3 text-center text-sm text-red-500'>{errors.email?.message}</div>
         </div>
 
-        {/* 変更ボタン */}
         <div className='mb-5'>
-          <Button
-            type='submit'
-            className='w-full rounded-full bg-slate-500 p-2 text-sm font-bold text-white hover:transform-none hover:bg-slate-500 hover:brightness-95'
-            loading={isLoading}
-          >
+          <Button type='submit' variant='submit' loading={isLoading}>
             {isLoading ? '変更中' : '変更'}
           </Button>
         </div>

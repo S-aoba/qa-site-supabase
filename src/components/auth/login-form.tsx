@@ -1,7 +1,6 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, PasswordInput, TextInput } from '@mantine/core'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -12,7 +11,10 @@ import * as z from 'zod'
 
 import type { Database } from '@/lib/database.types'
 
-type Schema = z.infer<typeof schema>
+import { Button } from '../ui/button'
+import { Input } from '../ui/input'
+
+export type LoginSchema = z.infer<typeof schema>
 
 // 入力データの検証ルールを定義
 const schema = z.object({
@@ -37,7 +39,7 @@ export const LoginForm = () => {
   })
 
   // 送信
-  const onSubmit: SubmitHandler<Schema> = async (data) => {
+  const onSubmit: SubmitHandler<LoginSchema> = async (data) => {
     setLoading(true)
 
     try {
@@ -70,44 +72,30 @@ export const LoginForm = () => {
         className='flex flex-col rounded-lg border border-solid border-slate-300 bg-[#f6f8fa] p-5'
       >
         <div>
-          <TextInput
-            type='email'
-            styles={{
-              input: {
-                border: '1px solid #cbd5e1',
-                ':focus': { border: '1px solid #cbd5e1' },
-              },
-            }}
-            placeholder='メールアドレス'
+          <Input
             id='email'
+            type='email'
+            placeholder='メールアドレス'
             autoComplete='email'
+            variant='default'
             {...register('email', { required: true })}
           />
           <div className='my-3 text-center text-sm text-red-500'>{errors.email?.message}</div>
         </div>
 
         <div>
-          <PasswordInput
-            type='password'
-            styles={{
-              input: {
-                border: '1px solid #cbd5e1',
-                ':focus-within': { border: '1px solid #cbd5e1' },
-              },
-            }}
-            placeholder='パスワード'
+          <Input
             id='password'
+            type='password'
+            placeholder='パスワード'
             autoComplete='current-password'
+            variant='default'
             {...register('password', { required: true })}
           />
           <div className='my-3 text-center text-sm text-red-500'>{errors.password?.message}</div>
         </div>
         <div>
-          <Button
-            type='submit'
-            className='w-full rounded-lg bg-black font-bold text-white hover:transform-none hover:bg-black hover:opacity-75'
-            loading={isLoading}
-          >
+          <Button type='submit' variant='login' loading={isLoading}>
             {isLoading ? 'ログイン中' : 'ログイン'}
           </Button>
         </div>

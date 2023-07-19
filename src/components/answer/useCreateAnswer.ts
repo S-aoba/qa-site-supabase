@@ -16,13 +16,12 @@ export const useCreateAnswer = ({ question, userId }: { question: QuestionType; 
   useAnswerFormAlert()
 
   const [isLoading, setLoading] = useState(false)
-  const [isDisabled, setIsDisabled] = useState(true)
   const [message, setMessage] = useState('')
   const router = useRouter()
 
   const supabase = createClientComponentClient<Database>()
 
-  const { answerEditor } = useContentEditor(setIsDisabled)
+  const { answerEditor } = useContentEditor()
 
   const user = useAtomValue(profileAtom)
   const [answerContent, setAnswerContent] = useAtom(editedAnswerAtom)
@@ -83,5 +82,5 @@ export const useCreateAnswer = ({ question, userId }: { question: QuestionType; 
     }
   }
 
-  return { handleOnSubmit, isLoading, isDisabled, message, answerEditor }
+  return { handleOnSubmit, isLoading, message, answerEditor }
 }
