@@ -1,7 +1,6 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { PasswordInput, TextInput } from '@mantine/core'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -13,8 +12,9 @@ import * as z from 'zod'
 import type { Database } from '@/lib/database.types'
 
 import { Button } from '../ui/button'
+import { Input } from '../ui/input'
 
-type Schema = z.infer<typeof schema>
+export type LoginSchema = z.infer<typeof schema>
 
 // 入力データの検証ルールを定義
 const schema = z.object({
@@ -39,7 +39,7 @@ export const LoginForm = () => {
   })
 
   // 送信
-  const onSubmit: SubmitHandler<Schema> = async (data) => {
+  const onSubmit: SubmitHandler<LoginSchema> = async (data) => {
     setLoading(true)
 
     try {
@@ -72,16 +72,10 @@ export const LoginForm = () => {
         className='flex flex-col rounded-lg border border-solid border-slate-300 bg-[#f6f8fa] p-5'
       >
         <div>
-          <TextInput
-            type='email'
-            styles={{
-              input: {
-                border: '1px solid #cbd5e1',
-                ':focus': { border: '1px solid #cbd5e1' },
-              },
-            }}
-            placeholder='メールアドレス'
+          <Input
             id='email'
+            type='email'
+            placeholder='メールアドレス'
             autoComplete='email'
             {...register('email', { required: true })}
           />
@@ -89,16 +83,10 @@ export const LoginForm = () => {
         </div>
 
         <div>
-          <PasswordInput
-            type='password'
-            styles={{
-              input: {
-                border: '1px solid #cbd5e1',
-                ':focus-within': { border: '1px solid #cbd5e1' },
-              },
-            }}
-            placeholder='パスワード'
+          <Input
             id='password'
+            type='password'
+            placeholder='パスワード'
             autoComplete='current-password'
             {...register('password', { required: true })}
           />
