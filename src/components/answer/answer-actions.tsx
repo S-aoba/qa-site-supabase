@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, Menu, Modal } from '@mantine/core'
+import { Menu, Modal } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { IconEdit, IconMenu2, IconTrash } from '@tabler/icons-react'
@@ -11,6 +11,8 @@ import { useState } from 'react'
 import type { AnswerType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
 import { editedAnswerAtom, isAnswerEditModeAtom } from '@/store/answer-atom'
+
+import { Button } from '../ui/button'
 
 export const AnswerActions = ({ answer }: { answer: AnswerType }) => {
   const supabase = createClientComponentClient<Database>()
@@ -84,20 +86,10 @@ export const AnswerActions = ({ answer }: { answer: AnswerType }) => {
             </div>
           </div>
           <div className='flex w-full justify-end gap-x-3'>
-            <Button
-              variant='default'
-              type='button'
-              onClick={handleDeleteAnswerClose}
-              className=' hover:transform-none hover:border-black hover:bg-white'
-            >
+            <Button type='button' variant='cancel' onClick={handleDeleteAnswerClose}>
               キャンセル
             </Button>
-            <Button
-              type='button'
-              className='bg-red-500 hover:transform-none hover:bg-red-500 hover:opacity-75'
-              onClick={handleDeleteAnswer}
-              loading={isLoading}
-            >
+            <Button type='button' variant='delete' onClick={handleDeleteAnswer} loading={isLoading}>
               {isLoading ? '削除中' : '削除'}
             </Button>
           </div>

@@ -1,12 +1,12 @@
 'use client'
 
-import { Button } from '@mantine/core'
 import { RichTextEditor } from '@mantine/tiptap'
 
+import { Button } from '../ui/button'
 import { useUpdateAnswer } from './useUpdateAnswer'
 
 export const AnswerUpdateForm = ({ answerId }: { answerId: string }) => {
-  const { handleOnSubmit, isLoading, isDisabled, message, answerEditor } = useUpdateAnswer(answerId)
+  const { handleOnSubmit, isLoading, message, answerEditor } = useUpdateAnswer(answerId)
 
   return (
     <>
@@ -24,12 +24,7 @@ export const AnswerUpdateForm = ({ answerId }: { answerId: string }) => {
           <RichTextEditor.Content />
         </RichTextEditor>
         <div className='flex w-full justify-end p-3'>
-          <Button
-            type='submit'
-            className='bg-slate-500 hover:transform-none hover:bg-slate-600'
-            loading={isLoading}
-            disabled={isDisabled}
-          >
+          <Button type='submit' variant='submit' loading={isLoading}>
             {isLoading ? '回答を更新中' : '回答を更新'}
           </Button>
         </div>
