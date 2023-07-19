@@ -1,7 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { FileInput, Textarea, TextInput } from '@mantine/core'
+import { Textarea } from '@mantine/core'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useAtomValue } from 'jotai'
 import Image from 'next/image'
@@ -16,6 +16,7 @@ import type { Database } from '@/lib/database.types'
 import { profileAtom } from '@/store/profile-atom'
 
 import { Button } from '../ui/button'
+import { Input } from '../ui/input'
 
 type Schema = z.infer<typeof schema>
 
@@ -64,8 +65,8 @@ export const Profile = () => {
   }, [user])
 
   // 画像アップロード
-  const handleOnUploadImage = useCallback((e: File | null) => {
-    const files = e
+  const handleOnUploadImage = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
     setFileMessage('')
 
     // ファイルが選択されていない場合
@@ -74,8 +75,8 @@ export const Profile = () => {
       return
     }
 
-    const fileSize = files.size / 1024 / 1024 // size in MB
-    const fileType = files.type // MIME type of the file
+    const fileSize = files[0]?.size / 1024 / 1024 // size in MB
+    const fileType = files[0]?.type // MIME type of the file
 
     // 画像サイズが2MBを超える場合
     if (fileSize > 2) {
@@ -90,7 +91,7 @@ export const Profile = () => {
     }
 
     // 画像をセット
-    setAvatar(files)
+    setAvatar(files[0])
   }, [])
 
   // 送信
@@ -165,16 +166,12 @@ export const Profile = () => {
             <div className='relative mb-5 h-24 w-24'>
               <Image src={avatarUrl} className='rounded-full object-cover' alt='avatar' fill sizes='auto' priority />
             </div>
-            <FileInput
+            <Input
               id='avatar'
+              type='file'
               onChange={handleOnUploadImage}
               placeholder='画像を選択する'
-              styles={{
-                input: {
-                  border: '1px solid #cbd5e1',
-                  ':focus': { border: '1px solid #cbd5e1' },
-                },
-              }}
+              variant='file'
             />
             {fileMessage && <div className='my-5 text-center text-red-500'>{fileMessage}</div>}
           </div>
@@ -183,16 +180,11 @@ export const Profile = () => {
         {/* 名前 */}
         <div className='mb-5'>
           <div className='mb-1 text-sm font-bold'>名前</div>
-          <TextInput
-            type='text'
-            styles={{
-              input: {
-                border: '1px solid #cbd5e1',
-                ':focus': { border: '1px solid #cbd5e1' },
-              },
-            }}
-            placeholder='名前'
+          <Input
             id='name'
+            type='text'
+            placeholder='名前'
+            variant='default'
             {...register('name', { required: true })}
             required
           />
@@ -219,54 +211,21 @@ export const Profile = () => {
         {/* Twitter */}
         <div className='mb-5'>
           <div className='mb-1 text-sm font-bold'>Twitter</div>
-          <TextInput
-            type='text'
-            styles={{
-              input: {
-                border: '1px solid #cbd5e1',
-                ':focus': { border: '1px solid #cbd5e1' },
-              },
-            }}
-            placeholder='URL'
-            id='twitter_url'
-            {...register('twitter_url')}
-          />
+          <Input id='twitter_url' type='text' placeholder='URL' variant='default' {...register('twitter_url')} />
           <div className='my-3 text-center text-sm text-red-500'>{errors.name?.message}</div>
         </div>
 
         {/* Github */}
         <div className='mb-5'>
           <div className='mb-1 text-sm font-bold'>Github</div>
-          <TextInput
-            type='text'
-            styles={{
-              input: {
-                border: '1px solid #cbd5e1',
-                ':focus': { border: '1px solid #cbd5e1' },
-              },
-            }}
-            placeholder='URL'
-            id='github_url'
-            {...register('github_url')}
-          />
+          <Input id='github_url' type='text' placeholder='URL' variant='default' {...register('github_url')} />
           <div className='my-3 text-center text-sm text-red-500'>{errors.name?.message}</div>
         </div>
 
         {/* Website */}
         <div className='mb-5'>
           <div className='mb-1 text-sm font-bold'>Website</div>
-          <TextInput
-            type='text'
-            styles={{
-              input: {
-                border: '1px solid #cbd5e1',
-                ':focus': { border: '1px solid #cbd5e1' },
-              },
-            }}
-            placeholder='URL'
-            id='website_url'
-            {...register('website_url')}
-          />
+          <Input id='website_url' type='text' placeholder='URL' variant='default' {...register('website_url')} />
           <div className='my-3 text-center text-sm text-red-500'>{errors.name?.message}</div>
         </div>
 

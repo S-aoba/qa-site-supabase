@@ -1,7 +1,6 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { PasswordInput } from '@mantine/core'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -12,6 +11,7 @@ import * as z from 'zod'
 import type { Database } from '@/lib/database.types'
 
 import { Button } from '../ui/button'
+import { Input } from '../ui/input'
 
 type Schema = z.infer<typeof schema>
 
@@ -85,16 +85,11 @@ export const Password = () => {
         {/* 新しいパスワード */}
         <div className='mb-5'>
           <div className='mb-1 text-sm font-bold'>新しいパスワード</div>
-          <PasswordInput
-            type='password'
-            styles={{
-              input: {
-                border: '1px solid #cbd5e1',
-                ':focus-within': { border: '1px solid #cbd5e1' },
-              },
-            }}
-            placeholder='新しいパスワード'
+          <Input
             id='password'
+            type='password'
+            placeholder='新しいパスワード'
+            variant='default'
             {...register('password', { required: true })}
           />
           <div className='my-3 text-center text-sm text-red-500'>{errors.password?.message}</div>
@@ -103,16 +98,11 @@ export const Password = () => {
         {/* 確認用パスワード */}
         <div className='mb-5'>
           <div className='mb-1 text-sm font-bold'>確認用パスワード</div>
-          <PasswordInput
-            type='password'
-            styles={{
-              input: {
-                border: '1px solid #cbd5e1',
-                ':focus-within': { border: '1px solid #cbd5e1' },
-              },
-            }}
-            placeholder='確認用パスワード'
+          <Input
             id='confirmation'
+            type='password'
+            placeholder='確認用パスワード'
+            variant='default'
             {...register('confirmation', { required: true })}
           />
           <div className='my-3 text-center text-sm text-red-500'>{errors.confirmation?.message}</div>
