@@ -1,6 +1,7 @@
 'use client'
 
 import { RichTextEditor } from '@mantine/tiptap'
+import { ReloadIcon } from '@radix-ui/react-icons'
 import Image from 'next/image'
 
 import type { ProfileType, QuestionType } from '@/common/types'
@@ -49,7 +50,8 @@ export const AnswerCreateForm = ({
             <RichTextEditor.Content />
           </RichTextEditor>
           <div className='flex w-full justify-end px-3 pt-3'>
-            <Button type='submit' variant='submit' loading={isLoading}>
+            <Button type='submit' variant='default' disabled={isLoading}>
+              {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
               {isLoading ? '回答を送信中' : '回答を送信'}
             </Button>
           </div>

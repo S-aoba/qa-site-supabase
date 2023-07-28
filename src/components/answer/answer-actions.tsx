@@ -2,6 +2,7 @@
 
 import { Menu, Modal } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
+import { ReloadIcon } from '@radix-ui/react-icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { IconEdit, IconMenu2, IconTrash } from '@tabler/icons-react'
 import { useAtom, useSetAtom } from 'jotai'
@@ -86,10 +87,11 @@ export const AnswerActions = ({ answer }: { answer: AnswerType }) => {
             </div>
           </div>
           <div className='flex w-full justify-end gap-x-3'>
-            <Button type='button' variant='cancel' onClick={handleDeleteAnswerClose}>
+            <Button type='button' variant='outline' onClick={handleDeleteAnswerClose}>
               キャンセル
             </Button>
-            <Button type='button' variant='delete' onClick={handleDeleteAnswer} loading={isLoading}>
+            <Button type='button' variant='destructive' onClick={handleDeleteAnswer} disabled={isLoading}>
+              {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
               {isLoading ? '削除中' : '削除'}
             </Button>
           </div>
