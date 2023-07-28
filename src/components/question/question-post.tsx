@@ -3,6 +3,7 @@
 import { MultiSelect, Select } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { RichTextEditor } from '@mantine/tiptap'
+import { ReloadIcon } from '@radix-ui/react-icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useAtom, useAtomValue } from 'jotai'
 import { useRouter } from 'next/navigation'
@@ -95,13 +96,7 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
   return (
     <>
       <form className=' flex flex-col justify-center gap-y-7' onSubmit={handleForm.onSubmit(handleOnSubmit)}>
-        <Input
-          id='title'
-          type='text'
-          placeholder='質問タイトル'
-          variant='large'
-          {...handleForm.getInputProps('title')}
-        />
+        <Input id='title' type='text' placeholder='質問タイトル' {...handleForm.getInputProps('title')} />
         <Select
           {...handleForm.getInputProps('coding_problem')}
           placeholder='問題を選択してください'
@@ -134,7 +129,8 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
           <RichTextEditor.Content />
         </RichTextEditor>
         <div className='flex w-full justify-end px-3'>
-          <Button type='submit' variant='submit' loading={isLoading} disabled={isLoading}>
+          <Button type='submit' variant='default' disabled={isLoading}>
+            {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
             {isLoading ? '質問を送信中' : '質問を送信'}
           </Button>
         </div>
