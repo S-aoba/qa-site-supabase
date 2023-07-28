@@ -5,16 +5,16 @@ import { Button } from '../ui/button'
 export const HeaderNoSession = () => {
   return (
     <>
-      <Link href='/auth/login' className='no-underline'>
-        <Button type='submit' variant='login'>
+      <Button variant='outline' asChild>
+        <Link href='/auth/login' className='no-underline'>
           ログイン
-        </Button>
-      </Link>
-      <Link href='/auth/signup' className='no-underline'>
-        <Button type='submit' variant='signup'>
+        </Link>
+      </Button>
+      <Button variant='default' asChild>
+        <Link href='/auth/signup' className='no-underline'>
           新規登録
-        </Button>
-      </Link>
+        </Link>
+      </Button>
     </>
   )
 }
