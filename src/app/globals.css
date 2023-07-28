@@ -89,3 +89,7 @@ pre {
   border-radius: 0.5rem;
   overflow: auto;
 }
+
+::-webkit-scrollbar {
+  display: none;
+}
