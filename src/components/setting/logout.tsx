@@ -1,5 +1,6 @@
 'use client'
 
+import { ReloadIcon } from '@radix-ui/react-icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import type { FormEvent } from 'react'
@@ -47,7 +48,8 @@ export const Logout = () => {
       {/* ログアウトボタン */}
       <form onSubmit={handleOnSubmit}>
         <div className='mb-5'>
-          <Button type='submit' variant='logout' loading={isLoading}>
+          <Button type='submit' variant='destructive' disabled={isLoading}>
+            {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
             {isLoading ? 'ログアウト中' : 'ログアウト'}
           </Button>
         </div>

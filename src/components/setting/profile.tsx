@@ -2,6 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Textarea } from '@mantine/core'
+import { ReloadIcon } from '@radix-ui/react-icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useAtomValue } from 'jotai'
 import Image from 'next/image'
@@ -166,13 +167,7 @@ export const Profile = () => {
             <div className='relative mb-5 h-24 w-24'>
               <Image src={avatarUrl} className='rounded-full object-cover' alt='avatar' fill sizes='auto' priority />
             </div>
-            <Input
-              id='avatar'
-              type='file'
-              onChange={handleOnUploadImage}
-              placeholder='画像を選択する'
-              variant='file'
-            />
+            <Input id='avatar' type='file' onChange={handleOnUploadImage} placeholder='画像を選択する' />
             {fileMessage && <div className='my-5 text-center text-red-500'>{fileMessage}</div>}
           </div>
         </div>
@@ -180,14 +175,7 @@ export const Profile = () => {
         {/* 名前 */}
         <div className='mb-5'>
           <div className='mb-1 text-sm font-bold'>名前</div>
-          <Input
-            id='name'
-            type='text'
-            placeholder='名前'
-            variant='default'
-            {...register('name', { required: true })}
-            required
-          />
+          <Input id='name' type='text' placeholder='名前' {...register('name', { required: true })} required />
           <div className='my-3 text-center text-sm text-red-500'>{errors.name?.message}</div>
         </div>
 
@@ -211,27 +199,28 @@ export const Profile = () => {
         {/* Twitter */}
         <div className='mb-5'>
           <div className='mb-1 text-sm font-bold'>Twitter</div>
-          <Input id='twitter_url' type='text' placeholder='URL' variant='default' {...register('twitter_url')} />
+          <Input id='twitter_url' type='text' placeholder='URL' {...register('twitter_url')} />
           <div className='my-3 text-center text-sm text-red-500'>{errors.name?.message}</div>
         </div>
 
         {/* Github */}
         <div className='mb-5'>
           <div className='mb-1 text-sm font-bold'>Github</div>
-          <Input id='github_url' type='text' placeholder='URL' variant='default' {...register('github_url')} />
+          <Input id='github_url' type='text' placeholder='URL' {...register('github_url')} />
           <div className='my-3 text-center text-sm text-red-500'>{errors.name?.message}</div>
         </div>
 
         {/* Website */}
         <div className='mb-5'>
           <div className='mb-1 text-sm font-bold'>Website</div>
-          <Input id='website_url' type='text' placeholder='URL' variant='default' {...register('website_url')} />
+          <Input id='website_url' type='text' placeholder='URL' {...register('website_url')} />
           <div className='my-3 text-center text-sm text-red-500'>{errors.name?.message}</div>
         </div>
 
         {/* 変更ボタン */}
         <div className='mb-5'>
-          <Button type='submit' variant='submit' loading={isLoading}>
+          <Button type='submit' variant='default' disabled={isLoading}>
+            {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
             {isLoading ? '変更中' : '変更'}
           </Button>
         </div>
