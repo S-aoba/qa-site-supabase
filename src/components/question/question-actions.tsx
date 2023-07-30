@@ -1,7 +1,5 @@
 'use client'
 
-import { Modal } from '@mantine/core'
-import { useDisclosure } from '@mantine/hooks'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { IconEdit, IconMenu2, IconTrash } from '@tabler/icons-react'
@@ -14,7 +12,16 @@ import type { QuestionType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
 import { editedQuestionAtom, editedQuestionContentAtom, isEditModeAtom } from '@/store/question-atom'
 
-import { Button } from '../ui/button'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '../ui/alert-dialog'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu'
 
 export const QuestionActions = ({ question }: { question: QuestionType }) => {
@@ -24,9 +31,7 @@ export const QuestionActions = ({ question }: { question: QuestionType }) => {
 
   const [message, setMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-
-  const [isDeleteQuestionOpened, { open: handleDeleteQuestionOpen, close: handleDeleteQuestionClose }] =
-    useDisclosure(false)
+  const [isShowDialog, setShowDialog] = useState(false)
 
   const setEditedQuestion = useSetAtom(editedQuestionAtom)
   const setQuestionDescription = useSetAtom(editedQuestionContentAtom)
@@ -43,6 +48,14 @@ export const QuestionActions = ({ question }: { question: QuestionType }) => {
     setIsEditMode(true)
   }
 
+  const handleShowDialog = () => {
+    setShowDialog(true)
+  }
+
+  const handleHideDialog = () => {
+    setShowDialog(false)
+  }
+
   const handleDeleteQuestion = async () => {
     setIsLoading(true)
     try {
@@ -51,7 +64,7 @@ export const QuestionActions = ({ question }: { question: QuestionType }) => {
         setMessage('予期せぬエラーが発生しました。' + error.message)
         return
       }
-      handleDeleteQuestionClose()
+      handleHideDialog()
       router.push('/')
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
@@ -62,27 +75,7 @@ export const QuestionActions = ({ question }: { question: QuestionType }) => {
     }
   }
   return (
-    <>
-      <Modal opened={isDeleteQuestionOpened} onClose={handleDeleteQuestionClose} centered withCloseButton={false}>
-        <div className='w-full p-5'>
-          <div className='mb-4 border-b border-l-0 border-r-0 border-t-0 border-solid border-gray-200'>
-            <div className='mb-4 flex flex-col rounded-md bg-gray-100 p-3'>
-              <span>削除してもよろしいですか？</span>
-              <span>この手順は取り消すことはできません。</span>
-            </div>
-            {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
-          </div>
-          <div className='flex w-full justify-end gap-x-3'>
-            <Button type='button' variant='outline' onClick={handleDeleteQuestionClose}>
-              キャンセル
-            </Button>
-            <Button type='button' variant='destructive' onClick={handleDeleteQuestion} disabled={isLoading}>
-              {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
-              {isLoading ? '削除中' : '削除'}
-            </Button>
-          </div>
-        </div>
-      </Modal>
+    <AlertDialog open={isShowDialog} onOpenChange={handleHideDialog}>
       <div className='flex items-center'>
         <DropdownMenu>
           <DropdownMenuTrigger>
@@ -95,13 +88,28 @@ export const QuestionActions = ({ question }: { question: QuestionType }) => {
                 編集
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleDeleteQuestionOpen}>
+            <DropdownMenuItem onClick={handleShowDialog}>
               <IconTrash className='mr-2' />
               削除
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-    </>
+
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>削除してもよろしいですか？</AlertDialogTitle>
+          <AlertDialogDescription>この手順は取り消すことはできません。</AlertDialogDescription>
+          {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel onClick={handleHideDialog}>キャンセル</AlertDialogCancel>
+          <AlertDialogAction onClick={handleDeleteQuestion}>
+            {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
+            {isLoading ? '削除中' : '削除'}
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   )
 }

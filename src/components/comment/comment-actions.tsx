@@ -1,7 +1,5 @@
 'use client'
 
-import { Modal } from '@mantine/core'
-import { useDisclosure } from '@mantine/hooks'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { IconEdit, IconMenu2, IconTrash } from '@tabler/icons-react'
@@ -13,7 +11,16 @@ import type { CommentType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
 import { editedCommentAtom, isCommentEditModeAtom } from '@/store/comment-atom'
 
-import { Button } from '../ui/button'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '../ui/alert-dialog'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu'
 
 export const CommentActions = ({ comment }: { comment: CommentType }) => {
@@ -23,12 +30,18 @@ export const CommentActions = ({ comment }: { comment: CommentType }) => {
 
   const [message, setMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [isShowDialog, setShowDialog] = useState(false)
 
   const setComment = useSetAtom(editedCommentAtom)
   const [isEditMode, setIsEditMode] = useAtom(isCommentEditModeAtom)
 
-  const [isDeleteCommentOpened, { open: handleDeleteCommentOpen, close: handleDeleteAnswerClose }] =
-    useDisclosure(false)
+  const handleShowDialog = () => {
+    setShowDialog(true)
+  }
+
+  const handleHideDialog = () => {
+    setShowDialog(false)
+  }
 
   const handleSetComment = () => {
     if (!isEditMode) {
@@ -52,31 +65,12 @@ export const CommentActions = ({ comment }: { comment: CommentType }) => {
       return
     } finally {
       setIsLoading(false)
+      handleHideDialog()
       router.refresh()
     }
   }
   return (
-    <>
-      <Modal opened={isDeleteCommentOpened} onClose={handleDeleteAnswerClose} centered withCloseButton={false}>
-        <div className='w-full p-5'>
-          <div className='mb-4 border-b border-l-0 border-r-0 border-t-0 border-solid border-gray-200'>
-            <div className='mb-4 flex flex-col rounded-md bg-gray-100 p-3'>
-              <span>削除してもよろしいですか？</span>
-              <span>この手順は取り消すことはできません。</span>
-            </div>
-            {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
-          </div>
-          <div className='flex w-full justify-end gap-x-3'>
-            <Button type='button' variant='outline' onClick={handleDeleteAnswerClose}>
-              キャンセル
-            </Button>
-            <Button type='button' variant='destructive' onClick={handleDeleteComment} disabled={isLoading}>
-              {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
-              {isLoading ? '削除中' : '削除'}
-            </Button>
-          </div>
-        </div>
-      </Modal>
+    <AlertDialog open={isShowDialog} onOpenChange={handleHideDialog}>
       <div className='flex items-center'>
         <DropdownMenu>
           <DropdownMenuTrigger>
@@ -87,13 +81,28 @@ export const CommentActions = ({ comment }: { comment: CommentType }) => {
               <IconEdit className='mr-2' />
               編集
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleDeleteCommentOpen}>
+            <DropdownMenuItem onClick={handleShowDialog}>
               <IconTrash className='mr-2' />
               削除
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-    </>
+
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>削除してもよろしいですか？</AlertDialogTitle>
+          <AlertDialogDescription>この手順は取り消すことはできません。</AlertDialogDescription>
+          {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel onClick={handleHideDialog}>キャンセル</AlertDialogCancel>
+          <AlertDialogAction onClick={handleDeleteComment}>
+            {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
+            {isLoading ? '削除中' : '削除'}
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   )
 }
