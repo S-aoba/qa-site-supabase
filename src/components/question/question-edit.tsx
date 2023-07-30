@@ -1,6 +1,6 @@
 'use client'
 
-import { MultiSelect, Select } from '@mantine/core'
+import { MultiSelect } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
 import { RichTextEditor } from '@mantine/tiptap'
 import { ReloadIcon } from '@radix-ui/react-icons'
@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import * as z from 'zod'
 
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import type { Database } from '@/lib/database.types'
 import { profileAtom } from '@/store/profile-atom'
 import { editedQuestionAtom, editedQuestionContentAtom } from '@/store/question-atom'
@@ -85,13 +86,20 @@ export const QuestionEdit = () => {
     <>
       <form className=' flex flex-col justify-center gap-y-7' onSubmit={handleForm.onSubmit(handleOnSubmit)}>
         <Input id='title' type='text' placeholder='質問タイトル' {...handleForm.getInputProps('title')} />
-        <Select
-          {...handleForm.getInputProps('coding_problem')}
-          placeholder='問題を選択してください'
-          data={codingProblemList}
-          searchable
-          styles={{ input: { border: '1px solid #cbd5e1', ':focus': { border: '1px solid #cbd5e1' } } }}
-        />
+        <Select>
+          <SelectTrigger className='w-full'>
+            <SelectValue placeholder='問題を選択してください' />
+          </SelectTrigger>
+          <SelectContent className='max-h-[--radix-select-content-available-height]'>
+            {codingProblemList.map((item) => {
+              return (
+                <SelectItem key={item} value={item}>
+                  {item}
+                </SelectItem>
+              )
+            })}
+          </SelectContent>
+        </Select>
         <MultiSelect
           {...handleForm.getInputProps('tags')}
           data={data}
@@ -111,7 +119,7 @@ export const QuestionEdit = () => {
           <RichTextEditor.Content />
         </RichTextEditor>
         <div className='flex w-full justify-end px-3'>
-          <Button type='submit' variant="default" disabled={isLoading}>
+          <Button type='submit' variant='default' disabled={isLoading}>
             {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
             {isLoading ? '質問を更新中' : '質問を更新'}
           </Button>
