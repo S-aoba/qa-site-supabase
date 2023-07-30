@@ -1,6 +1,6 @@
 'use client'
 
-import { Menu, Modal } from '@mantine/core'
+import { Modal } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
@@ -14,6 +14,7 @@ import type { Database } from '@/lib/database.types'
 import { editedCommentAtom, isCommentEditModeAtom } from '@/store/comment-atom'
 
 import { Button } from '../ui/button'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu'
 
 export const CommentActions = ({ comment }: { comment: CommentType }) => {
   const router = useRouter()
@@ -77,19 +78,21 @@ export const CommentActions = ({ comment }: { comment: CommentType }) => {
         </div>
       </Modal>
       <div className='flex items-center'>
-        <Menu>
-          <Menu.Target>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
             <IconMenu2 className='hover:cursor-pointer hover:bg-slate-200' />
-          </Menu.Target>
-          <Menu.Dropdown>
-            <Menu.Item icon={<IconEdit />} onClick={handleSetComment}>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem onClick={handleSetComment}>
+              <IconEdit className='mr-2' />
               編集
-            </Menu.Item>
-            <Menu.Item icon={<IconTrash />} onClick={handleDeleteCommentOpen}>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={handleDeleteCommentOpen}>
+              <IconTrash className='mr-2' />
               削除
-            </Menu.Item>
-          </Menu.Dropdown>
-        </Menu>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </>
   )

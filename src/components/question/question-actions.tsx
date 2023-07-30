@@ -1,6 +1,6 @@
 'use client'
 
-import { Menu, Modal } from '@mantine/core'
+import { Modal } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
@@ -15,6 +15,7 @@ import type { Database } from '@/lib/database.types'
 import { editedQuestionAtom, editedQuestionContentAtom, isEditModeAtom } from '@/store/question-atom'
 
 import { Button } from '../ui/button'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu'
 
 export const QuestionActions = ({ question }: { question: QuestionType }) => {
   const supabase = createClientComponentClient<Database>()
@@ -83,21 +84,23 @@ export const QuestionActions = ({ question }: { question: QuestionType }) => {
         </div>
       </Modal>
       <div className='flex items-center'>
-        <Menu>
-          <Menu.Target>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
             <IconMenu2 className='hover:cursor-pointer hover:bg-slate-200' />
-          </Menu.Target>
-          <Menu.Dropdown>
-            <Link href={'/questions/edit'} className='no-underline'>
-              <Menu.Item icon={<IconEdit />} onClick={handleSetQuestion}>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem onClick={handleSetQuestion}>
+              <Link href={'/questions/edit'} className='flex items-center text-black no-underline'>
+                <IconEdit className='mr-2' />
                 編集
-              </Menu.Item>
-            </Link>
-            <Menu.Item icon={<IconTrash />} onClick={handleDeleteQuestionOpen}>
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={handleDeleteQuestionOpen}>
+              <IconTrash className='mr-2' />
               削除
-            </Menu.Item>
-          </Menu.Dropdown>
-        </Menu>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </>
   )
