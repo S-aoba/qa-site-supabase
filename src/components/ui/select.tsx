@@ -3,6 +3,7 @@
 import { useAtom } from 'jotai'
 import { Check, ChevronsUpDown } from 'lucide-react'
 import { useState } from 'react'
+import type { UseFormReturn } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
@@ -10,7 +11,17 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { cn } from '@/lib/utils'
 import { editedQuestionAtom } from '@/store/question-atom'
 
-export const Select = () => {
+export const Select = ({
+  handleForm,
+}: {
+  handleForm: UseFormReturn<
+    {
+      title: string
+      coding_problem: string
+    },
+    'coding_problem'
+  >
+}) => {
   const [isShowOpen, setIsShowOpen] = useState(false)
   const [editedQuestion, setEditedQuestion] = useAtom(editedQuestionAtom)
 
@@ -23,6 +34,7 @@ export const Select = () => {
       ...editedQuestion,
       coding_problem: currentValue === editedQuestion.coding_problem ? '' : currentValue,
     })
+    handleForm.setValue('coding_problem', currentValue === editedQuestion.coding_problem ? '' : currentValue)
     setIsShowOpen(false)
   }
 
@@ -47,7 +59,12 @@ export const Select = () => {
               {codingProblemList.map((item) => {
                 return (
                   <CommandItem key={item} onSelect={handleSelect}>
-                    <Check className={cn('mr-2 h-4 w-4', editedQuestion.coding_problem === item ? 'opacity-100' : 'opacity-0')} />
+                    <Check
+                      className={cn(
+                        'mr-2 h-4 w-4',
+                        editedQuestion.coding_problem === item ? 'opacity-100' : 'opacity-0'
+                      )}
+                    />
                     {item}
                   </CommandItem>
                 )
