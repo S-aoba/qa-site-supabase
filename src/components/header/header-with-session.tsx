@@ -20,9 +20,11 @@ export const HeaderWithSession = ({ avatar_url, children }: { avatar_url: string
           />
         </div>
       </Link>
-      <Link href={'/questions/post'} className='no-underline'>
-        <Button type='button' variant='link'>質問する</Button>
-      </Link>
+      <Button type='button' variant='outline' asChild>
+        <Link href={'/questions/post'} className='no-underline text-black'>
+          質問する
+        </Link>
+      </Button>
     </>
   )
 }

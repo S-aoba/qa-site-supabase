@@ -1,6 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { ReloadIcon } from '@radix-ui/react-icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -93,7 +94,6 @@ export const SignupForm = () => {
             type='text'
             placeholder='名前'
             autoComplete='username'
-            variant='default'
             {...register('username', { required: true })}
           />
           <div className='my-3 text-center text-sm text-red-500'>{errors.username?.message}</div>
@@ -104,7 +104,6 @@ export const SignupForm = () => {
             type='email'
             placeholder='メールアドレス'
             autoComplete='email'
-            variant='default'
             {...register('email', { required: true })}
           />
           <div className='my-3 text-center text-sm text-red-500'>{errors.email?.message}</div>
@@ -115,14 +114,14 @@ export const SignupForm = () => {
             id='password'
             type='password'
             placeholder='パスワード'
-            variant='default'
             autoComplete='current-password'
             {...register('password', { required: true })}
           />
           <div className='my-3 text-center text-sm text-red-500'>{errors.password?.message}</div>
         </div>
-        <div>
-          <Button type='submit' variant='signup' loading={isLoading}>
+        <div className='flex justify-end'>
+          <Button type='submit' variant='default' disabled={isLoading}>
+            {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
             {isLoading ? '新規登録中' : '新規登録'}
           </Button>
         </div>

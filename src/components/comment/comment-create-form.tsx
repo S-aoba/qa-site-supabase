@@ -1,6 +1,7 @@
 'use client'
 
 import { RichTextEditor } from '@mantine/tiptap'
+import { ReloadIcon } from '@radix-ui/react-icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useAtom, useAtomValue } from 'jotai'
 import Image from 'next/image'
@@ -93,7 +94,8 @@ export const CommentCreateForm = ({ answer }: { answer: AnswerType }) => {
               <RichTextEditor.Content />
             </RichTextEditor>
             <div className='flex w-full justify-end p-3'>
-              <Button type='submit' variant='submit' loading={isLoading}>
+              <Button type='submit' variant='default' disabled={isLoading}>
+                {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
                 {isLoading ? 'コメントを投稿中' : 'コメントを投稿'}
               </Button>
             </div>

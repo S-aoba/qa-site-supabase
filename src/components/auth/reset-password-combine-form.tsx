@@ -1,6 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { ReloadIcon } from '@radix-ui/react-icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -92,7 +93,6 @@ export const ResetPasswordCombineForm = () => {
             type='password'
             placeholder='新しいパスワード'
             autoComplete='new-password'
-            variant='default'
             {...register('password', { required: true })}
           />
           <div className='my-3 text-center text-sm text-red-500'>{errors.password?.message}</div>
@@ -105,15 +105,15 @@ export const ResetPasswordCombineForm = () => {
             type='password'
             placeholder='確認用パスワード'
             autoComplete='new-password'
-            variant='default'
             {...register('confirmation', { required: true })}
           />
           <div className='my-3 text-center text-sm text-red-500'>{errors.confirmation?.message}</div>
         </div>
 
         {/* 変更ボタン */}
-        <div>
-          <Button type='submit' variant='submit' loading={isLoading}>
+        <div className='flex justify-end'>
+          <Button type='submit' variant='default' disabled={isLoading}>
+            {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
             {isLoading ? '更新中' : '更新'}
           </Button>
         </div>

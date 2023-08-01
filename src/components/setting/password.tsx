@@ -1,6 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { ReloadIcon } from '@radix-ui/react-icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -89,7 +90,6 @@ export const Password = () => {
             id='password'
             type='password'
             placeholder='新しいパスワード'
-            variant='default'
             {...register('password', { required: true })}
           />
           <div className='my-3 text-center text-sm text-red-500'>{errors.password?.message}</div>
@@ -102,7 +102,6 @@ export const Password = () => {
             id='confirmation'
             type='password'
             placeholder='確認用パスワード'
-            variant='default'
             {...register('confirmation', { required: true })}
           />
           <div className='my-3 text-center text-sm text-red-500'>{errors.confirmation?.message}</div>
@@ -110,7 +109,8 @@ export const Password = () => {
 
         {/* 変更ボタン */}
         <div className='mb-5'>
-          <Button type='submit' variant='submit' loading={isLoading}>
+          <Button type='submit' variant='default' disabled={isLoading}>
+            {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
             {isLoading ? '変更中' : '変更'}
           </Button>
         </div>

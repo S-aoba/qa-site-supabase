@@ -1,6 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { ReloadIcon } from '@radix-ui/react-icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -93,14 +94,14 @@ export const Email = ({ email }: { email: string | undefined }) => {
             id='email'
             type='email'
             placeholder='新しいメールアドレス'
-            variant='default'
             {...register('email', { required: true })}
           />
           <div className='my-3 text-center text-sm text-red-500'>{errors.email?.message}</div>
         </div>
 
         <div className='mb-5'>
-          <Button type='submit' variant='submit' loading={isLoading}>
+          <Button type='submit' variant='default' disabled={isLoading}>
+            {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
             {isLoading ? '変更中' : '変更'}
           </Button>
         </div>

@@ -22,7 +22,7 @@ module.exports = {
         eventHandlerPrefix: 'handle',
         eventHandlerPropPrefix: 'on',
         checkLocalVariables: true,
-        checkInlineFunction: true,
+        checkInlineFunction: false,
       },
     ],
     'react/destructuring-assignment': ['error', 'always'],

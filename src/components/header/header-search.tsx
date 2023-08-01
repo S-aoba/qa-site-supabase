@@ -1,10 +1,11 @@
 'use client'
-import { TextInput } from '@mantine/core'
 import { useViewportSize } from '@mantine/hooks'
 import { IconSearch } from '@tabler/icons-react'
 import { useRouter } from 'next/navigation'
 import type { ChangeEvent } from 'react'
 import { type FormEvent, useState } from 'react'
+
+import { Input } from '../ui/input'
 
 export const HeaderSearch = () => {
   const [searchValue, setSearchValue] = useState('')
@@ -23,18 +24,10 @@ export const HeaderSearch = () => {
     <form onSubmit={handleOnSubmit} className='w-full'>
       {width > 991 ? (
         <div className='w-full pl-16'>
-          <TextInput
+          <Input
             type='text'
             autoComplete='on'
             placeholder='質問を検索'
-            size='md'
-            withAsterisk
-            styles={{
-              input: {
-                border: '1px solid #cbd5e1',
-                ':focus': { border: '1px solid #cbd5e1' },
-              },
-            }}
             onChange={handleOnChange}
           />
         </div>

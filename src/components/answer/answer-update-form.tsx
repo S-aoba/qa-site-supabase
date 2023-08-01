@@ -1,6 +1,7 @@
 'use client'
 
 import { RichTextEditor } from '@mantine/tiptap'
+import { ReloadIcon } from '@radix-ui/react-icons'
 
 import { Button } from '../ui/button'
 import { useUpdateAnswer } from './useUpdateAnswer'
@@ -24,7 +25,8 @@ export const AnswerUpdateForm = ({ answerId }: { answerId: string }) => {
           <RichTextEditor.Content />
         </RichTextEditor>
         <div className='flex w-full justify-end p-3'>
-          <Button type='submit' variant='submit' loading={isLoading}>
+          <Button type='submit' variant='default' disabled={isLoading}>
+            {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
             {isLoading ? '回答を更新中' : '回答を更新'}
           </Button>
         </div>
