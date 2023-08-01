@@ -93,3 +93,10 @@ pre {
 ::-webkit-scrollbar {
   display: none;
 }
+
+/* content-editorの入力部分のCSS */
+.ProseMirror {
+  min-height: 800px;
+  padding: 0.5rem /* 8px */;
+  outline: none;
+}
