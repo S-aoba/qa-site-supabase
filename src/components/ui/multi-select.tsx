@@ -67,7 +67,7 @@ export const MultiSelect = ({
               )
             })}
       </Listbox.Button>
-      <Listbox.Options className='absolute flex w-96 list-none flex-col space-y-2 rounded-lg bg-white px-3 py-2 shadow-lg'>
+      <Listbox.Options className='absolute flex w-96 list-none flex-col space-y-2 rounded-lg bg-white px-3 py-2 shadow-lg z-10'>
         {languages.map((person) => {
           return (
             <Listbox.Option
