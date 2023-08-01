@@ -19,6 +19,7 @@ export const Select = ({
       title: string
       coding_problem: string
       tags: string[]
+      content: string
     },
     'coding_problem'
   >
