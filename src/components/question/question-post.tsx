@@ -1,69 +1,72 @@
 'use client'
 
-import { MultiSelect } from '@mantine/core'
-import { useForm, zodResolver } from '@mantine/form'
-import { RichTextEditor } from '@mantine/tiptap'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { useAtom, useAtomValue } from 'jotai'
+import { useAtomValue } from 'jotai'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import type { Database } from '@/lib/database.types'
 import { profileAtom } from '@/store/profile-atom'
-import { editedQuestionAtom, editedQuestionContentAtom } from '@/store/question-atom'
+import { editedQuestionAtom } from '@/store/question-atom'
 
 import { useContentEditor } from '../../common/hooks/useContentEditor'
 import { Button } from '../ui/button'
+import { ContentEditor } from '../ui/content-editor'
 import { Input } from '../ui/input'
+import { MultiSelect } from '../ui/multi-select'
 import { Select } from '../ui/select'
 
 const schema = z.object({
   title: z
     .string()
     .min(1, { message: '質問タイトルを1文字以上入力してください' })
-    .max(100, { message: 'これ以上入力できません' }),
+    .max(100, { message: '100文字以上入力できません' }),
   coding_problem: z.string().min(1, { message: '問題を1つ選択してください' }),
   tags: z.string().array().min(1, { message: 'タグを1つ以上選択してください' }),
+  content: z.string().min(1, { message: '1文字以上入力してください' }),
 })
 
 export const QuestionPost = ({ userId }: { userId: string }) => {
   const editedQuestion = useAtomValue(editedQuestionAtom)
-  const [editedQuestionContent, setEditedQuestionContent] = useAtom(editedQuestionContentAtom)
   const profile = useAtomValue(profileAtom)
 
   const { questionEditor } = useContentEditor()
   const supabase = createClientComponentClient<Database>()
   const [isLoading, setLoading] = useState(false)
 
-  const [message, setMessage] = useState('')
+  const [_, setMessage] = useState('')
 
   const router = useRouter()
 
-  const handleForm = useForm({
-    validate: zodResolver(schema),
-    initialValues: {
+  const onHandleForm = useForm<z.infer<typeof schema>>({
+    resolver: zodResolver(schema),
+    defaultValues: {
       title: editedQuestion.title,
       coding_problem: editedQuestion.coding_problem,
       tags: editedQuestion.tags,
+      content: editedQuestion.content,
     },
   })
 
-  const handleOnSubmit = async (props: { title: string; coding_problem: string; tags: string[] }) => {
+  const handleOnSubmit = async (values: z.infer<typeof schema>) => {
     if (!questionEditor) return
     setLoading(true)
 
-    const { title, coding_problem, tags } = props
+    const { title, coding_problem, tags, content } = values
 
     try {
       const { data: question, error: createQuestionError } = await supabase
         .from('questions')
         .upsert({
-          title: title,
-          content: editedQuestionContent,
-          tags: tags,
-          coding_problem: coding_problem,
+          title,
+          content,
+          tags,
+          coding_problem,
           user_id: userId,
         })
         .select('*')
@@ -83,7 +86,6 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
         return
       }
 
-      setEditedQuestionContent('')
       questionEditor.commands.setContent('')
       router.push(`/${profile.username}/questions/${question.id}`)
     } catch (error) {
@@ -95,35 +97,64 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
   }
 
   return (
-    <>
-      <form className=' flex flex-col justify-center gap-y-7' onSubmit={handleForm.onSubmit(handleOnSubmit)}>
-        <Input id='title' type='text' placeholder='質問タイトル' {...handleForm.getInputProps('title')} />
-        <Select />
-
-        <MultiSelect
-          {...handleForm.getInputProps('tags')}
-          data={data}
-          placeholder='タグを最大5つまで選択できます'
-          searchable
-          nothingFound='Nothing found'
-          clearable
-          withAsterisk
-          maxSelectedValues={5}
-          styles={{ input: { border: '1px solid #cbd5e1', ':focus-within': { border: '1px solid #cbd5e1' } } }}
-        />
-
-        <RichTextEditor
-          editor={questionEditor}
-          styles={{
-            root: { border: '1px solid #cbd5e1', ':focus': { border: '1px solid #cbd5e1' } },
-            content: {
-              backgroundColor: '#f6f8fa',
-              minHeight: '400px',
-            },
+    <Form {...onHandleForm}>
+      <form className=' flex flex-col justify-center gap-y-7' onSubmit={onHandleForm.handleSubmit(handleOnSubmit)}>
+        <FormField
+          control={onHandleForm.control}
+          name='title'
+          render={({ field }) => {
+            return (
+              <FormItem>
+                <FormControl>
+                  <Input placeholder='タイトル' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )
           }}
-        >
-          <RichTextEditor.Content />
-        </RichTextEditor>
+        />
+        <FormField
+          control={onHandleForm.control}
+          name='coding_problem'
+          render={() => {
+            return (
+              <FormItem>
+                <FormControl>
+                  <Select handleForm={onHandleForm} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )
+          }}
+        />
+        <FormField
+          control={onHandleForm.control}
+          name='tags'
+          render={() => {
+            return (
+              <FormItem>
+                <FormControl>
+                  <MultiSelect handleForm={onHandleForm} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )
+          }}
+        />
+        <FormField
+          control={onHandleForm.control}
+          name='content'
+          render={() => {
+            return (
+              <FormItem>
+                <FormControl>
+                  <ContentEditor handleForm={onHandleForm} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )
+          }}
+        />
         <div className='flex w-full justify-end px-3'>
           <Button type='submit' variant='default' disabled={isLoading}>
             {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
@@ -131,24 +162,6 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
           </Button>
         </div>
       </form>
-      {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
-    </>
+    </Form>
   )
 }
-const data = [
-  { value: 'c', label: 'C' },
-  { value: 'c++', label: 'C++' },
-  { value: 'csharp', label: 'C#' },
-  { value: 'java', label: 'Java' },
-  { value: 'javascript', label: 'JavaScript' },
-  { value: 'php', label: 'PHP' },
-  { value: 'python', label: 'Python' },
-  { value: 'ruby', label: 'Ruby' },
-  { value: 'swift', label: 'Swift' },
-  { value: 'typescript', label: 'TypeScript' },
-  { value: 'go', label: 'Go' },
-  { value: 'kotlin', label: 'Kotlin' },
-  { value: 'rust', label: 'Rust' },
-  { value: 'react', label: 'React' },
-  { value: 'next.js', label: 'Next.js' },
-]

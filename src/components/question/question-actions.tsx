@@ -10,7 +10,7 @@ import { useState } from 'react'
 
 import type { QuestionType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
-import { editedQuestionAtom, editedQuestionContentAtom, isEditModeAtom } from '@/store/question-atom'
+import { editedQuestionAtom, isEditModeAtom } from '@/store/question-atom'
 
 import {
   AlertDialog,
@@ -34,16 +34,15 @@ export const QuestionActions = ({ question }: { question: QuestionType }) => {
   const [isShowDialog, setShowDialog] = useState(false)
 
   const setEditedQuestion = useSetAtom(editedQuestionAtom)
-  const setQuestionDescription = useSetAtom(editedQuestionContentAtom)
   const setIsEditMode = useSetAtom(isEditModeAtom)
 
   const handleSetQuestion = () => {
-    setQuestionDescription(question.content)
     setEditedQuestion({
       id: question.id,
       title: question.title,
       coding_problem: question.coding_problem,
       tags: question.tags,
+      content: question.content,
     })
     setIsEditMode(true)
   }

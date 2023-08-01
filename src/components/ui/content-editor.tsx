@@ -2,8 +2,10 @@
 
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import { useState } from 'react'
+import { useAtom } from 'jotai'
 import type { UseFormReturn } from 'react-hook-form'
+
+import { editedQuestionAtom } from '@/store/question-atom'
 
 export const ContentEditor = ({
   handleForm,
@@ -18,13 +20,13 @@ export const ContentEditor = ({
     'content'
   >
 }) => {
-  const [content, setContent] = useState('')
+  const [editedQuestion, setEditedQuestion] = useAtom(editedQuestionAtom)
 
   const editor = useEditor({
     extensions: [StarterKit],
-    content,
+    content: editedQuestion.content,
     onUpdate({ editor }) {
-      setContent(editor.getHTML())
+      setEditedQuestion({ ...editedQuestion, content: editor.getHTML() })
       handleForm.setValue('content', editor.getHTML())
     },
   })
