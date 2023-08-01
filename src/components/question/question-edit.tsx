@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { useAtom, useAtomValue } from 'jotai'
+import { useAtomValue } from 'jotai'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -12,7 +12,7 @@ import * as z from 'zod'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import type { Database } from '@/lib/database.types'
 import { profileAtom } from '@/store/profile-atom'
-import { editedQuestionAtom, editedQuestionContentAtom } from '@/store/question-atom'
+import { editedQuestionAtom } from '@/store/question-atom'
 
 import { useContentEditor } from '../../common/hooks/useContentEditor'
 import { Button } from '../ui/button'
@@ -33,7 +33,6 @@ const schema = z.object({
 
 export const QuestionEdit = () => {
   const editedQuestion = useAtomValue(editedQuestionAtom)
-  const [editedQuestionContent, setEditedQuestionContent] = useAtom(editedQuestionContentAtom)
   const profile = useAtomValue(profileAtom)
 
   const { questionEditor } = useContentEditor()
@@ -49,7 +48,7 @@ export const QuestionEdit = () => {
       title: editedQuestion.title,
       coding_problem: editedQuestion.coding_problem,
       tags: editedQuestion.tags,
-      content: editedQuestionContent,
+      content: editedQuestion.content,
     },
   })
 
@@ -74,7 +73,6 @@ export const QuestionEdit = () => {
         setMessage('予期せぬエラーが発生しました。' + updateQuestionError.message)
         return
       }
-      setEditedQuestionContent('')
       questionEditor.commands.setContent('')
       router.push(`/${profile.username}/questions/${editedQuestion.id}`)
     } catch (error) {
