@@ -1,16 +1,15 @@
 'use client'
 
-import { zodResolver } from '@hookform/resolvers/zod'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useAtomValue } from 'jotai'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
 import type * as z from 'zod'
 
-import { answerSchema } from '@/common/schemas'
+import { ReactHookForm } from '@/common/react-hook-form'
+import type { answerSchema } from '@/common/schemas'
 import type { ProfileType, QuestionType } from '@/common/types'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import type { Database } from '@/lib/database.types'
@@ -29,21 +28,17 @@ export const AnswerCreateForm = ({
   question: QuestionType
   profile: ProfileType | null
 }) => {
-  // const { handleOnSubmit, isLoading, message, answerEditor } = useCreateAnswer({ question, userId })
   const [isLoading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
+
   const router = useRouter()
 
   const supabase = createClientComponentClient<Database>()
 
   const user = useAtomValue(profileAtom)
   const editedAnswer = useAtomValue(editedAnswerAtom)
-  const onHandleForm = useForm<z.infer<typeof answerSchema>>({
-    resolver: zodResolver(answerSchema),
-    defaultValues: {
-      content: editedAnswer,
-    },
-  })
+
+  const { onHandleAnswerForm } = ReactHookForm()
 
   const handleCreateAnswer = async (values: z.infer<typeof answerSchema>) => {
     setLoading(true)
@@ -112,10 +107,10 @@ export const AnswerCreateForm = ({
         <span className='text-xl font-semibold text-slate-600'>回答する</span>
       </div>
       <div className='px-2 py-5'>
-        <Form {...onHandleForm}>
-          <form onSubmit={onHandleForm.handleSubmit(handleCreateAnswer)}>
+        <Form {...onHandleAnswerForm}>
+          <form onSubmit={onHandleAnswerForm.handleSubmit(handleCreateAnswer)}>
             <FormField
-              control={onHandleForm.control}
+              control={onHandleAnswerForm.control}
               name='content'
               render={({ field }) => {
                 return (

@@ -1,16 +1,15 @@
 'use client'
 
-import { zodResolver } from '@hookform/resolvers/zod'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useAtomValue } from 'jotai'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
 import type * as z from 'zod'
 
-import { commentSchema } from '@/common/schemas'
+import { ReactHookForm } from '@/common/react-hook-form'
+import type { commentSchema } from '@/common/schemas'
 import type { AnswerType } from '@/common/types'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import type { Database } from '@/lib/database.types'
@@ -23,22 +22,19 @@ import { useCommentFormAlert } from './useCommentFormAlert'
 
 export const CommentCreateForm = ({ answer }: { answer: AnswerType }) => {
   useCommentFormAlert()
+  const [message, setMessage] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [avatarUrl, setAvatarUrl] = useState('/default.png')
+
+  const router = useRouter()
 
   const supabase = createClientComponentClient<Database>()
 
-  const [message, setMessage] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
   const user = useAtomValue(profileAtom)
-  const router = useRouter()
-  const [avatarUrl, setAvatarUrl] = useState('/default.png')
-
   const content = useAtomValue(editedCommentAtom)
-  const onHandleForm = useForm<z.infer<typeof commentSchema>>({
-    resolver: zodResolver(commentSchema),
-    defaultValues: {
-      content,
-    },
-  })
+
+  const { onHandleCommentForm } = ReactHookForm()
+
   // アバター画像の取得
   useEffect(() => {
     if (user && user.avatar_url) {
@@ -84,10 +80,10 @@ export const CommentCreateForm = ({ answer }: { answer: AnswerType }) => {
             </div>
             <span>コメントする</span>
           </div>
-          <Form {...onHandleForm}>
-            <form className='pt-2' onSubmit={onHandleForm.handleSubmit(handleCreateComment)}>
+          <Form {...onHandleCommentForm}>
+            <form className='pt-2' onSubmit={onHandleCommentForm.handleSubmit(handleCreateComment)}>
               <FormField
-                control={onHandleForm.control}
+                control={onHandleCommentForm.control}
                 name='content'
                 render={({ field }) => {
                   return (

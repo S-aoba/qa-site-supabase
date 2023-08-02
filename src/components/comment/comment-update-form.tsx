@@ -1,15 +1,14 @@
 'use client'
 
-import { zodResolver } from '@hookform/resolvers/zod'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useAtomValue, useSetAtom } from 'jotai'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
 import type * as z from 'zod'
 
-import { commentSchema } from '@/common/schemas'
+import { ReactHookForm } from '@/common/react-hook-form'
+import type { commentSchema } from '@/common/schemas'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import type { Database } from '@/lib/database.types'
 import { editedCommentAtom, isCommentEditModeAtom } from '@/store/comment-atom'
@@ -20,22 +19,18 @@ import { useCommentFormAlert } from './useCommentFormAlert'
 
 export const CommentUpdateForm = ({ commentId }: { commentId: string }) => {
   useCommentFormAlert()
+  const [message, setMessage] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+
+  const router = useRouter()
 
   const supabase = createClientComponentClient<Database>()
-
-  const [isLoading, setIsLoading] = useState(false)
 
   const setIsEditMode = useSetAtom(isCommentEditModeAtom)
   const content = useAtomValue(editedCommentAtom)
 
-  const [message, setMessage] = useState('')
-  const router = useRouter()
-  const onHandleForm = useForm<z.infer<typeof commentSchema>>({
-    resolver: zodResolver(commentSchema),
-    defaultValues: {
-      content,
-    },
-  })
+  const { onHandleCommentForm } = ReactHookForm()
+
   const handleUpdateComment = async (values: z.infer<typeof commentSchema>) => {
     setIsLoading(true)
     const { content } = values
@@ -62,10 +57,10 @@ export const CommentUpdateForm = ({ commentId }: { commentId: string }) => {
   }
 
   return (
-    <Form {...onHandleForm}>
-      <form className='p-2' onSubmit={onHandleForm.handleSubmit(handleUpdateComment)}>
+    <Form {...onHandleCommentForm}>
+      <form className='p-2' onSubmit={onHandleCommentForm.handleSubmit(handleUpdateComment)}>
         <FormField
-          control={onHandleForm.control}
+          control={onHandleCommentForm.control}
           name='content'
           render={({ field }) => {
             return (

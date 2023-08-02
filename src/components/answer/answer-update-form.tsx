@@ -1,16 +1,15 @@
 'use client'
 
-import { zodResolver } from '@hookform/resolvers/zod'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useAtomValue, useSetAtom } from 'jotai'
 import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
 import type * as z from 'zod'
 
-import { answerSchema } from '@/common/schemas'
+import { ReactHookForm } from '@/common/react-hook-form'
+import type { answerSchema } from '@/common/schemas'
 import type { Database } from '@/lib/database.types'
 import { editedAnswerAtom, isAnswerEditModeAtom } from '@/store/answer-atom'
 
@@ -19,20 +18,17 @@ import { ContentEditor } from '../ui/content-editor'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form'
 
 export const AnswerUpdateForm = ({ answerId }: { answerId: string }) => {
-  const editedAnswer = useAtomValue(editedAnswerAtom)
-  const onHandleForm = useForm<z.infer<typeof answerSchema>>({
-    resolver: zodResolver(answerSchema),
-    defaultValues: {
-      content: editedAnswer,
-    },
-  })
   const [isLoading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 
-  const router = useRouter()
   const pathname = usePathname()
+  const router = useRouter()
 
   const supabase = createClientComponentClient<Database>()
+
+  const editedAnswer = useAtomValue(editedAnswerAtom)
+
+  const { onHandleAnswerForm } = ReactHookForm()
 
   const setIsEditMode = useSetAtom(isAnswerEditModeAtom)
   const handleAnswerUpdate = async (values: z.infer<typeof answerSchema>) => {
@@ -62,10 +58,10 @@ export const AnswerUpdateForm = ({ answerId }: { answerId: string }) => {
 
   return (
     <>
-      <Form {...onHandleForm}>
-        <form onSubmit={onHandleForm.handleSubmit(handleAnswerUpdate)}>
+      <Form {...onHandleAnswerForm}>
+        <form onSubmit={onHandleAnswerForm.handleSubmit(handleAnswerUpdate)}>
           <FormField
-            control={onHandleForm.control}
+            control={onHandleAnswerForm.control}
             name='content'
             render={({ field }) => {
               return (
