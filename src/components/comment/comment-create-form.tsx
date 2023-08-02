@@ -1,23 +1,28 @@
 'use client'
 
-import { RichTextEditor } from '@mantine/tiptap'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { useAtom, useAtomValue } from 'jotai'
+import { useAtomValue } from 'jotai'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import type { FormEvent } from 'react'
 import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import * as z from 'zod'
 
-import { useContentEditor } from '@/common/hooks/useContentEditor'
 import type { AnswerType } from '@/common/types'
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import type { Database } from '@/lib/database.types'
 import { editedCommentAtom } from '@/store/comment-atom'
 import { profileAtom } from '@/store/profile-atom'
 
 import { Button } from '../ui/button'
+import { ContentEditor } from '../ui/content-editor'
 import { useCommentFormAlert } from './useCommentFormAlert'
 
+const schema = z.object({
+  content: z.string().min(1, { message: '1文字以上入力してください' }),
+})
 export const CommentCreateForm = ({ answer }: { answer: AnswerType }) => {
   useCommentFormAlert()
 
@@ -25,13 +30,17 @@ export const CommentCreateForm = ({ answer }: { answer: AnswerType }) => {
 
   const [message, setMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const { commentEditor } = useContentEditor()
   const user = useAtomValue(profileAtom)
   const router = useRouter()
   const [avatarUrl, setAvatarUrl] = useState('/default.png')
 
-  const [content, setContent] = useAtom(editedCommentAtom)
-
+  const content = useAtomValue(editedCommentAtom)
+  const onHandleForm = useForm<z.infer<typeof schema>>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      content,
+    },
+  })
   // アバター画像の取得
   useEffect(() => {
     if (user && user.avatar_url) {
@@ -39,11 +48,10 @@ export const CommentCreateForm = ({ answer }: { answer: AnswerType }) => {
     }
   }, [user])
 
-  const handleCreateComment = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (!commentEditor) return
-
+  const handleCreateComment = async (values: z.infer<typeof schema>) => {
     setIsLoading(true)
+    const { content } = values
+
     try {
       const { error: createCommentError } = await supabase
         .from('comments')
@@ -64,8 +72,6 @@ export const CommentCreateForm = ({ answer }: { answer: AnswerType }) => {
       setMessage('エラーが発生しました。' + error)
       return
     } finally {
-      setContent('')
-      commentEditor.commands.setContent('')
       setIsLoading(false)
       router.refresh()
     }
@@ -80,27 +86,31 @@ export const CommentCreateForm = ({ answer }: { answer: AnswerType }) => {
             </div>
             <span>コメントする</span>
           </div>
-          <form className='pt-2' onSubmit={handleCreateComment}>
-            <RichTextEditor
-              editor={commentEditor}
-              styles={{
-                root: { border: '1px solid #cbd5e1', ':focus': { border: '1px solid #cbd5e1' } },
-                content: {
-                  backgroundColor: '#f6f8fa',
-                  minHeight: '400px',
-                },
-              }}
-            >
-              <RichTextEditor.Content />
-            </RichTextEditor>
-            <div className='flex w-full justify-end p-3'>
-              <Button type='submit' variant='default' disabled={isLoading}>
-                {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
-                {isLoading ? 'コメントを投稿中' : 'コメントを投稿'}
-              </Button>
-            </div>
-          </form>
-          {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
+          <Form {...onHandleForm}>
+            <form className='pt-2' onSubmit={onHandleForm.handleSubmit(handleCreateComment)}>
+              <FormField
+                control={onHandleForm.control}
+                name='content'
+                render={({ field }) => {
+                  return (
+                    <FormItem>
+                      <FormControl>
+                        <ContentEditor handleOnChange={field.onChange} content={content} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )
+                }}
+              />
+              <div className='flex w-full justify-end p-3'>
+                <Button type='submit' variant='default' disabled={isLoading}>
+                  {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
+                  {isLoading ? 'コメントを投稿中' : 'コメントを投稿'}
+                </Button>
+              </div>
+            </form>
+            {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
+          </Form>
         </div>
       }
     </>

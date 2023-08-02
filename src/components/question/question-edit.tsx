@@ -132,11 +132,11 @@ export const QuestionEdit = () => {
         <FormField
           control={onHandleForm.control}
           name='content'
-          render={() => {
+          render={({ field }) => {
             return (
               <FormItem>
                 <FormControl>
-                  <ContentEditor handleForm={onHandleForm} />
+                  <ContentEditor handleOnChange={field.onChange} content={editedQuestion.content} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
