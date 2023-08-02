@@ -7,8 +7,9 @@ import { useAtomValue } from 'jotai'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import * as z from 'zod'
+import type * as z from 'zod'
 
+import { questionSchema } from '@/common/schemas'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import type { Database } from '@/lib/database.types'
 import { profileAtom } from '@/store/profile-atom'
@@ -21,16 +22,6 @@ import { Input } from '../ui/input'
 import { MultiSelect } from '../ui/multi-select'
 import { Select } from '../ui/select'
 
-const schema = z.object({
-  title: z
-    .string()
-    .min(1, { message: '質問タイトルを1文字以上入力してください' })
-    .max(100, { message: '100文字以上入力できません' }),
-  coding_problem: z.string().min(1, { message: '問題を1つ選択してください' }),
-  tags: z.string().array().min(1, { message: 'タグを1つ以上選択してください' }),
-  content: z.string().min(1, { message: '1文字以上入力してください' }),
-})
-
 export const QuestionEdit = () => {
   const editedQuestion = useAtomValue(editedQuestionAtom)
   const profile = useAtomValue(profileAtom)
@@ -42,8 +33,8 @@ export const QuestionEdit = () => {
 
   const router = useRouter()
 
-  const onHandleForm = useForm<z.infer<typeof schema>>({
-    resolver: zodResolver(schema),
+  const onHandleForm = useForm<z.infer<typeof questionSchema>>({
+    resolver: zodResolver(questionSchema),
     defaultValues: {
       title: editedQuestion.title,
       coding_problem: editedQuestion.coding_problem,
@@ -52,7 +43,7 @@ export const QuestionEdit = () => {
     },
   })
 
-  const handleOnSubmit = async (values: z.infer<typeof schema>) => {
+  const handleOnSubmit = async (values: z.infer<typeof questionSchema>) => {
     if (!questionEditor) return
 
     setLoading(true)

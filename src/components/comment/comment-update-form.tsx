@@ -7,8 +7,9 @@ import { useAtomValue, useSetAtom } from 'jotai'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import * as z from 'zod'
+import type * as z from 'zod'
 
+import { commentSchema } from '@/common/schemas'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import type { Database } from '@/lib/database.types'
 import { editedCommentAtom, isCommentEditModeAtom } from '@/store/comment-atom'
@@ -17,9 +18,6 @@ import { Button } from '../ui/button'
 import { ContentEditor } from '../ui/content-editor'
 import { useCommentFormAlert } from './useCommentFormAlert'
 
-const schema = z.object({
-  content: z.string().min(1, { message: '1文字以上入力してください' }),
-})
 export const CommentUpdateForm = ({ commentId }: { commentId: string }) => {
   useCommentFormAlert()
 
@@ -32,13 +30,13 @@ export const CommentUpdateForm = ({ commentId }: { commentId: string }) => {
 
   const [message, setMessage] = useState('')
   const router = useRouter()
-  const onHandleForm = useForm<z.infer<typeof schema>>({
-    resolver: zodResolver(schema),
+  const onHandleForm = useForm<z.infer<typeof commentSchema>>({
+    resolver: zodResolver(commentSchema),
     defaultValues: {
       content,
     },
   })
-  const handleUpdateComment = async (values: z.infer<typeof schema>) => {
+  const handleUpdateComment = async (values: z.infer<typeof commentSchema>) => {
     setIsLoading(true)
     const { content } = values
 

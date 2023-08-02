@@ -8,8 +8,9 @@ import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import * as z from 'zod'
+import type * as z from 'zod'
 
+import { answerSchema } from '@/common/schemas'
 import type { Database } from '@/lib/database.types'
 import { editedAnswerAtom, isAnswerEditModeAtom } from '@/store/answer-atom'
 
@@ -17,13 +18,10 @@ import { Button } from '../ui/button'
 import { ContentEditor } from '../ui/content-editor'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form'
 
-const schema = z.object({
-  content: z.string().min(1, { message: '1文字以上入力してください' }),
-})
 export const AnswerUpdateForm = ({ answerId }: { answerId: string }) => {
   const editedAnswer = useAtomValue(editedAnswerAtom)
-  const onHandleForm = useForm<z.infer<typeof schema>>({
-    resolver: zodResolver(schema),
+  const onHandleForm = useForm<z.infer<typeof answerSchema>>({
+    resolver: zodResolver(answerSchema),
     defaultValues: {
       content: editedAnswer,
     },
@@ -37,7 +35,7 @@ export const AnswerUpdateForm = ({ answerId }: { answerId: string }) => {
   const supabase = createClientComponentClient<Database>()
 
   const setIsEditMode = useSetAtom(isAnswerEditModeAtom)
-  const handleAnswerUpdate = async (values: z.infer<typeof schema>) => {
+  const handleAnswerUpdate = async (values: z.infer<typeof answerSchema>) => {
     setLoading(true)
     const { content } = values
 

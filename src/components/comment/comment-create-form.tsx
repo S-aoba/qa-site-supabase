@@ -8,8 +8,9 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import * as z from 'zod'
+import type * as z from 'zod'
 
+import { commentSchema } from '@/common/schemas'
 import type { AnswerType } from '@/common/types'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import type { Database } from '@/lib/database.types'
@@ -20,9 +21,6 @@ import { Button } from '../ui/button'
 import { ContentEditor } from '../ui/content-editor'
 import { useCommentFormAlert } from './useCommentFormAlert'
 
-const schema = z.object({
-  content: z.string().min(1, { message: '1文字以上入力してください' }),
-})
 export const CommentCreateForm = ({ answer }: { answer: AnswerType }) => {
   useCommentFormAlert()
 
@@ -35,8 +33,8 @@ export const CommentCreateForm = ({ answer }: { answer: AnswerType }) => {
   const [avatarUrl, setAvatarUrl] = useState('/default.png')
 
   const content = useAtomValue(editedCommentAtom)
-  const onHandleForm = useForm<z.infer<typeof schema>>({
-    resolver: zodResolver(schema),
+  const onHandleForm = useForm<z.infer<typeof commentSchema>>({
+    resolver: zodResolver(commentSchema),
     defaultValues: {
       content,
     },
@@ -48,7 +46,7 @@ export const CommentCreateForm = ({ answer }: { answer: AnswerType }) => {
     }
   }, [user])
 
-  const handleCreateComment = async (values: z.infer<typeof schema>) => {
+  const handleCreateComment = async (values: z.infer<typeof commentSchema>) => {
     setIsLoading(true)
     const { content } = values
 

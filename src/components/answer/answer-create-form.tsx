@@ -8,8 +8,9 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import * as z from 'zod'
+import type * as z from 'zod'
 
+import { answerSchema } from '@/common/schemas'
 import type { ProfileType, QuestionType } from '@/common/types'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import type { Database } from '@/lib/database.types'
@@ -19,9 +20,6 @@ import { profileAtom } from '@/store/profile-atom'
 import { Button } from '../ui/button'
 import { ContentEditor } from '../ui/content-editor'
 
-const schema = z.object({
-  content: z.string().min(1, { message: '1文字以上入力してください' }),
-})
 export const AnswerCreateForm = ({
   userId,
   question,
@@ -40,14 +38,14 @@ export const AnswerCreateForm = ({
 
   const user = useAtomValue(profileAtom)
   const editedAnswer = useAtomValue(editedAnswerAtom)
-  const onHandleForm = useForm<z.infer<typeof schema>>({
-    resolver: zodResolver(schema),
+  const onHandleForm = useForm<z.infer<typeof answerSchema>>({
+    resolver: zodResolver(answerSchema),
     defaultValues: {
       content: editedAnswer,
     },
   })
 
-  const handleCreateAnswer = async (values: z.infer<typeof schema>) => {
+  const handleCreateAnswer = async (values: z.infer<typeof answerSchema>) => {
     setLoading(true)
     const { content } = values
     try {
