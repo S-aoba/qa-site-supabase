@@ -17,7 +17,10 @@ export const AnswerContent = ({ answer }: { answer: AnswerType }) => {
           <AnswerUpdateForm answerId={answer.id} />
         </div>
       ) : (
-        <div className='break-words p-3' dangerouslySetInnerHTML={{ __html: answer.content }} />
+        <div
+          className='prose prose-sm prose-slate break-words p-3 lg:prose'
+          dangerouslySetInnerHTML={{ __html: answer.content }}
+        />
       )}
     </div>
   )

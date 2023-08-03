@@ -77,19 +77,6 @@
   }
 }
 
-code {
-  line-height: 2;
-  filter: brightness(0.95);
-}
-
-pre {
-  background-color: #1a2638;
-  color: white;
-  padding: 8px;
-  border-radius: 0.5rem;
-  overflow: auto;
-}
-
 ::-webkit-scrollbar {
   display: none;
 }
