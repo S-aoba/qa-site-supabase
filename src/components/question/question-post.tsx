@@ -1,14 +1,14 @@
 'use client'
 
-import { zodResolver } from '@hookform/resolvers/zod'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useAtomValue } from 'jotai'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import * as z from 'zod'
+import type * as z from 'zod'
 
+import { ReactHookForm } from '@/common/react-hook-form'
+import type { questionSchema } from '@/common/schemas'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import type { Database } from '@/lib/database.types'
 import { profileAtom } from '@/store/profile-atom'
@@ -21,39 +21,21 @@ import { Input } from '../ui/input'
 import { MultiSelect } from '../ui/multi-select'
 import { Select } from '../ui/select'
 
-const schema = z.object({
-  title: z
-    .string()
-    .min(1, { message: '質問タイトルを1文字以上入力してください' })
-    .max(100, { message: '100文字以上入力できません' }),
-  coding_problem: z.string().min(1, { message: '問題を1つ選択してください' }),
-  tags: z.string().array().min(1, { message: 'タグを1つ以上選択してください' }),
-  content: z.string().min(1, { message: '1文字以上入力してください' }),
-})
-
 export const QuestionPost = ({ userId }: { userId: string }) => {
+  const [isLoading, setLoading] = useState(false)
+  const [_, setMessage] = useState('')
+  const router = useRouter()
+
+  const supabase = createClientComponentClient<Database>()
+
   const editedQuestion = useAtomValue(editedQuestionAtom)
   const profile = useAtomValue(profileAtom)
 
   const { questionEditor } = useContentEditor()
-  const supabase = createClientComponentClient<Database>()
-  const [isLoading, setLoading] = useState(false)
 
-  const [_, setMessage] = useState('')
+  const { onHandleQuestionForm } = ReactHookForm()
 
-  const router = useRouter()
-
-  const onHandleForm = useForm<z.infer<typeof schema>>({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      title: editedQuestion.title,
-      coding_problem: editedQuestion.coding_problem,
-      tags: editedQuestion.tags,
-      content: editedQuestion.content,
-    },
-  })
-
-  const handleOnSubmit = async (values: z.infer<typeof schema>) => {
+  const handleOnSubmit = async (values: z.infer<typeof questionSchema>) => {
     if (!questionEditor) return
     setLoading(true)
 
@@ -97,10 +79,13 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
   }
 
   return (
-    <Form {...onHandleForm}>
-      <form className=' flex flex-col justify-center gap-y-7' onSubmit={onHandleForm.handleSubmit(handleOnSubmit)}>
+    <Form {...onHandleQuestionForm}>
+      <form
+        className=' flex flex-col justify-center gap-y-7'
+        onSubmit={onHandleQuestionForm.handleSubmit(handleOnSubmit)}
+      >
         <FormField
-          control={onHandleForm.control}
+          control={onHandleQuestionForm.control}
           name='title'
           render={({ field }) => {
             return (
@@ -114,13 +99,13 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
           }}
         />
         <FormField
-          control={onHandleForm.control}
+          control={onHandleQuestionForm.control}
           name='coding_problem'
           render={() => {
             return (
               <FormItem>
                 <FormControl>
-                  <Select handleForm={onHandleForm} />
+                  <Select handleForm={onHandleQuestionForm} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -128,13 +113,13 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
           }}
         />
         <FormField
-          control={onHandleForm.control}
+          control={onHandleQuestionForm.control}
           name='tags'
           render={() => {
             return (
               <FormItem>
                 <FormControl>
-                  <MultiSelect handleForm={onHandleForm} />
+                  <MultiSelect handleForm={onHandleQuestionForm} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -142,13 +127,13 @@ export const QuestionPost = ({ userId }: { userId: string }) => {
           }}
         />
         <FormField
-          control={onHandleForm.control}
+          control={onHandleQuestionForm.control}
           name='content'
-          render={() => {
+          render={({ field }) => {
             return (
               <FormItem>
                 <FormControl>
-                  <ContentEditor handleForm={onHandleForm} />
+                  <ContentEditor handleOnChange={field.onChange} content={editedQuestion.content} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

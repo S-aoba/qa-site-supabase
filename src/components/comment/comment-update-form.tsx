@@ -1,45 +1,45 @@
 'use client'
 
-import { RichTextEditor } from '@mantine/tiptap'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { useAtom, useSetAtom } from 'jotai'
+import { useAtomValue, useSetAtom } from 'jotai'
 import { useRouter } from 'next/navigation'
-import type { FormEvent } from 'react'
 import { useState } from 'react'
+import type * as z from 'zod'
 
-import { useContentEditor } from '@/common/hooks/useContentEditor'
+import { ReactHookForm } from '@/common/react-hook-form'
+import type { commentSchema } from '@/common/schemas'
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import type { Database } from '@/lib/database.types'
 import { editedCommentAtom, isCommentEditModeAtom } from '@/store/comment-atom'
 
 import { Button } from '../ui/button'
+import { ContentEditor } from '../ui/content-editor'
 import { useCommentFormAlert } from './useCommentFormAlert'
 
 export const CommentUpdateForm = ({ commentId }: { commentId: string }) => {
   useCommentFormAlert()
+  const [message, setMessage] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+
+  const router = useRouter()
 
   const supabase = createClientComponentClient<Database>()
 
-  const [isLoading, setIsLoading] = useState(false)
-
   const setIsEditMode = useSetAtom(isCommentEditModeAtom)
+  const content = useAtomValue(editedCommentAtom)
 
-  const { commentEditor } = useContentEditor()
-  const [comment, setContent] = useAtom(editedCommentAtom)
-  const [message, setMessage] = useState('')
-  const router = useRouter()
+  const { onHandleCommentForm } = ReactHookForm()
 
-  const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if (!commentEditor) return
-
+  const handleUpdateComment = async (values: z.infer<typeof commentSchema>) => {
     setIsLoading(true)
+    const { content } = values
 
     try {
       const { error: updateCommentError } = await supabase
         .from('comments')
         .update({
-          content: comment,
+          content,
         })
         .eq('id', commentId)
       if (updateCommentError) {
@@ -50,8 +50,6 @@ export const CommentUpdateForm = ({ commentId }: { commentId: string }) => {
       setMessage('エラーが発生しました。' + error)
       return
     } finally {
-      setContent('')
-      commentEditor.commands.setContent('')
       setIsLoading(false)
       setIsEditMode(false)
       router.refresh()
@@ -59,20 +57,22 @@ export const CommentUpdateForm = ({ commentId }: { commentId: string }) => {
   }
 
   return (
-    <>
-      <form className='p-2' onSubmit={handleOnSubmit}>
-        <RichTextEditor
-          editor={commentEditor}
-          styles={{
-            root: { border: '1px solid #cbd5e1', ':focus': { border: '1px solid #cbd5e1' } },
-            content: {
-              backgroundColor: '#f6f8fa',
-              minHeight: '400px',
-            },
+    <Form {...onHandleCommentForm}>
+      <form className='p-2' onSubmit={onHandleCommentForm.handleSubmit(handleUpdateComment)}>
+        <FormField
+          control={onHandleCommentForm.control}
+          name='content'
+          render={({ field }) => {
+            return (
+              <FormItem>
+                <FormControl>
+                  <ContentEditor handleOnChange={field.onChange} content={content} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )
           }}
-        >
-          <RichTextEditor.Content />
-        </RichTextEditor>
+        />
         <div className='flex w-full justify-end p-3'>
           <Button type='submit' variant='default' disabled={isLoading}>
             {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
@@ -81,6 +81,6 @@ export const CommentUpdateForm = ({ commentId }: { commentId: string }) => {
         </div>
       </form>
       {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
-    </>
+    </Form>
   )
 }

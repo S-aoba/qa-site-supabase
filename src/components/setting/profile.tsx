@@ -1,36 +1,24 @@
 'use client'
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Textarea } from '@mantine/core'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useAtomValue } from 'jotai'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useState } from 'react'
-import type { SubmitHandler } from 'react-hook-form'
-import { useForm } from 'react-hook-form'
 import { v4 as uuidv4 } from 'uuid'
-import * as z from 'zod'
+import type * as z from 'zod'
 
+import { ReactHookForm } from '@/common/react-hook-form'
+import type { profileSchema } from '@/common/schemas'
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import type { Database } from '@/lib/database.types'
 import { profileAtom } from '@/store/profile-atom'
 
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
+import { Textarea } from '../ui/textarea'
 
-type Schema = z.infer<typeof schema>
-
-// 入力データの検証ルールを定義
-const schema = z.object({
-  name: z.string().min(2, { message: '2文字以上入力する必要があります。' }),
-  introduce: z.string().min(0),
-  twitter_url: z.string().min(0),
-  github_url: z.string().min(0),
-  website_url: z.string().min(0),
-})
-
-// プロフィール
 export const Profile = () => {
   const router = useRouter()
   const supabase = createClientComponentClient<Database>()
@@ -41,22 +29,7 @@ export const Profile = () => {
   const [avatarUrl, setAvatarUrl] = useState('/default.png')
   const user = useAtomValue(profileAtom)
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    // 初期値
-    defaultValues: {
-      name: user.username ? user.username : '',
-      introduce: user.introduce ? user.introduce : '',
-      twitter_url: user.twitter_url ? user.twitter_url : '',
-      github_url: user.github_url ? user.github_url : '',
-      website_url: user.website_url ? user.website_url : '',
-    },
-    // 入力値の検証
-    resolver: zodResolver(schema),
-  })
+  const { onHandleProfileForm } = ReactHookForm()
 
   // アバター画像の取得
   useEffect(() => {
@@ -96,9 +69,9 @@ export const Profile = () => {
   }, [])
 
   // 送信
-  const onSubmit: SubmitHandler<Schema> = async (data) => {
+  const onSubmit = async (values: z.infer<typeof profileSchema>) => {
     setLoading(true)
-    setMessage('')
+    const { name, introduce, twitter_url, github_url, website_url } = values
 
     try {
       let avatar_url = user.avatar_url
@@ -132,12 +105,12 @@ export const Profile = () => {
       const { error: updateError } = await supabase
         .from('profiles')
         .update({
-          username: data.name,
-          introduce: data.introduce,
+          username: name,
+          introduce: introduce,
           avatar_url,
-          twitter_url: data.twitter_url,
-          github_url: data.github_url,
-          website_url: data.website_url,
+          twitter_url: twitter_url,
+          github_url: github_url,
+          website_url: website_url,
         })
         .eq('id', user.id)
 
@@ -160,74 +133,112 @@ export const Profile = () => {
   return (
     <div>
       <div className='mb-10 text-center text-xl font-bold'>プロフィール</div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {/* アバター画像 */}
-        <div className='mb-5'>
-          <div className='mb-5 flex flex-col items-center justify-center text-sm'>
-            <div className='relative mb-5 h-24 w-24'>
-              <Image src={avatarUrl} className='rounded-full object-cover' alt='avatar' fill sizes='auto' priority />
+      <Form {...onHandleProfileForm}>
+        <form onSubmit={onHandleProfileForm.handleSubmit(onSubmit)}>
+          {/* アバター画像 */}
+          <div className='mb-5'>
+            <div className='mb-5 flex flex-col items-center justify-center text-sm'>
+              <div className='relative mb-5 h-24 w-24'>
+                <Image src={avatarUrl} className='rounded-full object-cover' alt='avatar' fill sizes='auto' priority />
+              </div>
+              <Input id='avatar' type='file' onChange={handleOnUploadImage} placeholder='画像を選択する' />
+              {fileMessage && <div className='my-5 text-center text-red-500'>{fileMessage}</div>}
             </div>
-            <Input id='avatar' type='file' onChange={handleOnUploadImage} placeholder='画像を選択する' />
-            {fileMessage && <div className='my-5 text-center text-red-500'>{fileMessage}</div>}
           </div>
-        </div>
-
-        {/* 名前 */}
-        <div className='mb-5'>
-          <div className='mb-1 text-sm font-bold'>名前</div>
-          <Input id='name' type='text' placeholder='名前' {...register('name', { required: true })} required />
-          <div className='my-3 text-center text-sm text-red-500'>{errors.name?.message}</div>
-        </div>
-
-        {/* 自己紹介 */}
-        <div className='mb-5'>
-          <div className='mb-1 text-sm font-bold'>自己紹介</div>
-          <Textarea
-            styles={{
-              input: {
-                border: '1px solid #cbd5e1',
-                ':focus': { border: '1px solid #cbd5e1' },
-              },
+          <FormField
+            control={onHandleProfileForm.control}
+            name='name'
+            render={({ field }) => {
+              return (
+                <FormItem>
+                  <FormControl>
+                    <div className='mb-5'>
+                      <div className='mb-1 text-sm font-bold'>名前</div>
+                      <Input placeholder='name' {...field} />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )
             }}
-            placeholder='自己紹介'
-            id='introduce'
-            {...register('introduce')}
-            rows={5}
           />
-        </div>
-
-        {/* Twitter */}
-        <div className='mb-5'>
-          <div className='mb-1 text-sm font-bold'>Twitter</div>
-          <Input id='twitter_url' type='text' placeholder='URL' {...register('twitter_url')} />
-          <div className='my-3 text-center text-sm text-red-500'>{errors.name?.message}</div>
-        </div>
-
-        {/* Github */}
-        <div className='mb-5'>
-          <div className='mb-1 text-sm font-bold'>Github</div>
-          <Input id='github_url' type='text' placeholder='URL' {...register('github_url')} />
-          <div className='my-3 text-center text-sm text-red-500'>{errors.name?.message}</div>
-        </div>
-
-        {/* Website */}
-        <div className='mb-5'>
-          <div className='mb-1 text-sm font-bold'>Website</div>
-          <Input id='website_url' type='text' placeholder='URL' {...register('website_url')} />
-          <div className='my-3 text-center text-sm text-red-500'>{errors.name?.message}</div>
-        </div>
-
-        {/* 変更ボタン */}
-        <div className='mb-5'>
-          <Button type='submit' variant='default' disabled={isLoading}>
-            {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
-            {isLoading ? '変更中' : '変更'}
-          </Button>
-        </div>
-      </form>
-
-      {/* メッセージ */}
-      {message && <div className='my-5 mb-5 text-center text-red-500'>{message}</div>}
+          <FormField
+            control={onHandleProfileForm.control}
+            name='introduce'
+            render={({ field }) => {
+              return (
+                <FormItem>
+                  <FormControl>
+                    <div className='mb-5'>
+                      <div className='mb-1 text-sm font-bold'>自己紹介</div>
+                      <Textarea placeholder='ここに自己紹介文を記入してください' {...field} />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )
+            }}
+          />
+          <FormField
+            control={onHandleProfileForm.control}
+            name='twitter_url'
+            render={({ field }) => {
+              return (
+                <FormItem>
+                  <FormControl>
+                    <div className='mb-5'>
+                      <div className='mb-1 text-sm font-bold'>Twitter</div>
+                      <Input placeholder='twitter_url' {...field} />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )
+            }}
+          />
+          <FormField
+            control={onHandleProfileForm.control}
+            name='github_url'
+            render={({ field }) => {
+              return (
+                <FormItem>
+                  <FormControl>
+                    <div className='mb-5'>
+                      <div className='mb-1 text-sm font-bold'>Github</div>
+                      <Input placeholder='github_url' {...field} />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )
+            }}
+          />
+          <FormField
+            control={onHandleProfileForm.control}
+            name='website_url'
+            render={({ field }) => {
+              return (
+                <FormItem>
+                  <FormControl>
+                    <div className='mb-5'>
+                      <div className='mb-1 text-sm font-bold'>Website</div>
+                      <Input placeholder='website_url' {...field} />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )
+            }}
+          />
+          <div className='mb-5'>
+            <Button type='submit' variant='default' disabled={isLoading}>
+              {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
+              {isLoading ? '変更中' : '変更'}
+            </Button>
+          </div>
+        </form>
+        {message && <div className='my-5 mb-5 text-center text-red-500'>{message}</div>}
+      </Form>
     </div>
   )
 }
