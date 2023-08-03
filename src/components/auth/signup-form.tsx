@@ -1,52 +1,37 @@
 'use client'
 
-import { zodResolver } from '@hookform/resolvers/zod'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import type { SubmitHandler } from 'react-hook-form'
-import { useForm } from 'react-hook-form'
-import * as z from 'zod'
+import type * as z from 'zod'
 
+import { ReactHookForm } from '@/common/react-hook-form'
+import type { signupSchema } from '@/common/schemas'
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import type { Database } from '@/lib/database.types'
 
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
 
-export type SignupSchema = z.infer<typeof schema>
-
-// 入力データの検証ルールを定義
-const schema = z.object({
-  username: z.string().min(2, { message: '2文字以上入力する必要があります。' }),
-  email: z.string().email({ message: 'メールアドレスの形式ではありません。' }),
-  password: z.string().min(6, { message: '6文字以上入力する必要があります。' }),
-})
 export const SignupForm = () => {
   const router = useRouter()
   const supabase = createClientComponentClient<Database>()
   const [isLoading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm({
-    // 初期値
-    defaultValues: { username: '', email: '', password: '' },
-    // 入力値の検証
-    resolver: zodResolver(schema),
-  })
+
+  const { onHandleSignupForm } = ReactHookForm()
   // 送信
-  const onSubmit: SubmitHandler<SignupSchema> = async (data) => {
+  const onSubmit = async (values: z.infer<typeof signupSchema>) => {
     setLoading(true)
+    const { username, email, password } = values
+
     try {
       // サインアップ
       const { error: errorSignup } = await supabase.auth.signUp({
-        email: data.email,
-        password: data.password,
+        email,
+        password,
         options: {
           emailRedirectTo: `${location.origin}/auth/callback`,
         },
@@ -58,10 +43,7 @@ export const SignupForm = () => {
         return
       }
       // プロフィールの名前を更新
-      const { error: updateError } = await supabase
-        .from('profiles')
-        .update({ username: data.username })
-        .eq('email', data.email)
+      const { error: updateError } = await supabase.from('profiles').update({ username }).eq('email', email)
 
       // エラーチェック
       if (updateError) {
@@ -69,8 +51,6 @@ export const SignupForm = () => {
         return
       }
 
-      // 入力フォームクリア
-      reset()
       setMessage(
         '本登録用のURLを記載したメールを送信しました。メールをご確認の上、メール本文中のURLをクリックして、本登録を行ってください。'
       )
@@ -84,48 +64,61 @@ export const SignupForm = () => {
   }
   return (
     <div>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className='flex flex-col rounded-lg border border-solid border-slate-300 bg-[#f6f8fa] p-5'
-      >
-        <div>
-          <Input
-            id='username'
-            type='text'
-            placeholder='名前'
-            autoComplete='username'
-            {...register('username', { required: true })}
+      <Form {...onHandleSignupForm}>
+        <form
+          onSubmit={onHandleSignupForm.handleSubmit(onSubmit)}
+          className='flex flex-col space-y-3 rounded-lg border border-solid border-slate-300 bg-[#f6f8fa] p-5'
+        >
+          <FormField
+            control={onHandleSignupForm.control}
+            name='username'
+            render={({ field }) => {
+              return (
+                <FormItem>
+                  <FormControl>
+                    <Input placeholder='ユーザーネーム' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )
+            }}
           />
-          <div className='my-3 text-center text-sm text-red-500'>{errors.username?.message}</div>
-        </div>
-        <div>
-          <Input
-            id='email'
-            type='email'
-            placeholder='メールアドレス'
-            autoComplete='email'
-            {...register('email', { required: true })}
+          <FormField
+            control={onHandleSignupForm.control}
+            name='email'
+            render={({ field }) => {
+              return (
+                <FormItem>
+                  <FormControl>
+                    <Input placeholder='メールアドレス' type='email' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )
+            }}
           />
-          <div className='my-3 text-center text-sm text-red-500'>{errors.email?.message}</div>
-        </div>
-
-        <div>
-          <Input
-            id='password'
-            type='password'
-            placeholder='パスワード'
-            autoComplete='current-password'
-            {...register('password', { required: true })}
+          <FormField
+            control={onHandleSignupForm.control}
+            name='password'
+            render={({ field }) => {
+              return (
+                <FormItem>
+                  <FormControl>
+                    <Input placeholder='パスワード' type='password' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )
+            }}
           />
-          <div className='my-3 text-center text-sm text-red-500'>{errors.password?.message}</div>
-        </div>
-        <div className='flex justify-end'>
-          <Button type='submit' variant='default' disabled={isLoading}>
-            {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
-            {isLoading ? '新規登録中' : '新規登録'}
-          </Button>
-        </div>
-      </form>
+          <div className='flex justify-end'>
+            <Button type='submit' variant='default' disabled={isLoading}>
+              {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
+              {isLoading ? '新規登録中' : '新規登録'}
+            </Button>
+          </div>
+        </form>
+      </Form>
 
       {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
 

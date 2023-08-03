@@ -44,3 +44,14 @@ export const passwordSchema = z
  export const emailSchema = z.object({
   email: z.string().email({ message: 'メールアドレスの形式ではありません。' }),
 })
+
+export const signupSchema = z.object({
+  username: z.string().min(2, { message: '2文字以上入力する必要があります。' }),
+  email: z.string().email({ message: 'メールアドレスの形式ではありません。' }),
+  password: z.string().min(6, { message: '6文字以上入力する必要があります。' }),
+})
+
+export const loginSchema = z.object({
+  email: z.string().email({ message: 'メールアドレスの形式ではありません。' }),
+  password: z.string().min(6, { message: '6文字以上入力する必要があります。' }),
+})
