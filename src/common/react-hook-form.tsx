@@ -5,14 +5,16 @@ import type * as z from 'zod'
 
 import { editedAnswerAtom } from '@/store/answer-atom'
 import { editedCommentAtom } from '@/store/comment-atom'
+import { profileAtom } from '@/store/profile-atom'
 import { editedQuestionAtom } from '@/store/question-atom'
 
-import { answerSchema, commentSchema, questionSchema } from './schemas'
+import { answerSchema, commentSchema, emailSchema, passwordSchema, profileSchema, questionSchema } from './schemas'
 
 export const ReactHookForm = () => {
   const editedQuestion = useAtomValue(editedQuestionAtom)
   const editedAnswer = useAtomValue(editedAnswerAtom)
   const editedContent = useAtomValue(editedCommentAtom)
+  const user = useAtomValue(profileAtom)
 
   const onHandleQuestionForm = useForm<z.infer<typeof questionSchema>>({
     resolver: zodResolver(questionSchema),
@@ -37,5 +39,35 @@ export const ReactHookForm = () => {
       content: editedContent,
     },
   })
-  return { onHandleQuestionForm, onHandleAnswerForm, onHandleCommentForm }
+
+  const onHandleProfileForm = useForm({
+    resolver: zodResolver(profileSchema),
+    defaultValues: {
+      name: user.username ? user.username : '',
+      introduce: user.introduce ? user.introduce : '',
+      twitter_url: user.twitter_url ? user.twitter_url : '',
+      github_url: user.github_url ? user.github_url : '',
+      website_url: user.website_url ? user.website_url : '',
+    },
+  })
+
+  const onHandlePasswordForm = useForm({
+    // 初期値
+    defaultValues: { password: '', confirmation: '' },
+    // 入力値の検証
+    resolver: zodResolver(passwordSchema),
+  })
+
+  const onHandleEmailForm = useForm({
+    defaultValues: { email: '' },
+    resolver: zodResolver(emailSchema),
+  })
+  return {
+    onHandleQuestionForm,
+    onHandleAnswerForm,
+    onHandleCommentForm,
+    onHandleProfileForm,
+    onHandlePasswordForm,
+    onHandleEmailForm,
+  }
 }

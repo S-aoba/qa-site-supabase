@@ -17,3 +17,30 @@ export const answerSchema = z.object({
 export const commentSchema = z.object({
   content: z.string().min(1, { message: '1文字以上入力してください' }),
 })
+
+export const profileSchema = z.object({
+  name: z.string().min(2, { message: '2文字以上入力する必要があります。' }),
+  introduce: z.string().min(0),
+  twitter_url: z.string().min(0),
+  github_url: z.string().min(0),
+  website_url: z.string().min(0),
+})
+
+export const passwordSchema = z
+  .object({
+    password: z.string().min(6, { message: '6文字以上入力する必要があります。' }),
+    confirmation: z.string().min(6, { message: '6文字以上入力する必要があります。' }),
+  })
+  .refine(
+    (data) => {
+      return data.password === data.confirmation
+    },
+    {
+      message: '新しいパスワードと確認用パスワードが一致しません。',
+      path: ['confirmation'], // エラーメッセージが適用されるフィールド
+    }
+  )
+
+ export const emailSchema = z.object({
+  email: z.string().email({ message: 'メールアドレスの形式ではありません。' }),
+})
