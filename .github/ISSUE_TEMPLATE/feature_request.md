@@ -1,7 +1,7 @@
 ---
 name: Feature request
 about: 新機能を実装時に使用する
-title: ''
+title: feat/
 labels: enhancement
 assignees: S-aoba
 
