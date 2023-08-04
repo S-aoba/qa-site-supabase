@@ -10,7 +10,7 @@ export const WithAnswer = ({
   session,
 }: {
   answers: AnswerType[]
-  profile: ProfileType | null
+  profile: ProfileType
   session: Session | null
 }) => {
   return (

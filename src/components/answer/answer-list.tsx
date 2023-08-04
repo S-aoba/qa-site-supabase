@@ -14,7 +14,7 @@ export const AnswerList = async ({
   question,
   session,
 }: {
-  profile: ProfileType | null
+  profile: ProfileType
   question: QuestionType
   session: Session | null
 }) => {
