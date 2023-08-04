@@ -1,17 +1,8 @@
 'use client'
 
+import type { Editor } from '@tiptap/react'
 import { EditorContent } from '@tiptap/react'
 
-import { useContentEditor } from '@/common/hooks/useContentEditor'
-
-export const ContentEditor = ({
-  handleOnChange,
-  content,
-}: {
-  handleOnChange: (...event: string[]) => void
-  content: string
-}) => {
-  const { editor } = useContentEditor({ handleOnChange, content })
-
+export const ContentEditor = ({ editor }: { editor: Editor | null }) => {
   return <EditorContent editor={editor} className=' min-h-[800px] rounded-lg border border-solid border-slate-300' />
 }

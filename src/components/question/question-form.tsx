@@ -2,12 +2,13 @@
 
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { useEditor } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
 import { useAtomValue } from 'jotai'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import type { z } from 'zod'
 
-import { useContentEditor } from '@/common/hooks/useContentEditor'
 import { ReactHookForm } from '@/common/react-hook-form'
 import type { questionSchema } from '@/common/schemas'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
@@ -33,7 +34,13 @@ export const QuestionForm = ({ userId }: { userId: string }) => {
   const profile = useAtomValue(profileAtom)
   const { onHandleQuestionForm } = ReactHookForm()
 
-  const { editor } = useContentEditor({ content: editedQuestion.content })
+  const editor = useEditor({
+    extensions: [StarterKit],
+    content: editedQuestion.content,
+    onUpdate({ editor }) {
+      onHandleQuestionForm.setValue('content', editor.getHTML())
+    },
+  })
 
   const handleOnSubmit = async (values: z.infer<typeof questionSchema>) => {
     setLoading(true)
@@ -148,11 +155,11 @@ export const QuestionForm = ({ userId }: { userId: string }) => {
         <FormField
           control={onHandleQuestionForm.control}
           name='content'
-          render={({ field }) => {
+          render={() => {
             return (
               <FormItem>
                 <FormControl>
-                  <ContentEditor handleOnChange={field.onChange} content={editedQuestion.content} />
+                  <ContentEditor editor={editor} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

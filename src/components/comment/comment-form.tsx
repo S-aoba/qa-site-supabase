@@ -2,13 +2,14 @@
 
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { useEditor } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import type { z } from 'zod'
 
-import { useContentEditor } from '@/common/hooks/useContentEditor'
 import { ReactHookForm } from '@/common/react-hook-form'
 import type { commentSchema } from '@/common/schemas'
 import type { AnswerType } from '@/common/types'
@@ -37,7 +38,13 @@ export const CommentForm = ({ answer, commentId }: { answer?: AnswerType; commen
 
   const { onHandleCommentForm } = ReactHookForm()
 
-  const { editor } = useContentEditor({ content })
+  const editor = useEditor({
+    extensions: [StarterKit],
+    content,
+    onUpdate({ editor }) {
+      onHandleCommentForm.setValue('content', editor.getHTML())
+    },
+  })
 
   // アバター画像の取得
   useEffect(() => {
@@ -112,11 +119,11 @@ export const CommentForm = ({ answer, commentId }: { answer?: AnswerType; commen
           <FormField
             control={onHandleCommentForm.control}
             name='content'
-            render={({ field }) => {
+            render={() => {
               return (
                 <FormItem>
                   <FormControl>
-                    <ContentEditor handleOnChange={field.onChange} content={content} />
+                    <ContentEditor editor={editor} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -2,14 +2,14 @@
 
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { useAtomValue, useSetAtom } from 'jotai'
+import { useEditor } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import Image from 'next/image'
-import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import type { z } from 'zod'
 
-import { useContentEditor } from '@/common/hooks/useContentEditor'
 import { ReactHookForm } from '@/common/react-hook-form'
 import type { answerSchema } from '@/common/schemas'
 import type { ProfileType, QuestionType } from '@/common/types'
@@ -35,18 +35,23 @@ export const AnswerForm = ({
   const [isLoading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 
-  const pathname = usePathname()
   const router = useRouter()
 
   const supabase = createClientComponentClient<Database>()
 
-  const editedAnswer = useAtomValue(editedAnswerAtom)
+  const [editedAnswer, setEditedAnswer] = useAtom(editedAnswerAtom)
   const setIsEditMode = useSetAtom(isAnswerEditModeAtom)
   const user = useAtomValue(profileAtom)
 
   const { onHandleAnswerForm } = ReactHookForm()
 
-  const { editor } = useContentEditor({ content: editedAnswer })
+  const editor = useEditor({
+    extensions: [StarterKit],
+    content: editedAnswer,
+    onUpdate({ editor }) {
+      onHandleAnswerForm.setValue('content', editor.getHTML())
+    },
+  })
 
   const handleOnSubmit = async (values: z.infer<typeof answerSchema>) => {
     setLoading(true)
@@ -104,14 +109,15 @@ export const AnswerForm = ({
           return
         }
         setIsEditMode(false)
-        router.push(`${pathname}`)
       }
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
       return
     } finally {
       if (editor) {
-        editor.commands.setContent('')
+        editor.commands.clearContent()
+        setEditedAnswer('')
+        onHandleAnswerForm.reset()
       }
       setLoading(false)
       router.refresh()
@@ -141,11 +147,11 @@ export const AnswerForm = ({
             <FormField
               control={onHandleAnswerForm.control}
               name='content'
-              render={({ field }) => {
+              render={() => {
                 return (
                   <FormItem>
                     <FormControl>
-                      <ContentEditor handleOnChange={field.onChange} content={editedAnswer} />
+                      <ContentEditor editor={editor} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
