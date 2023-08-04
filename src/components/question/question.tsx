@@ -6,10 +6,10 @@ import NotFound from '@/app/not-found'
 import type { Database } from '@/lib/database.types'
 
 import { AnswerList } from '../answer/answer-list'
+import { UserInfo } from '../ui/user-info'
 import { QuestionActions } from './question-actions'
 import { QuestionMessage } from './question-message'
 import { QuestionTags } from './question-tags'
-import { QuestionUserInfo } from './question-user-info'
 
 export const Question = async ({ session, question_id }: { session: Session | null; question_id: string }) => {
   const supabase = createServerComponentClient<Database>({
@@ -35,7 +35,7 @@ export const Question = async ({ session, question_id }: { session: Session | nu
         <div className='rounded-lg border border-solid border-slate-300 pb-5'>
           <div className='rounded-t-lg border-b border-l-0 border-r-0 border-t-0 border-solid border-slate-300 bg-[#f6f8fa] px-2'>
             <div className='flex justify-between'>
-              <QuestionUserInfo
+              <UserInfo
                 created_at={question.created_at}
                 updated_at={question.updated_at}
                 avatar_url={profile.avatar_url}
