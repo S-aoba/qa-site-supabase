@@ -5,8 +5,8 @@ import { Provider as JotaiProvider } from 'jotai'
 
 import type { CommentType } from '@/common/types'
 
+import { Action } from '../ui/action'
 import { UserInfo } from '../ui/user-info'
-import { CommentActions } from './comment-actions'
 import { CommentContent } from './comment-content'
 
 export const CommentBody = ({ comment, session }: { comment: CommentType; session: Session | null }) => {
@@ -20,7 +20,7 @@ export const CommentBody = ({ comment, session }: { comment: CommentType; sessio
             avatar_url={comment.avatar_url}
             username={comment.username}
           />
-          {session && session.user.id === comment.user_id && <CommentActions comment={comment} />}
+          {session && session.user.id === comment.user_id && <Action type='default' comment={comment} />}
         </div>
         <CommentContent comment={comment} />
       </div>

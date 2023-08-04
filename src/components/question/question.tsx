@@ -6,8 +6,8 @@ import NotFound from '@/app/not-found'
 import type { Database } from '@/lib/database.types'
 
 import { AnswerList } from '../answer/answer-list'
+import { Action } from '../ui/action'
 import { UserInfo } from '../ui/user-info'
-import { QuestionActions } from './question-actions'
 import { QuestionMessage } from './question-message'
 import { QuestionTags } from './question-tags'
 
@@ -42,7 +42,7 @@ export const Question = async ({ session, question_id }: { session: Session | nu
                 username={profile.username}
                 coding_problem={question.coding_problem}
               />
-              {session && session.user.id === question.user_id && <QuestionActions question={question} />}
+              {session && session.user.id === question.user_id && <Action type='question' question={question} />}
             </div>
             <QuestionTags tags={question.tags} />
           </div>
