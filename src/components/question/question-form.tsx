@@ -4,7 +4,7 @@ import { ReloadIcon } from '@radix-ui/react-icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import { useAtomValue } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import type { z } from 'zod'
@@ -30,7 +30,7 @@ export const QuestionForm = ({ userId }: { userId: string }) => {
 
   const supabase = createClientComponentClient<Database>()
 
-  const editedQuestion = useAtomValue(editedQuestionAtom)
+  const [editedQuestion, setEditedQuestion] = useAtom(editedQuestionAtom)
   const profile = useAtomValue(profileAtom)
   const { onHandleQuestionForm } = ReactHookForm()
 
@@ -92,15 +92,23 @@ export const QuestionForm = ({ userId }: { userId: string }) => {
         }
         router.push(`/${profile.username}/questions/${editedQuestion.id}`)
       }
-      if (editor) {
-        editor.commands.setContent('')
-      }
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
       return
     } finally {
       setLoading(false)
       router.refresh()
+      if (editor) {
+        editor.commands.setContent('')
+        setEditedQuestion({
+          id: '',
+          title: '',
+          tags: [],
+          coding_problem: '',
+          content: '',
+        })
+        onHandleQuestionForm.reset()
+      }
     }
   }
 
