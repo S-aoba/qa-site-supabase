@@ -5,14 +5,14 @@ import { useAtomValue } from 'jotai'
 import type { CommentType } from '@/common/types'
 import { isCommentEditModeAtom } from '@/store/comment-atom'
 
-import { CommentUpdateForm } from './comment-update-form'
+import { CommentForm } from './comment-form'
 
 export const CommentContent = ({ comment }: { comment: CommentType }) => {
   const isEditMode = useAtomValue(isCommentEditModeAtom)
   return (
     <>
       {isEditMode ? (
-        <CommentUpdateForm commentId={comment.id} />
+        <CommentForm commentId={comment.id} />
       ) : (
         comment && (
           <div

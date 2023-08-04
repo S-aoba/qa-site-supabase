@@ -5,7 +5,7 @@ import { useAtomValue } from 'jotai'
 import type { AnswerType } from '@/common/types'
 import { isAnswerEditModeAtom } from '@/store/answer-atom'
 
-import { AnswerUpdateForm } from './answer-update-form'
+import { AnswerForm } from './answer-form'
 
 export const AnswerContent = ({ answer }: { answer: AnswerType }) => {
   const isEditMode = useAtomValue(isAnswerEditModeAtom)
@@ -14,7 +14,7 @@ export const AnswerContent = ({ answer }: { answer: AnswerType }) => {
     <div>
       {isEditMode ? (
         <div className='p-3'>
-          <AnswerUpdateForm answerId={answer.id} />
+          <AnswerForm answerId={answer.id} />
         </div>
       ) : (
         <div

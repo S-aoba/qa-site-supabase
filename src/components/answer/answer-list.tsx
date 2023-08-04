@@ -5,7 +5,7 @@ import NotFound from '@/app/not-found'
 import type { ProfileType, QuestionType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
 
-import { AnswerCreateForm } from './answer-create-form'
+import { AnswerForm } from './answer-form'
 import { NoAnswerMessage } from './no-answer-message'
 import { WithAnswer } from './with-answer'
 
@@ -28,7 +28,7 @@ export const AnswerList = async ({
   return (
     <div>
       {answers.length > 0 ? <WithAnswer answers={answers} profile={profile} session={session} /> : <NoAnswerMessage />}
-      {session && <AnswerCreateForm userId={session.user.id} question={question} profile={profile} />}
+      {session && <AnswerForm userId={session.user.id} question={question} profile={profile} />}
     </div>
   )
 }
