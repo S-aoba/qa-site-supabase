@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import type { z } from 'zod'
 
+import { FormAlert } from '@/common/form-alert'
 import { ReactHookForm } from '@/common/react-hook-form'
 import type { commentSchema } from '@/common/schemas'
 import type { AnswerType } from '@/common/types'
@@ -20,10 +21,9 @@ import { profileAtom } from '@/store/profile-atom'
 
 import { Button } from '../ui/button'
 import { ContentEditor } from '../ui/content-editor'
-import { useCommentFormAlert } from './useCommentFormAlert'
 
 export const CommentForm = ({ answer, commentId }: { answer?: AnswerType; commentId?: string }) => {
-  useCommentFormAlert()
+  FormAlert()
   const [message, setMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [avatarUrl, setAvatarUrl] = useState('/default.png')
@@ -33,16 +33,17 @@ export const CommentForm = ({ answer, commentId }: { answer?: AnswerType; commen
   const supabase = createClientComponentClient<Database>()
 
   const setIsEditMode = useSetAtom(isCommentEditModeAtom)
-  const [content, setContent] = useAtom(editedCommentAtom)
+  const [editedCommentContent, setEditedCommentContent] = useAtom(editedCommentAtom)
   const user = useAtomValue(profileAtom)
 
   const { onHandleCommentForm } = ReactHookForm()
 
   const editor = useEditor({
     extensions: [StarterKit],
-    content,
+    content: editedCommentContent,
     onUpdate({ editor }) {
       onHandleCommentForm.setValue('content', editor.getHTML())
+      setEditedCommentContent(editor.getHTML())
     },
   })
 
@@ -92,7 +93,7 @@ export const CommentForm = ({ answer, commentId }: { answer?: AnswerType; commen
     } finally {
       if (editor) {
         editor.commands.clearContent()
-        setContent('')
+        setEditedCommentContent('')
         onHandleCommentForm.reset({ content: '' })
       }
       setIsLoading(false)

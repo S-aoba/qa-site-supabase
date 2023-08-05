@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import type { z } from 'zod'
 
+import { FormAlert } from '@/common/form-alert'
 import { ReactHookForm } from '@/common/react-hook-form'
 import type { answerSchema } from '@/common/schemas'
 import type { ProfileType, QuestionType } from '@/common/types'
@@ -32,6 +33,7 @@ export const AnswerForm = ({
   profile?: ProfileType | null
   answerId?: string
 }) => {
+  FormAlert()
   const [isLoading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 
@@ -39,7 +41,7 @@ export const AnswerForm = ({
 
   const supabase = createClientComponentClient<Database>()
 
-  const [editedAnswer, setEditedAnswer] = useAtom(editedAnswerAtom)
+  const [editedAnswerContent, setEditedAnswerContent] = useAtom(editedAnswerAtom)
   const setIsEditMode = useSetAtom(isAnswerEditModeAtom)
   const user = useAtomValue(profileAtom)
 
@@ -47,9 +49,10 @@ export const AnswerForm = ({
 
   const editor = useEditor({
     extensions: [StarterKit],
-    content: editedAnswer,
+    content: editedAnswerContent,
     onUpdate({ editor }) {
       onHandleAnswerForm.setValue('content', editor.getHTML())
+      setEditedAnswerContent(editor.getHTML())
     },
   })
 
@@ -116,7 +119,7 @@ export const AnswerForm = ({
     } finally {
       if (editor) {
         editor.commands.clearContent()
-        setEditedAnswer('')
+        setEditedAnswerContent('')
         onHandleAnswerForm.reset()
       }
       setLoading(false)
