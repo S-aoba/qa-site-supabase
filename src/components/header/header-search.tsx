@@ -1,38 +1,55 @@
 'use client'
+
 import { IconSearch } from '@tabler/icons-react'
 import { useRouter } from 'next/navigation'
-import type { ChangeEvent } from 'react'
-import { type FormEvent, useState } from 'react'
+import type { z } from 'zod'
 
 import { useWindowSize } from '@/common/hooks/useWindowSize'
+import { ReactHookForm } from '@/common/react-hook-form'
+import type { questionSearchSchema } from '@/common/schemas'
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 
 import { Input } from '../ui/input'
 
 export const HeaderSearch = () => {
-  const [searchValue, setSearchValue] = useState('')
   const router = useRouter()
+
   const [width] = useWindowSize()
 
-  const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    router.push('/questions/search' + '?q=' + searchValue)
-  }
+  const { onHandleQuestionSearchForm } = ReactHookForm()
 
-  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value)
+  const handleOnSubmit = (values: z.infer<typeof questionSearchSchema>) => {
+    const { q } = values
+    router.push('/questions/search' + '?q=' + q)
+    onHandleQuestionSearchForm.reset()
   }
 
   return (
-    <form onSubmit={handleOnSubmit} className='w-full'>
-      {width > 991 ? (
-        <div className='w-full pl-16'>
-          <Input type='text' autoComplete='on' placeholder='質問を検索' onChange={handleOnChange} />
-        </div>
-      ) : (
-        <div className='flex w-full justify-end'>
-          <IconSearch className='stroke-slate-500 hover:cursor-pointer hover:stroke-slate-600' />
-        </div>
-      )}
-    </form>
+    <Form {...onHandleQuestionSearchForm}>
+      <form onSubmit={onHandleQuestionSearchForm.handleSubmit(handleOnSubmit)} className='w-full'>
+        {width > 991 ? (
+          <FormField
+            control={onHandleQuestionSearchForm.control}
+            name='q'
+            render={({ field }) => {
+              return (
+                <FormItem>
+                  <FormControl>
+                    <div className='w-full pl-16'>
+                      <Input type='search' autoComplete='on' required placeholder='質問を検索' {...field} />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )
+            }}
+          />
+        ) : (
+          <div className='flex w-full justify-end'>
+            <IconSearch className='stroke-slate-500 hover:cursor-pointer hover:stroke-slate-600' />
+          </div>
+        )}
+      </form>
+    </Form>
   )
 }

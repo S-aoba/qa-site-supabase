@@ -10,6 +10,10 @@ export const questionSchema = z.object({
   content: z.string().min(1, { message: '1文字以上入力してください' }),
 })
 
+export const questionSearchSchema = z.object({
+  q: z.string()
+})
+
 export const answerSchema = z.object({
   content: z.string().min(1, { message: '1文字以上入力してください' }),
 })
@@ -41,7 +45,7 @@ export const passwordSchema = z
     }
   )
 
- export const emailSchema = z.object({
+export const emailSchema = z.object({
   email: z.string().email({ message: 'メールアドレスの形式ではありません。' }),
 })
 
