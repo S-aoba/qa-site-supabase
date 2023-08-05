@@ -5,9 +5,8 @@ import NotFound from '@/app/not-found'
 import type { ProfileType, QuestionType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
 
+import { Answer } from './answer'
 import { AnswerForm } from './answer-form'
-import { NoAnswerMessage } from './no-answer-message'
-import { WithAnswer } from './with-answer'
 
 export const AnswerList = async ({
   profile,
@@ -27,7 +26,20 @@ export const AnswerList = async ({
 
   return (
     <div>
-      {answers.length > 0 ? <WithAnswer answers={answers} profile={profile} session={session} /> : <NoAnswerMessage />}
+      {answers.length > 0 ? (
+        <div className='pb-10'>
+          <div className='px-2 py-10 text-2xl font-semibold'>
+            <span className='text-slate-500'>{answers.length}</span>件回答
+          </div>
+          <div className='flex flex-col space-y-4'>
+            {answers.map((answer) => {
+              return <Answer key={answer.id} answer={answer} profile={profile} session={session} />
+            })}
+          </div>
+        </div>
+      ) : (
+        <div className='w-full py-10 text-center text-2xl font-semibold'>回答はまだありません</div>
+      )}
       {session && <AnswerForm userId={session.user.id} question={question} profile={profile} />}
     </div>
   )
