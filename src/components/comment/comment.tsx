@@ -6,7 +6,7 @@ import { useState } from 'react'
 import type { AnswerType, CommentType } from '@/common/types'
 
 import { CommentBody } from './comment-body'
-import { CommentCreateForm } from './comment-create-form'
+import { CommentForm } from './comment-form'
 
 export const Comment = ({
   comments,
@@ -48,7 +48,7 @@ export const Comment = ({
           </span>
         </div>
       )}
-      {session && <CommentCreateForm answer={answer} />}
+      {session && <CommentForm answer={answer} />}
     </div>
   )
 }

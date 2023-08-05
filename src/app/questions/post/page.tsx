@@ -2,7 +2,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
-import { QuestionPost } from '@/components/question/question-post'
+import { QuestionForm } from '@/components/question/question-form'
 import type { Database } from '@/lib/database.types'
 
 // メールアドレス変更ページ
@@ -21,7 +21,7 @@ const QuestionPostPage = async () => {
     redirect('/auth/login')
   }
 
-  return <QuestionPost userId={session.user.id} />
+  return <QuestionForm userId={session.user.id} />
 }
 
 export default QuestionPostPage

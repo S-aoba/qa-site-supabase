@@ -2,7 +2,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
-import { QuestionEdit } from '@/components/question/question-edit'
+import { QuestionForm } from '@/components/question/question-form'
 import type { Database } from '@/lib/database.types'
 
 const QuestionEditPage = async () => {
@@ -19,7 +19,7 @@ const QuestionEditPage = async () => {
   if (!session) {
     redirect('/auth/login')
   }
-  return <QuestionEdit />
+  return <QuestionForm userId={session.user.id}/>
 }
 
 export default QuestionEditPage

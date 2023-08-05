@@ -8,6 +8,7 @@ import { editedCommentAtom } from '@/store/comment-atom'
 import { profileAtom } from '@/store/profile-atom'
 import { editedQuestionAtom } from '@/store/question-atom'
 
+import { questionSearchSchema } from './schemas'
 import {
   answerSchema,
   commentSchema,
@@ -32,6 +33,13 @@ export const ReactHookForm = () => {
       coding_problem: editedQuestion.coding_problem,
       tags: editedQuestion.tags,
       content: editedQuestion.content,
+    },
+  })
+
+  const onHandleQuestionSearchForm = useForm<z.infer<typeof questionSearchSchema>>({
+    resolver: zodResolver(questionSearchSchema),
+    defaultValues: {
+      q: '',
     },
   })
 
@@ -110,5 +118,6 @@ export const ReactHookForm = () => {
     onHandleResetPasswordForm,
     onHandleResetPasswordConfirmForm,
     onHandleLoginForm,
+    onHandleQuestionSearchForm,
   }
 }

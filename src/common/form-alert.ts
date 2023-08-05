@@ -1,16 +1,16 @@
-'use client'
-
 import { useAtomValue } from 'jotai'
 import { useEffect } from 'react'
 
 import { editedAnswerAtom } from '@/store/answer-atom'
+import { editedCommentAtom } from '@/store/comment-atom'
 
-export const useAnswerFormAlert = () => {
-  const content = useAtomValue(editedAnswerAtom)
+export const FormAlert = () => {
+  const editedAnswerContent = useAtomValue(editedAnswerAtom)
+  const editedCommentContent = useAtomValue(editedCommentAtom)
 
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      if (content === '') return
+      if (editedAnswerContent === '' && editedCommentContent === '') return
       e.preventDefault()
       e.returnValue = ''
       return true
@@ -19,5 +19,5 @@ export const useAnswerFormAlert = () => {
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload)
     }
-  }, [content])
+  }, [editedAnswerContent, editedCommentContent])
 }

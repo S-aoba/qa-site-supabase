@@ -1,9 +1,16 @@
 'use client'
 
-import { Menu } from '@mantine/core'
 import { IconBell, IconCircle } from '@tabler/icons-react'
 
 import type { NotificationType } from '@/common/types'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 
 import { NoNotification } from './no-notification'
 import { WithNotification } from './with-notification'
@@ -11,22 +18,26 @@ import { WithNotification } from './with-notification'
 export const Notification = ({ notifications }: { notifications: NotificationType[] | null }) => {
   return (
     <div className='relative flex items-center'>
-      <Menu>
-        <Menu.Target>
+      <DropdownMenu>
+        <DropdownMenuTrigger>
           <IconBell className='stroke-slate-500 hover:cursor-pointer hover:stroke-slate-600' />
-        </Menu.Target>
-        <Menu.Dropdown className=' -ml-3 mt-1 rounded-2xl p-4 shadow'>
-          <Menu.Label>通知</Menu.Label>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className=' -ml-3 mt-1 rounded-2xl p-4 shadow'>
+          <DropdownMenuLabel>通知</DropdownMenuLabel>
+          <DropdownMenuSeparator />
           {notifications && notifications?.length > 0 ? (
             notifications.map((notification) => {
-              return <WithNotification key={notification.id} notification={notification} />
+              return (
+                <DropdownMenuItem key={notification.id}>
+                  <WithNotification key={notification.id} notification={notification} />
+                </DropdownMenuItem>
+              )
             })
           ) : (
             <NoNotification />
           )}
-        </Menu.Dropdown>
-      </Menu>
-      {notifications && notifications?.length > 0 && (
+        </DropdownMenuContent>
+        {notifications && notifications?.length > 0 && (
         <IconCircle
           size={15}
           className=' absolute -top-1 right-0'
@@ -35,7 +46,8 @@ export const Notification = ({ notifications }: { notifications: NotificationTyp
             fill: '#fde047',
           }}
         />
-      )}
+        )}
+      </DropdownMenu>
     </div>
   )
 }
