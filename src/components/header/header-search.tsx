@@ -1,16 +1,18 @@
 'use client'
-import { useViewportSize } from '@mantine/hooks'
 import { IconSearch } from '@tabler/icons-react'
 import { useRouter } from 'next/navigation'
 import type { ChangeEvent } from 'react'
 import { type FormEvent, useState } from 'react'
+
+import { useWindowSize } from '@/common/hooks/useWindowSize'
 
 import { Input } from '../ui/input'
 
 export const HeaderSearch = () => {
   const [searchValue, setSearchValue] = useState('')
   const router = useRouter()
-  const { width } = useViewportSize()
+  const [width] = useWindowSize()
+
   const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     router.push('/questions/search' + '?q=' + searchValue)
@@ -24,12 +26,7 @@ export const HeaderSearch = () => {
     <form onSubmit={handleOnSubmit} className='w-full'>
       {width > 991 ? (
         <div className='w-full pl-16'>
-          <Input
-            type='text'
-            autoComplete='on'
-            placeholder='質問を検索'
-            onChange={handleOnChange}
-          />
+          <Input type='text' autoComplete='on' placeholder='質問を検索' onChange={handleOnChange} />
         </div>
       ) : (
         <div className='flex w-full justify-end'>
