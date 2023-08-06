@@ -2,7 +2,7 @@ import { createServerComponentClient, type Session } from '@supabase/auth-helper
 import { cookies } from 'next/headers'
 
 import NotFound from '@/app/not-found'
-import type { ProfileType, QuestionType } from '@/common/types'
+import type { QuestionType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
 
 import { CommentList } from '../comment/comment-list'
@@ -10,15 +10,7 @@ import { UserInfo } from '../ui/user-info'
 import { AnswerBody } from './answer-body'
 import { AnswerForm } from './answer-form'
 
-export const AnswerList = async ({
-  profile,
-  question,
-  session,
-}: {
-  profile: ProfileType
-  question: QuestionType
-  session: Session | null
-}) => {
+export const AnswerList = async ({ question, session }: { question: QuestionType; session: Session | null }) => {
   const supabase = createServerComponentClient<Database>({
     cookies,
   })
@@ -41,8 +33,8 @@ export const AnswerList = async ({
                     <UserInfo
                       created_at={answer.created_at}
                       updated_at={answer.updated_at}
-                      avatar_url={profile.avatar_url}
-                      username={profile.username}
+                      avatar_url={answer.avatar_url}
+                      username={answer.username}
                     />
                   </AnswerBody>
                   <CommentList answer={answer} session={session} />
@@ -54,7 +46,7 @@ export const AnswerList = async ({
       ) : (
         <div className='w-full py-10 text-center'>回答はまだありません</div>
       )}
-      {session && <AnswerForm userId={session.user.id} question={question} profile={profile} />}
+      {session && <AnswerForm userId={session.user.id} question={question} />}
     </div>
   )
 }

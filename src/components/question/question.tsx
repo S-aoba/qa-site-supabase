@@ -33,7 +33,7 @@ export const Question = async ({ session, question_id }: { session: Session | nu
           <h1>{question.title}</h1>
         </div>
         <div className='rounded-lg border pb-5'>
-          <div className='px-2 border-b'>
+          <div className='border-b px-2'>
             <div className='flex justify-between'>
               <UserInfo
                 created_at={question.created_at}
@@ -52,7 +52,7 @@ export const Question = async ({ session, question_id }: { session: Session | nu
           />
         </div>
       </div>
-      <AnswerList profile={profile} question={question} session={session} />
+      <AnswerList question={question} session={session} />
       {!session && <QuestionMessage />}
     </>
   )

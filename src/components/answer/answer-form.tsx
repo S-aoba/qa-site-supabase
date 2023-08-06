@@ -13,7 +13,7 @@ import type { z } from 'zod'
 import { FormAlert } from '@/common/form-alert'
 import { ReactHookForm } from '@/common/react-hook-form'
 import type { answerSchema } from '@/common/schemas'
-import type { ProfileType, QuestionType } from '@/common/types'
+import type { QuestionType } from '@/common/types'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import type { Database } from '@/lib/database.types'
 import { editedAnswerAtom, isAnswerEditModeAtom } from '@/store/answer-atom'
@@ -25,12 +25,10 @@ import { ContentEditor } from '../ui/content-editor'
 export const AnswerForm = ({
   userId,
   question,
-  profile,
   answerId,
 }: {
   userId?: string
   question?: QuestionType
-  profile?: ProfileType | null
   answerId?: string
 }) => {
   FormAlert()
@@ -65,6 +63,8 @@ export const AnswerForm = ({
         const { data: answer, error: createAnswerError } = await supabase
           .from('answers')
           .upsert({
+            username: user.username,
+            avatar_url: user.avatar_url,
             user_id: userId,
             question_id: question.id,
             content,
@@ -133,7 +133,7 @@ export const AnswerForm = ({
         <div className='flex items-center space-x-2 rounded-t-lg border-b p-2'>
           <div className='relative h-10 w-10'>
             <Image
-              src={profile && profile.avatar_url ? profile.avatar_url : '/default.png'}
+              src={user.avatar_url ? user.avatar_url : '/default.png'}
               className='rounded-full object-cover'
               alt='avatar'
               fill
