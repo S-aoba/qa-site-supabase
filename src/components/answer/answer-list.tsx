@@ -30,13 +30,13 @@ export const AnswerList = async ({
     <div>
       {answers.length > 0 ? (
         <div className='pb-10'>
-          <div className='px-2 py-10 text-2xl font-semibold'>
-            <span className='text-slate-500'>{answers.length}</span>件回答
+          <div className='px-2 py-10'>
+            <span className=''>{answers.length}</span>件回答
           </div>
           <div className='flex flex-col space-y-4'>
             {answers.map((answer) => {
               return (
-                <div key={answer.id} className='rounded-lg border border-solid border-slate-300'>
+                <div key={answer.id} className='rounded-lg border'>
                   <AnswerBody answer={answer} session={session}>
                     <UserInfo
                       created_at={answer.created_at}
@@ -52,7 +52,7 @@ export const AnswerList = async ({
           </div>
         </div>
       ) : (
-        <div className='w-full py-10 text-center text-2xl font-semibold'>回答はまだありません</div>
+        <div className='w-full py-10 text-center'>回答はまだありません</div>
       )}
       {session && <AnswerForm userId={session.user.id} question={question} profile={profile} />}
     </div>
