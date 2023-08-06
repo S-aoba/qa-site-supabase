@@ -4,7 +4,7 @@ import { cookies } from 'next/headers'
 import NotFound from '@/app/not-found'
 import type { Database } from '@/lib/database.types'
 
-import { Card } from '../card'
+import { Card } from '../ui/card'
 
 export const NewQuestionList = async () => {
   const supabase = createServerComponentClient<Database>({ cookies })

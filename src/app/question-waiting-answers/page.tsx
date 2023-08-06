@@ -1,7 +1,7 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 
-import { Card } from '@/components/card'
+import { Card } from '@/components/ui/card'
 import type { Database } from '@/lib/database.types'
 
 const QuestionWaitingAnswersPage = async () => {
