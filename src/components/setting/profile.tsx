@@ -132,7 +132,7 @@ export const Profile = () => {
 
   return (
     <div>
-      <div className='mb-10 text-center text-xl font-bold'>プロフィール</div>
+      <div className='mb-10 text-center'>プロフィール</div>
       <Form {...onHandleProfileForm}>
         <form onSubmit={onHandleProfileForm.handleSubmit(onSubmit)}>
           {/* アバター画像 */}
@@ -153,7 +153,7 @@ export const Profile = () => {
                 <FormItem>
                   <FormControl>
                     <div className='mb-5'>
-                      <div className='mb-1 text-sm font-bold'>名前</div>
+                      <div className='mb-1'>名前</div>
                       <Input placeholder='name' {...field} />
                     </div>
                   </FormControl>
@@ -170,7 +170,7 @@ export const Profile = () => {
                 <FormItem>
                   <FormControl>
                     <div className='mb-5'>
-                      <div className='mb-1 text-sm font-bold'>自己紹介</div>
+                      <div className='mb-1'>自己紹介</div>
                       <Textarea placeholder='ここに自己紹介文を記入してください' {...field} />
                     </div>
                   </FormControl>
@@ -204,7 +204,7 @@ export const Profile = () => {
                 <FormItem>
                   <FormControl>
                     <div className='mb-5'>
-                      <div className='mb-1 text-sm font-bold'>Github</div>
+                      <div className='mb-1'>Github</div>
                       <Input placeholder='github_url' {...field} />
                     </div>
                   </FormControl>
@@ -221,7 +221,7 @@ export const Profile = () => {
                 <FormItem>
                   <FormControl>
                     <div className='mb-5'>
-                      <div className='mb-1 text-sm font-bold'>Website</div>
+                      <div className='mb-1'>Website</div>
                       <Input placeholder='website_url' {...field} />
                     </div>
                   </FormControl>

@@ -12,8 +12,8 @@ import { CommentContent } from './comment-content'
 export const CommentBody = ({ comment, session }: { comment: CommentType; session: Session | null }) => {
   return (
     <JotaiProvider>
-      <div className='border-b-0 border-l-0 border-r-0 border-t border-solid border-slate-300'>
-        <div className='flex justify-between space-x-2 bg-[#d3e0ec] p-2'>
+      <div className='border-t'>
+        <div className='flex justify-between space-x-2 p-2 border-b'>
           <UserInfo
             created_at={comment.created_at}
             updated_at={comment.updated_at}

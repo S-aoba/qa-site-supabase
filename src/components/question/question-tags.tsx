@@ -9,7 +9,7 @@ export const QuestionTags = ({ tags }: { tags: string[] }) => {
           <Link
             key={index}
             href={'/'}
-            className='flex items-center space-x-2 rounded-xl border border-solid border-slate-400 px-2 py-1 text-black no-underline'
+            className='flex items-center space-x-2 rounded-xl border px-2 py-1'
           >
             <div className='relative h-4 w-4'>
               <Image
@@ -21,7 +21,7 @@ export const QuestionTags = ({ tags }: { tags: string[] }) => {
                 priority
               />
             </div>
-            <span className='text-slate-600'>{tag}</span>
+            <span className=''>{tag}</span>
           </Link>
         )
       })}

@@ -49,11 +49,11 @@ export const ResetPasswordCombineForm = () => {
 
   return (
     <div>
-      <div className='mb-10 text-center text-xl font-bold'>パスワード変更</div>
+      <div className='mb-10 text-center'>パスワード変更</div>
       <Form {...onHandleResetPasswordConfirmForm}>
         <form
           onSubmit={onHandleResetPasswordConfirmForm.handleSubmit(onSubmit)}
-          className='flex flex-col space-y-3 rounded-lg border border-solid border-slate-300 bg-[#f6f8fa] p-5'
+          className='flex flex-col space-y-3 rounded-lg border p-5'
         >
           <FormField
             control={onHandleResetPasswordConfirmForm.control}

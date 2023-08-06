@@ -53,10 +53,7 @@ export const HeaderSearch = () => {
         ) : (
           <>
             <div className='relative flex w-full justify-end'>
-              <IconSearch
-                className='stroke-slate-500 hover:cursor-pointer hover:stroke-slate-600'
-                onClick={handleShowSearchBar}
-              />
+              <IconSearch className='hover:cursor-pointer' onClick={handleShowSearchBar} />
             </div>
             {isShoSearchBar && (
               <FormField

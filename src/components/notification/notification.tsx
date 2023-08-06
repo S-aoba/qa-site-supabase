@@ -20,7 +20,7 @@ export const Notification = ({ notifications }: { notifications: NotificationTyp
     <div className='relative flex items-center'>
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <IconBell className='stroke-slate-500 hover:cursor-pointer hover:stroke-slate-600' />
+          <IconBell className='hover:cursor-pointer' />
         </DropdownMenuTrigger>
         <DropdownMenuContent className=' -ml-3 mt-1 rounded-2xl p-4 shadow'>
           <DropdownMenuLabel>通知</DropdownMenuLabel>
@@ -38,14 +38,14 @@ export const Notification = ({ notifications }: { notifications: NotificationTyp
           )}
         </DropdownMenuContent>
         {notifications && notifications?.length > 0 && (
-        <IconCircle
-          size={15}
-          className=' absolute -top-1 right-0'
-          style={{
-            stroke: '#fde047',
-            fill: '#fde047',
-          }}
-        />
+          <IconCircle
+            size={15}
+            className=' absolute -top-1 right-0'
+            style={{
+              stroke: '#fde047',
+              fill: '#fde047',
+            }}
+          />
         )}
       </DropdownMenu>
     </div>

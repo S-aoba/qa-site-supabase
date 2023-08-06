@@ -28,7 +28,7 @@ export const UserInfo: NextPage<Props> = ({ ...props }) => {
         {props.created_at !== props.updated_at && <span className='px-2'>更新日: {props.updated_at.slice(0, 10)}</span>}
         <span className='px-2'>投稿日: {props.created_at.slice(0, 10)}</span>
         {props.coding_problem && (
-          <span className='line-clamp-1 w-fit max-w-[500px] rounded-lg bg-slate-500 px-2 py-1 text-sm leading-5 text-stone-50'>
+          <span className='line-clamp-1 w-fit max-w-[500px] rounded-lg px-2 py-1 text-sm leading-5'>
             {props.coding_problem}
           </span>
         )}

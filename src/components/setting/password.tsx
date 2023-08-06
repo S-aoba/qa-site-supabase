@@ -49,7 +49,7 @@ export const Password = () => {
 
   return (
     <div>
-      <div className='mb-10 text-center text-xl font-bold'>パスワード変更</div>
+      <div className='mb-10 text-center'>パスワード変更</div>
       <Form {...onHandlePasswordForm}>
         <form onSubmit={onHandlePasswordForm.handleSubmit(onSubmit)}>
           <FormField
@@ -60,7 +60,7 @@ export const Password = () => {
                 <FormItem>
                   <FormControl>
                     <div className='mb-5'>
-                      <div className='mb-1 text-sm font-bold'>新しいパスワード</div>
+                      <div className='mb-1'>新しいパスワード</div>
                       <Input placeholder='パスワード' type='password' {...field} />
                     </div>
                   </FormControl>
@@ -77,7 +77,7 @@ export const Password = () => {
                 <FormItem>
                   <FormControl>
                     <div className='mb-5'>
-                      <div className='mb-1 text-sm font-bold'>確認用パスワード</div>
+                      <div className='mb-1'>確認用パスワード</div>
                       <Input placeholder='確認用パスワード' type='password' {...field} />
                     </div>
                   </FormControl>

@@ -41,7 +41,7 @@ export const Header = ({
   }, [session, setUser, profile])
 
   return (
-    <header className='flex h-fit flex-col items-center justify-center p-3 font-mono text-base'>
+    <header className='flex h-fit flex-col items-center justify-center p-3'>
       <div className='flex w-full max-w-[1000px] items-center justify-between px-3'>
         <HeaderLogo />
         <div className='flex w-full items-center justify-between space-x-4'>

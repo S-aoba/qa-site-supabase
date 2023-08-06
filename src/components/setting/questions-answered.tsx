@@ -13,7 +13,7 @@ export const QuestionsAnswered = async ({ userId }: { userId: string }) => {
   if (questionsAnswered === null || questionsAnswered.length === 0) {
     return (
       <main className='flex flex-col justify-center'>
-        <div className='p-2 text-center text-2xl font-semibold'>まだ回答した質問はありません</div>
+        <div className='p-2 text-center'>まだ回答した質問はありません</div>
       </main>
     )
   }

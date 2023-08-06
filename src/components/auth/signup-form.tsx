@@ -63,11 +63,11 @@ export const SignupForm = () => {
     }
   }
   return (
-    <div>
+    <div className='flex flex-col space-y-5'>
       <Form {...onHandleSignupForm}>
         <form
           onSubmit={onHandleSignupForm.handleSubmit(onSubmit)}
-          className='flex flex-col space-y-3 rounded-lg border border-solid border-slate-300 bg-[#f6f8fa] p-5'
+          className='flex flex-col space-y-3 rounded-lg border p-5'
         >
           <FormField
             control={onHandleSignupForm.control}
@@ -122,9 +122,9 @@ export const SignupForm = () => {
 
       {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
 
-      <div className='mt-5 flex items-center  space-x-2 rounded-lg border border-solid border-slate-300 p-5 text-sm'>
+      <div className='flex flex-col items-center space-y-2 rounded-lg border p-5'>
         <span>既にアカウントはお持ちですか?</span>
-        <Link href='/auth/login' className='font-bold text-slate-500 hover:text-slate-600'>
+        <Link href='/auth/login' className=''>
           ログインはこちら
         </Link>
       </div>

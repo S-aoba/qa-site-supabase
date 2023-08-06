@@ -128,9 +128,9 @@ export const AnswerForm = ({
   }
 
   return (
-    <div className={`${answerId === undefined && 'min-h-full rounded-lg border border-solid border-slate-300'}`}>
+    <div className={`${answerId === undefined && 'min-h-full rounded-lg border'}`}>
       {answerId === undefined && (
-        <div className='flex items-center space-x-2 rounded-t-lg border-b border-l-0 border-r-0 border-t-0 border-solid border-slate-300 bg-[#f6f8fa] p-2'>
+        <div className='flex items-center space-x-2 rounded-t-lg border-b p-2'>
           <div className='relative h-10 w-10'>
             <Image
               src={profile && profile.avatar_url ? profile.avatar_url : '/default.png'}
@@ -141,7 +141,7 @@ export const AnswerForm = ({
               priority
             />
           </div>
-          <span className='text-xl font-semibold text-slate-600'>回答する</span>
+          <span className='text-xl'>回答する</span>
         </div>
       )}
       <div className='px-2 py-5'>

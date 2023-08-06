@@ -56,7 +56,7 @@ export const LoginForm = () => {
       <Form {...onHandleLoginForm}>
         <form
           onSubmit={onHandleLoginForm.handleSubmit(onSubmit)}
-          className='flex flex-col space-y-3 rounded-lg border border-solid border-slate-300 bg-[#f6f8fa] p-5'
+          className='flex flex-col space-y-3 rounded-lg border p-5'
         >
           <FormField
             control={onHandleLoginForm.control}
@@ -97,11 +97,11 @@ export const LoginForm = () => {
 
       {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
 
-      <div className='mt-5 flex flex-col space-y-3 rounded-lg border border-solid border-slate-300 p-5 text-center text-sm'>
-        <Link href='/auth/reset-password' className='font-bold text-slate-500 hover:text-slate-600'>
+      <div className='mt-5 flex flex-col space-y-3 rounded-lg border p-5 text-center text-sm'>
+        <Link href='/auth/reset-password' className=''>
           パスワードを忘れた方はこちら
         </Link>
-        <Link href='/auth/signup' className='font-bold text-slate-500 hover:text-slate-600'>
+        <Link href='/auth/signup' className=''>
           アカウントを作成する
         </Link>
       </div>

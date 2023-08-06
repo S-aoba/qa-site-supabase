@@ -31,7 +31,7 @@ export const WithNotification = ({ notification }: { notification: NotificationT
     <>
       <Link
         href={`/${notification.username}/questions/${notification.question_id}`}
-        className='flex h-40 w-60 border-b border-l-0 border-r-0 border-t-0 border-solid border-gray-300 px-5 py-3 text-black no-underline hover:cursor-pointer hover:bg-slate-100'
+        className='flex h-40 w-60 border-b px-5 py-3 hover:cursor-pointer'
         onClick={handleDeleteNotification}
       >
         <div className='flex items-center'>
@@ -44,7 +44,7 @@ export const WithNotification = ({ notification }: { notification: NotificationT
           />
         </div>
         <div className='flex w-full flex-col items-center justify-center p-3'>
-          <span className='line-clamp-2 font-semibold'>{notification.title}</span>
+          <span className='line-clamp-2'>{notification.title}</span>
           <span className='text-sm'>について回答がありました。</span>
         </div>
       </Link>

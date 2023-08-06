@@ -32,8 +32,8 @@ export const Question = async ({ session, question_id }: { session: Session | nu
         <div className='text-center'>
           <h1>{question.title}</h1>
         </div>
-        <div className='rounded-lg border border-solid border-slate-300 pb-5'>
-          <div className='rounded-t-lg border-b border-l-0 border-r-0 border-t-0 border-solid border-slate-300 bg-[#f6f8fa] px-2'>
+        <div className='rounded-lg border pb-5'>
+          <div className='px-2 border-b'>
             <div className='flex justify-between'>
               <UserInfo
                 created_at={question.created_at}

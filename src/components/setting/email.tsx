@@ -63,11 +63,11 @@ export const Email = ({ email }: { email: string | undefined }) => {
 
   return (
     <div>
-      <div className='mb-10 text-center text-xl font-bold'>メールアドレス変更</div>
+      <div className='mb-10 text-center'>メールアドレス変更</div>
       <Form {...onHandleEmailForm}>
         <form onSubmit={onHandleEmailForm.handleSubmit(onSubmit)}>
           <div className='mb-5'>
-            <div className='mb-1 text-sm font-bold'>現在のメールアドレス</div>
+            <div className='mb-1'>現在のメールアドレス</div>
             <div>{email && email}</div>
           </div>
 
@@ -79,7 +79,7 @@ export const Email = ({ email }: { email: string | undefined }) => {
                 <FormItem>
                   <FormControl>
                     <div className='mb-5'>
-                      <div className='mb-1 text-sm font-bold'>新しいパスワード</div>
+                      <div className='mb-1'>新しいパスワード</div>
                       <Input placeholder='メールアドレス' type='email' {...field} />
                     </div>
                   </FormControl>

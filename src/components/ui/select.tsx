@@ -54,9 +54,9 @@ export const Select = ({
       </PopoverTrigger>
       <PopoverContent className='w-full p-0' side='bottom' align='start'>
         <Command>
-          <CommandInput placeholder='Search framework...' />
+          <CommandInput placeholder='問題を検索する' />
           <CommandList>
-            <CommandEmpty>該当の質問はありません</CommandEmpty>
+            <CommandEmpty>該当の問題はありません</CommandEmpty>
             <CommandGroup>
               {codingProblemList.map((item) => {
                 return (

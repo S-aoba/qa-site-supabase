@@ -47,27 +47,27 @@ export const MultiSelect = ({
 
   return (
     <Listbox value={editedQuestion.tags} onChange={handleSelect} multiple>
-      <Listbox.Button className='relative flex h-14 w-full items-center justify-start space-x-3 rounded-lg border border-solid border-slate-300 bg-white px-4 text-slate-300 hover:cursor-pointer'>
+      <Listbox.Button className='relative flex h-14 w-full items-center justify-start space-x-3 rounded-lg border px-4 hover:cursor-pointer'>
         {editedQuestion.tags.length === 0
           ? 'タグは5個まで選択できます'
           : editedQuestion.tags.map((language) => {
               return (
                 <span
                   key={language}
-                  className='rounded-xl border border-solid border-slate-400 bg-[#f6f8fa] px-2 py-1 text-slate-500'
+                  className='rounded-xl border px-2 py-1'
                 >
                   {language}
                 </span>
               )
             })}
       </Listbox.Button>
-      <Listbox.Options className='absolute z-10 flex w-96 list-none flex-col space-y-2 rounded-lg bg-white px-3 py-2 shadow-lg'>
+      <Listbox.Options className='absolute z-10 flex w-96 flex-col space-y-2 rounded-lg px-3 py-2 shadow-lg'>
         {languages.map((language) => {
           return (
             <Listbox.Option
               key={language}
               value={language}
-              className='rounded-lg py-1 pl-2 hover:cursor-pointer hover:bg-slate-300'
+              className='rounded-lg py-1 pl-2 hover:cursor-pointer'
             >
               {language}
             </Listbox.Option>
