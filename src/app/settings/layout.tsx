@@ -1,6 +1,5 @@
 'use client'
 
-import { useViewportSize } from '@mantine/hooks'
 import {
   IconHelpHexagon,
   IconKey,
@@ -11,6 +10,8 @@ import {
 } from '@tabler/icons-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+
+import { useWindowSize } from '@/common/hooks/useWindowSize'
 
 // ナビゲーション
 const subNavigation = [
@@ -49,7 +50,7 @@ const subNavigation = [
 // レイアウト
 const SettingsLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname()
-  const { width } = useViewportSize()
+  const [width] = useWindowSize()
 
   return (
     <>
