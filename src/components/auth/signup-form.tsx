@@ -2,14 +2,13 @@
 
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import type * as z from 'zod'
 
 import { ReactHookForm } from '@/common/react-hook-form'
 import type { signupSchema } from '@/common/schemas'
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import type { Database } from '@/lib/database.types'
 
 import { Button } from '../ui/button'
@@ -63,11 +62,11 @@ export const SignupForm = () => {
     }
   }
   return (
-    <div className='flex flex-col space-y-5'>
+    <div>
       <Form {...onHandleSignupForm}>
         <form
           onSubmit={onHandleSignupForm.handleSubmit(onSubmit)}
-          className='flex flex-col space-y-3 rounded-lg border p-5'
+          className='flex flex-col space-y-5 rounded bg-white p-5 shadow-lg'
         >
           <FormField
             control={onHandleSignupForm.control}
@@ -75,8 +74,9 @@ export const SignupForm = () => {
             render={({ field }) => {
               return (
                 <FormItem>
+                  <FormLabel>ユーザーネーム</FormLabel>
                   <FormControl>
-                    <Input placeholder='ユーザーネーム' {...field} />
+                    <Input {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -89,8 +89,9 @@ export const SignupForm = () => {
             render={({ field }) => {
               return (
                 <FormItem>
+                  <FormLabel>メールアドレス</FormLabel>
                   <FormControl>
-                    <Input placeholder='メールアドレス' type='email' {...field} />
+                    <Input placeholder='mail@example.com' type='email' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -103,15 +104,16 @@ export const SignupForm = () => {
             render={({ field }) => {
               return (
                 <FormItem>
+                  <FormLabel>パスワード</FormLabel>
                   <FormControl>
-                    <Input placeholder='パスワード' type='password' {...field} />
+                    <Input type='password' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )
             }}
           />
-          <div className='flex justify-end'>
+          <div className='flex justify-start pt-2'>
             <Button type='submit' variant='default' disabled={isLoading}>
               {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
               {isLoading ? '新規登録中' : '新規登録'}
@@ -121,13 +123,6 @@ export const SignupForm = () => {
       </Form>
 
       {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
-
-      <div className='flex flex-col items-center space-y-2 rounded-lg border p-5'>
-        <span>既にアカウントはお持ちですか?</span>
-        <Link href='/auth/login' className=''>
-          ログインはこちら
-        </Link>
-      </div>
     </div>
   )
 }

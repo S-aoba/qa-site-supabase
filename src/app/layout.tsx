@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className='max-w-screen vsc-initialized flex h-screen flex-col'>
         <SupabaseListener />
         <Navigation />
-        <main className='container mx-auto max-w-screen-lg p-5'>{children}</main>
+        <main className='flex-1 justify-center bg-[#f5f7fa] p-5'>{children}</main>
       </body>
     </html>
   )
