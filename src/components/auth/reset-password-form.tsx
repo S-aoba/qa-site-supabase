@@ -2,6 +2,7 @@
 
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import type * as z from 'zod'
@@ -49,36 +50,46 @@ export const ResetPasswordForm = () => {
     }
   }
   return (
-    <div>
-      <Form {...onHandleResetPasswordForm}>
-        <form
-          onSubmit={onHandleResetPasswordForm.handleSubmit(onSubmit)}
-          className='flex flex-col space-y-5 rounded bg-white p-5 shadow-lg'
-        >
-          <FormField
-            control={onHandleResetPasswordForm.control}
-            name='email'
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <FormLabel>メールアドレス</FormLabel>
-                  <FormControl>
-                    <Input type='email' placeholder='mail@example.com' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )
-            }}
-          />
-          <div className='flex justify-start pt-2'>
-            <Button type='submit' variant='default' disabled={isLoading}>
-              {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
-              {isLoading ? '送信中' : '送信'}
-            </Button>
-          </div>
-        </form>
-      </Form>
-      {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
+    <div className='space-y-10'>
+      <div className='text-center'>
+        <h1 className='text-2xl'>Reset Password</h1>
+      </div>
+      <div>
+        <Form {...onHandleResetPasswordForm}>
+          <form
+            onSubmit={onHandleResetPasswordForm.handleSubmit(onSubmit)}
+            className='flex flex-col space-y-5 rounded bg-white p-5 shadow-lg'
+          >
+            <FormField
+              control={onHandleResetPasswordForm.control}
+              name='email'
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <FormLabel>メールアドレス</FormLabel>
+                    <FormControl>
+                      <Input type='email' placeholder='mail@example.com' {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )
+              }}
+            />
+            <div className='flex justify-start pt-2'>
+              <Button type='submit' variant='default' disabled={isLoading}>
+                {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
+                {isLoading ? '送信中' : '送信'}
+              </Button>
+            </div>
+          </form>
+        </Form>
+        {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
+      </div>
+      <div className='flex flex-col items-center justify-center space-y-3 rounded bg-white p-5 text-sm shadow-lg'>
+        <Link href='/auth/login' className='text-muted-foreground hover:text-black'>
+          ログインはこちら
+        </Link>
+      </div>
     </div>
   )
 }
