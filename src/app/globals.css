@@ -77,9 +77,17 @@
   }
 }
 
+.hide-scrollbar {
+  overflow: 'hidden';
+  scrollbarWidth: 'none';
+  msOverflowStyle: 'none';
+}
+
+/*
 ::-webkit-scrollbar {
   display: none;
 }
+*/
 
 /* content-editorの入力部分のCSS */
 .ProseMirror {

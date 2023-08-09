@@ -1,43 +1,76 @@
 'use client'
 
-import { IconCampfire, IconHelpHexagonFilled } from '@tabler/icons-react'
+import { IconQuestionMark, IconSettings } from '@tabler/icons-react'
+import { useSetAtom } from 'jotai'
+import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-// ナビゲーション
-const subNavigation = [
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { displayMainNavNameAtom } from '@/store/naigation-atom'
+
+const mainNavigation = [
   {
-    name: '新着',
-    icon: IconHelpHexagonFilled,
+    name: '質問',
+    icon: IconQuestionMark,
     href: '/',
+    hrefList: ['/', '/question-waiting-answers', '/settings/my-questions', '/settings/questions-answered'],
   },
   {
-    name: '回答募集中',
-    icon: IconCampfire,
-    href: '/question-waiting-answers',
+    name: '設定',
+    icon: IconSettings,
+    href: '/settings/profile',
+    hrefList: ['/settings/profile', '/settings/email', '/settings/password', '/settings/logout'],
   },
 ]
 
 export const Navigation = () => {
   const pathname = usePathname()
 
+  const setDisplayMainNavName = useSetAtom(displayMainNavNameAtom)
+
   return (
-    <div className='flex w-full justify-center border-b'>
-      <div className=' flex w-full max-w-[800px] space-x-2 px-3 text-sm font-bold'>
-        {subNavigation.map((item, index) => {
+    <div className='flex w-14 flex-col overflow-y-hidden border-r p-2'>
+      <Link className='block aspect-square' href={'/'}>
+        <Image
+          src={'/logo.png'}
+          alt='QA-site-supabase'
+          priority
+          width={40}
+          height={40}
+          className='mx-auto cursor-pointer rounded'
+        />
+      </Link>
+      <ul className='mt-5 flex flex-col items-center justify-center space-y-2'>
+        {mainNavigation.map((item, index) => {
           return (
-            <Link
-              key={index}
-              href={item.href}
-              className={`${
-                item.href == pathname && 'border-b-4'
-              } flex items-center px-3 py-2 no-underline`}
-            >
-              {item.name}
-            </Link>
+            <TooltipProvider key={index} delayDuration={100}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link
+                    href={item.href}
+                    onClick={() => {
+                      if (item.name === '質問') setDisplayMainNavName('質問')
+                      else if (item.name === '設定') setDisplayMainNavName('設定')
+                    }}
+                  >
+                    <span
+                      className={`${
+                        item.hrefList.includes(pathname) && 'bg-muted hover:text-primary'
+                      } hover:text-foreground' flex h-10 w-10 items-center justify-center rounded text-muted-foreground transition-colors duration-200 hover:bg-muted hover:text-primary`}
+                    >
+                      {<item.icon />}
+                    </span>
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent side='right' sideOffset={5} align='start'>
+                  <p>{item.name}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           )
         })}
-      </div>
+      </ul>
     </div>
   )
 }
