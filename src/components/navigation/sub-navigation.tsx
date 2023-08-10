@@ -6,24 +6,16 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect } from 'react'
 
-import type { NotificationType, ProfileType } from '@/common/types'
+import type { ProfileType } from '@/common/types'
 import { displayMainNavNameAtom } from '@/store/naigation-atom'
 import { profileAtom } from '@/store/profile-atom'
 
 import { subQuestionNavigation, subSettingNavigation } from './nav-list-data'
 
-export const SubNavigation = ({
-  session,
-  profile,
-  notifications,
-}: {
-  session: Session | null
-  profile: ProfileType | null
-  notifications: NotificationType[] | null
-}) => {
+export const SubNavigation = ({ session, profile }: { session: Session | null; profile: ProfileType | null }) => {
   const pathname = usePathname()
 
-  const [user, setUser] = useAtom(profileAtom)
+  const [_, setUser] = useAtom(profileAtom)
   const displayMainNavName = useAtomValue(displayMainNavNameAtom)
 
   // 状態管理にユーザー情報を保存
