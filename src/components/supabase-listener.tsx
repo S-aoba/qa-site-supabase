@@ -3,7 +3,7 @@ import { cookies } from 'next/headers'
 
 import type { Database } from '@/lib/database.types'
 
-import { SubNavigation } from './navigation/subNavigation'
+import { SubNavigation } from './navigation/sub-navigation'
 
 // 認証状態の監視
 export const SupabaseListener = async () => {
