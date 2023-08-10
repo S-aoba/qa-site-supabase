@@ -45,7 +45,7 @@ export const SupabaseListener = async () => {
 
   return (
     <>
-      <MainNavigation />
+      <MainNavigation session={session}/>
       <SubNavigation session={session} profile={profile} notifications={notifications} />
     </>
   )

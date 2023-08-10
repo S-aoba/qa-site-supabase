@@ -57,7 +57,7 @@ export const SubNavigation = ({
             }}
           >
             <p className='text-lg'>{displayMainNavName === '質問' ? displayMainNavName : '設定'}</p>
-            <Notification notifications={notifications} />
+            {session && <Notification notifications={notifications} />}
           </div>
           <div
             className='flex max-h-12 items-center justify-between space-x-2 border-b px-6'
@@ -65,21 +65,34 @@ export const SubNavigation = ({
               minHeight: '3rem',
             }}
           >
-            <Link href='/settings/profile'>
-              <div className='relative h-8 w-8'>
-                <Image
-                  src={user.avatar_url ? user.avatar_url : '/default.png'}
-                  className='rounded-full object-cover'
-                  alt='avatar'
-                  fill
-                  sizes='auto'
-                  priority
-                />
-              </div>
-            </Link>
-            <Button type='button' variant='outline' asChild>
-              <Link href={'/questions/post'}>質問する</Link>
-            </Button>
+            {session ? (
+              <>
+                <Link href='/settings/profile'>
+                  <div className='relative h-8 w-8'>
+                    <Image
+                      src={user.avatar_url ? user.avatar_url : '/default.png'}
+                      className='rounded-full object-cover'
+                      alt='avatar'
+                      fill
+                      sizes='auto'
+                      priority
+                    />
+                  </div>
+                </Link>
+                <Button type='button' variant='outline' asChild>
+                  <Link href={'/questions/post'}>質問する</Link>
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button variant='outline' asChild>
+                  <Link href='/auth/login'>ログイン</Link>
+                </Button>
+                <Button variant='default' asChild>
+                  <Link href='/auth/signup'>新規登録</Link>
+                </Button>
+              </>
+            )}
           </div>
           <div
             className='flex-grow overflow-y-auto'
