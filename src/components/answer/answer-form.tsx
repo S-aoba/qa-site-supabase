@@ -7,7 +7,7 @@ import StarterKit from '@tiptap/starter-kit'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { z } from 'zod'
 
 import { FormAlert } from '@/common/form-alert'
@@ -34,6 +34,7 @@ export const AnswerForm = ({
   FormAlert()
   const [isLoading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
+  const [avatarUrl, setAvatarUrl] = useState('/default.png')
 
   const router = useRouter()
 
@@ -53,6 +54,13 @@ export const AnswerForm = ({
       setEditedAnswerContent(editor.getHTML())
     },
   })
+
+  // アバター画像の取得
+  useEffect(() => {
+    if (user && user.avatar_url) {
+      setAvatarUrl(user.avatar_url)
+    }
+  }, [user])
 
   const handleOnSubmit = async (values: z.infer<typeof answerSchema>) => {
     setLoading(true)
@@ -132,14 +140,7 @@ export const AnswerForm = ({
       {answerId === undefined && (
         <div className='flex items-center space-x-2 rounded-t-lg border-b p-2'>
           <div className='relative h-8 w-8'>
-            <Image
-              src={user.avatar_url ? user.avatar_url : '/default.png'}
-              className='rounded-full object-cover'
-              alt='avatar'
-              fill
-              sizes='auto'
-              priority
-            />
+            <Image src={avatarUrl} className='rounded-full object-cover' alt='avatar' fill sizes='auto' priority />
           </div>
           <span className='text-xl'>回答する</span>
         </div>
