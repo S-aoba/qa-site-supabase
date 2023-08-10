@@ -17,7 +17,7 @@ export const NewQuestionList = async () => {
   if (error) return <NotFound />
 
   return (
-    <main className='flex flex-col items-center justify-center space-y-4'>
+    <div className='flex flex-wrap justify-start space-y-3'>
       {questions.length === 0 ? (
         <div>質問はありません</div>
       ) : (
@@ -25,6 +25,6 @@ export const NewQuestionList = async () => {
           return <Card key={question.id} question={question} />
         })
       )}
-    </main>
+    </div>
   )
 }

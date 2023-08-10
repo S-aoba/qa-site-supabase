@@ -22,7 +22,7 @@ export const MainNavigation = ({ session }: { session: Session | null }) => {
   return (
     <>
       {shouldShowNavList.includes(pathname) && (
-        <div className='flex w-14 flex-col overflow-y-hidden border-r p-2'>
+        <div className='flex w-14 min-w-min flex-col overflow-y-hidden border-r p-2'>
           <Link className='block aspect-square' href={'/'}>
             <Image
               src={'/logo.png'}

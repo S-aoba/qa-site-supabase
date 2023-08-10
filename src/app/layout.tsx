@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             >
               <div className='flex h-full'>
                 <SupabaseListener />
-                <main className='flex-1 justify-center border-l bg-[#f5f7fa] p-5'>{children}</main>
+                <main className='flex-1 w-full h-full justify-center border-l bg-[#f5f7fa] p-5'>{children}</main>
               </div>
             </div>
           </div>
