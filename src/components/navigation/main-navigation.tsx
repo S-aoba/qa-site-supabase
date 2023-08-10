@@ -20,7 +20,7 @@ export const MainNavigation = ({ session }: { session: Session | null }) => {
   const authenticatedNavList = session ? mainNavigation : questionNav
 
   return (
-    <div className='flex w-14 min-w-min flex-col overflow-y-hidden border-r p-2'>
+    <div className='flex w-14 min-w-min flex-col overflow-y-hidden border-r p-2 min-h-screen h-full'>
       <Link className='block aspect-square' href={'/'}>
         <Image
           src={'/logo.png'}

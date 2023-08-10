@@ -47,7 +47,7 @@ export const MultiSelect = ({
 
   return (
     <Listbox value={editedQuestion.tags} onChange={handleSelect} multiple>
-      <Listbox.Button className='relative flex h-14 w-full items-center justify-start space-x-3 rounded-lg border px-4 hover:cursor-pointer'>
+      <Listbox.Button className='relative flex h-14 w-full items-center justify-start space-x-3 rounded-lg border px-4 hover:cursor-pointer bg-white'>
         {editedQuestion.tags.length === 0
           ? 'タグは5個まで選択できます'
           : editedQuestion.tags.map((language) => {
