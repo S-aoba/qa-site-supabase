@@ -128,6 +128,14 @@ const subQuestionNavigation = [
     icon: IconAt,
     href: '/question-waiting-answers',
   },
+]
+
+const subSettingNavigation = [
+  {
+    name: 'プロフィール',
+    icon: IconUserCircle,
+    href: '/settings/profile',
+  },
   {
     name: '自分の質問',
     icon: IconUserQuestion,
@@ -137,14 +145,6 @@ const subQuestionNavigation = [
     name: '自分の回答',
     icon: IconMessage,
     href: '/settings/questions-answered',
-  },
-]
-
-const subSettingNavigation = [
-  {
-    name: 'プロフィール',
-    icon: IconUserCircle,
-    href: '/settings/profile',
   },
   {
     name: 'メールアドレス',
