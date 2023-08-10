@@ -24,7 +24,7 @@ const mainNavigation = [
   },
 ]
 
-export const Navigation = () => {
+export const MainNavigation = () => {
   const pathname = usePathname()
 
   const setDisplayMainNavName = useSetAtom(displayMainNavNameAtom)

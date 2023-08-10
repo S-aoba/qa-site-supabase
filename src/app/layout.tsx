@@ -2,7 +2,7 @@ import './globals.css'
 
 import type { ReactNode } from 'react'
 
-import { Navigation } from '@/components/navigation'
+import { MainNavigation } from '@/components/navigation/main-navigation'
 import { SupabaseListener } from '@/components/supabase-listener'
 
 export const metadata = {
@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               }}
             >
               <div className='flex h-full'>
-                <Navigation />
+                <MainNavigation />
                 <SupabaseListener />
                 <main className='flex-1 justify-center border-l bg-[#f5f7fa] p-5'></main>
               </div>
