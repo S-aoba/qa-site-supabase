@@ -27,14 +27,14 @@ export const Question = async ({ session, question_id }: { session: Session | nu
   const profile = question.profiles
 
   return (
-    <>
-      <div className='p-2'>
-        <div className='text-center'>
-          <h1>{question.title}</h1>
+    <div className='flex w-full flex-col items-center'>
+      <div className='w-full max-w-[800px] p-2'>
+        <div className='mb-4 mt-2 text-center'>
+          <h1 className='text-2xl text-foreground'>{question.title}</h1>
         </div>
-        <div className='rounded-lg border pb-5'>
-          <div className='border-b px-2'>
-            <div className='flex justify-between'>
+        <div className='rounded-md border border-input bg-background shadow'>
+          <div>
+            <div className='flex justify-between border-b border-input px-2'>
               <UserInfo
                 created_at={question.created_at}
                 updated_at={question.updated_at}
@@ -45,15 +45,15 @@ export const Question = async ({ session, question_id }: { session: Session | nu
               {session && session.user.id === question.user_id && <Action type='question' question={question} />}
             </div>
             <QuestionTags tags={question.tags} />
+            <div
+              className='prose prose-sm prose-slate break-words p-3 lg:prose'
+              dangerouslySetInnerHTML={{ __html: question.content }}
+            />
           </div>
-          <div
-            className='prose prose-sm prose-slate break-words p-3 lg:prose'
-            dangerouslySetInnerHTML={{ __html: question.content }}
-          />
         </div>
+        <AnswerList question={question} session={session} />
+        {!session && <QuestionMessage />}
       </div>
-      <AnswerList question={question} session={session} />
-      {!session && <QuestionMessage />}
-    </>
+    </div>
   )
 }

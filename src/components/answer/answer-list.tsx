@@ -23,12 +23,12 @@ export const AnswerList = async ({ question, session }: { question: QuestionType
       {answers.length > 0 ? (
         <div className='pb-10'>
           <div className='px-2 py-10'>
-            <span className=''>{answers.length}</span>件回答
+            <span className='text-2xl text-foreground'>{answers.length}</span> 件回答
           </div>
           <div className='flex flex-col space-y-4'>
             {answers.map((answer) => {
               return (
-                <div key={answer.id} className='rounded-lg border'>
+                <div key={answer.id} className='rounded-md border border-input bg-background shadow'>
                   <AnswerBody answer={answer} session={session}>
                     <UserInfo
                       created_at={answer.created_at}
@@ -44,7 +44,7 @@ export const AnswerList = async ({ question, session }: { question: QuestionType
           </div>
         </div>
       ) : (
-        <div className='w-full py-10 text-center'>回答はまだありません</div>
+        <div className='w-full py-10 text-center text-2xl text-foreground'>回答はまだありません</div>
       )}
       {session && <AnswerForm userId={session.user.id} question={question} />}
     </div>

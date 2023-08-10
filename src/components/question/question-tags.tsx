@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export const QuestionTags = ({ tags }: { tags: string[] }) => {
   return (
-    <div className='flex space-x-3 overflow-x-scroll py-2 text-sm '>
+    <div className='flex space-x-3 overflow-x-hidden p-2 text-sm border-b border-input '>
       {tags.map((tag, index) => {
         return (
           <Link

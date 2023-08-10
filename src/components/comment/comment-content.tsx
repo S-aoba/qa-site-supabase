@@ -16,7 +16,7 @@ export const CommentContent = ({ comment }: { comment: CommentType }) => {
       ) : (
         comment && (
           <div
-            className='prose prose-sm prose-slate break-words px-2 lg:prose'
+            className='prose prose-sm prose-slate break-words p-3 lg:prose'
             dangerouslySetInnerHTML={{ __html: comment.content }}
           />
         )

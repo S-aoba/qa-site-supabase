@@ -34,7 +34,7 @@ export const Comment = ({
             return <CommentBody key={comment.id} comment={comment} session={session} />
           })
         ) : (
-          <div className='border-t text-end hover:cursor-pointer hover:text-slate-600 hover:underline hover:underline-offset-2'>
+          <div className='border-t text-end text-muted-foreground hover:cursor-pointer'>
             <span className='inline-block p-2' onClick={handleOpenComment}>
               コメントを表示する
             </span>
@@ -42,7 +42,7 @@ export const Comment = ({
         )
       ) : null}
       {isDisplayComments && (
-        <div className='border-t text-end hover:cursor-pointer hover:text-slate-600 hover:underline hover:underline-offset-2'>
+        <div className='border-t text-end text-muted-foreground hover:cursor-pointer'>
           <span className='inline-block p-2' onClick={handleCloseComment}>
             コメントを非表示にする
           </span>

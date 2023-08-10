@@ -128,10 +128,10 @@ export const AnswerForm = ({
   }
 
   return (
-    <div className={`${answerId === undefined && 'min-h-full rounded-lg border'}`}>
+    <div className={`${answerId === undefined && 'min-h-full rounded-lg border bg-background'}`}>
       {answerId === undefined && (
         <div className='flex items-center space-x-2 rounded-t-lg border-b p-2'>
-          <div className='relative h-10 w-10'>
+          <div className='relative h-8 w-8'>
             <Image
               src={user.avatar_url ? user.avatar_url : '/default.png'}
               className='rounded-full object-cover'
