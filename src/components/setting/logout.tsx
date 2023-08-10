@@ -2,11 +2,13 @@
 
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { useSetAtom } from 'jotai'
 import { useRouter } from 'next/navigation'
 import type { FormEvent } from 'react'
 import { useState } from 'react'
 
 import type { Database } from '@/lib/database.types'
+import { displayMainNavNameAtom } from '@/store/navigation-atom'
 
 import { Button } from '../ui/button'
 
@@ -16,6 +18,8 @@ export const Logout = () => {
   const supabase = createClientComponentClient<Database>()
   const [isLoading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
+
+  const setDisplayMainNavName = useSetAtom(displayMainNavNameAtom)
 
   // 送信
   const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -38,6 +42,7 @@ export const Logout = () => {
       return
     } finally {
       setLoading(false)
+      setDisplayMainNavName("質問")
       router.refresh()
     }
   }
