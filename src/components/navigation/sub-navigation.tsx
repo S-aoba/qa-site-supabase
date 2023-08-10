@@ -2,7 +2,6 @@
 
 import type { Session } from '@supabase/supabase-js'
 import { useAtom, useAtomValue } from 'jotai'
-import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect } from 'react'
 
@@ -11,6 +10,7 @@ import { displayMainNavNameAtom } from '@/store/naigation-atom'
 import { profileAtom } from '@/store/profile-atom'
 
 import { subQuestionNavigation, subSettingNavigation } from './nav-list-data'
+import { Tab } from './tab'
 
 export const SubNavigation = ({ session, profile }: { session: Session | null; profile: ProfileType | null }) => {
   const pathname = usePathname()
@@ -66,30 +66,12 @@ export const SubNavigation = ({ session, profile }: { session: Session | null; p
                 {displayMainNavName === '質問'
                   ? subQuestionNavigation.map((item, index) => {
                       return (
-                        <Link
-                          key={index}
-                          href={item.href}
-                          className={`${
-                            item.href === pathname && 'bg-muted hover:text-primary'
-                          } hover:text-foreground' flex h-10 w-full items-center justify-start space-x-2 rounded px-3 text-muted-foreground transition-colors duration-200 hover:text-primary`}
-                        >
-                          {<item.icon size={20} />}
-                          <span>{item.name}</span>
-                        </Link>
+                        <Tab key={index} href={item.href} name={item.name} pathname={pathname} icon={<item.icon />} />
                       )
                     })
                   : subSettingNavigation.map((item, index) => {
                       return (
-                        <Link
-                          key={index}
-                          href={item.href}
-                          className={`${
-                            item.href === pathname && 'bg-muted hover:text-primary'
-                          } hover:text-foreground' flex h-10 w-full items-center justify-start space-x-2 rounded px-3 text-muted-foreground transition-colors duration-200 hover:text-primary`}
-                        >
-                          {<item.icon size={20} />}
-                          <span>{item.name}</span>
-                        </Link>
+                        <Tab key={index} href={item.href} name={item.name} pathname={pathname} icon={<item.icon />} />
                       )
                     })}
               </div>
