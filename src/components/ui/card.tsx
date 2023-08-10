@@ -25,7 +25,7 @@ export const Card = async ({ question }: { question: QuestionType }) => {
   const daysDifference = Math.abs(Math.ceil(timeDifference / (1000 * 60 * 60 * 24)))
 
   return (
-    <div className='grid grid-cols-12 rounded-lg shadow w-96 bg-white m-3 p-3'>
+    <div className='grid grid-cols-12 rounded-lg shadow w-96 bg-background m-3 p-3 text-muted-foreground'>
       <div className='col-span-2 flex items-center justify-center rounded-bl-lg rounded-tl-lg md:col-span-1'>
         <Image src={`/lang-icon/${question.tags[0]}.svg`} alt='language-icon' width={40} height={40} priority />
       </div>
@@ -49,7 +49,7 @@ export const Card = async ({ question }: { question: QuestionType }) => {
         <div className='w-full truncate'>
           <Link
             href={`/${profile?.username}/questions/${question.id}`}
-            className='hover:underline-offset-4'
+            className='hover:text-foreground'
           >
             {question.title}
           </Link>
