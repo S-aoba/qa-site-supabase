@@ -72,5 +72,3 @@ export const subSettingNavigation = [
   },
 ]
 
-
-export const shouldShowNavList = mainNavigation[0].hrefList.concat(mainNavigation[1].hrefList)
