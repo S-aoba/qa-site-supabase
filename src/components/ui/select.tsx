@@ -43,7 +43,7 @@ export const Select = ({
   return (
     <Popover open={isShowOpen} onOpenChange={handleSetIsOpen}>
       <PopoverTrigger asChild>
-        <Button variant='outline' role='combobox' aria-expanded={isShowOpen} className='w-full justify-between'>
+        <Button variant='outline' role='combobox' aria-expanded={isShowOpen} className='w-full justify-between text-muted-foreground'>
           {editedQuestion.coding_problem
             ? codingProblemList.find((item) => {
                 return item === editedQuestion.coding_problem
