@@ -1,6 +1,5 @@
 'use client'
 
-import { IconQuestionMark, IconSettings } from '@tabler/icons-react'
 import { useSetAtom } from 'jotai'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -9,20 +8,7 @@ import { usePathname } from 'next/navigation'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { displayMainNavNameAtom } from '@/store/naigation-atom'
 
-const mainNavigation = [
-  {
-    name: '質問',
-    icon: IconQuestionMark,
-    href: '/',
-    hrefList: ['/', '/question-waiting-answers', '/settings/my-questions', '/settings/questions-answered'],
-  },
-  {
-    name: '設定',
-    icon: IconSettings,
-    href: '/settings/profile',
-    hrefList: ['/settings/profile', '/settings/email', '/settings/password', '/settings/logout'],
-  },
-]
+import { mainNavigation } from './nav-list-data'
 
 export const MainNavigation = () => {
   const pathname = usePathname()

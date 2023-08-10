@@ -1,16 +1,6 @@
 'use client'
 
 import type { Session } from '@supabase/supabase-js'
-import {
-  IconAt,
-  IconFriends,
-  IconLogout,
-  IconMail,
-  IconMessage,
-  IconPassword,
-  IconUserCircle,
-  IconUserQuestion,
-} from '@tabler/icons-react'
 import { useAtom, useAtomValue } from 'jotai'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -19,6 +9,8 @@ import { useEffect } from 'react'
 import type { NotificationType, ProfileType } from '@/common/types'
 import { displayMainNavNameAtom } from '@/store/naigation-atom'
 import { profileAtom } from '@/store/profile-atom'
+
+import { subQuestionNavigation, subSettingNavigation } from './nav-list-data'
 
 export const SubNavigation = ({
   session,
@@ -116,49 +108,3 @@ export const SubNavigation = ({
     </div>
   )
 }
-
-const subQuestionNavigation = [
-  {
-    name: '新着の質問',
-    icon: IconFriends,
-    href: '/',
-  },
-  {
-    name: '回答募集中',
-    icon: IconAt,
-    href: '/question-waiting-answers',
-  },
-]
-
-const subSettingNavigation = [
-  {
-    name: 'プロフィール',
-    icon: IconUserCircle,
-    href: '/settings/profile',
-  },
-  {
-    name: '自分の質問',
-    icon: IconUserQuestion,
-    href: '/settings/my-questions',
-  },
-  {
-    name: '自分の回答',
-    icon: IconMessage,
-    href: '/settings/questions-answered',
-  },
-  {
-    name: 'メールアドレス',
-    icon: IconMail,
-    href: '/settings/email',
-  },
-  {
-    name: 'パスワード',
-    icon: IconPassword,
-    href: '/settings/password',
-  },
-  {
-    name: 'ログアウト',
-    icon: IconLogout,
-    href: '/settings/logout',
-  },
-]
