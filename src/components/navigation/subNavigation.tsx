@@ -20,7 +20,7 @@ import type { NotificationType, ProfileType } from '@/common/types'
 import { displayMainNavNameAtom } from '@/store/naigation-atom'
 import { profileAtom } from '@/store/profile-atom'
 
-export const Header = ({
+export const SubNavigation = ({
   session,
   profile,
   notifications,

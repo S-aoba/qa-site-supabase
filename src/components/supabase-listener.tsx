@@ -3,7 +3,7 @@ import { cookies } from 'next/headers'
 
 import type { Database } from '@/lib/database.types'
 
-import { Header } from './header/header'
+import { SubNavigation } from './navigation/subNavigation'
 
 // 認証状態の監視
 export const SupabaseListener = async () => {
@@ -42,5 +42,5 @@ export const SupabaseListener = async () => {
     }
   }
 
-  return <Header session={session} profile={profile} notifications={notifications} />
+  return <SubNavigation session={session} profile={profile} notifications={notifications} />
 }
