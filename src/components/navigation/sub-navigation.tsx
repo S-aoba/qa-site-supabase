@@ -30,6 +30,8 @@ export const SubNavigation = ({
   const [user, setUser] = useAtom(profileAtom)
   const displayMainNavName = useAtomValue(displayMainNavNameAtom)
 
+  const navList = displayMainNavName === '質問' ? subQuestionNavigation : subSettingNavigation
+
   // 状態管理にユーザー情報を保存
   useEffect(() => {
     if (session && session.user.email !== undefined) {
@@ -113,29 +115,11 @@ export const SubNavigation = ({
               >
                 <ul className='flex flex-auto flex-col'>
                   <div className='flex flex-1 flex-col space-y-2'>
-                    {displayMainNavName === '質問'
-                      ? subQuestionNavigation.map((item, index) => {
-                          return (
-                            <Tab
-                              key={index}
-                              href={item.href}
-                              name={item.name}
-                              pathname={pathname}
-                              icon={<item.icon />}
-                            />
-                          )
-                        })
-                      : subSettingNavigation.map((item, index) => {
-                          return (
-                            <Tab
-                              key={index}
-                              href={item.href}
-                              name={item.name}
-                              pathname={pathname}
-                              icon={<item.icon />}
-                            />
-                          )
-                        })}
+                    {navList.map((item, index) => {
+                      return (
+                        <Tab key={index} href={item.href} name={item.name} pathname={pathname} icon={<item.icon />} />
+                      )
+                    })}
                   </div>
                 </ul>
               </nav>
