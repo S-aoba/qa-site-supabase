@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { displayMainNavNameAtom } from '@/store/naigation-atom'
+import { displayMainNavNameAtom } from '@/store/navigation-atom'
 
 import { mainNavigation, shouldShowNavList } from './nav-list-data'
 

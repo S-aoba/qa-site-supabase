@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation'
 import { useEffect } from 'react'
 
 import type { NotificationType, ProfileType } from '@/common/types'
-import { displayMainNavNameAtom } from '@/store/naigation-atom'
+import { displayMainNavNameAtom } from '@/store/navigation-atom'
 import { profileAtom } from '@/store/profile-atom'
 
 import { Notification } from '../notification/notification'
