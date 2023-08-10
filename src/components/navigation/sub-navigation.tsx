@@ -2,20 +2,32 @@
 
 import type { Session } from '@supabase/supabase-js'
 import { useAtom, useAtomValue } from 'jotai'
+import Image from 'next/image'
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect } from 'react'
 
-import type { ProfileType } from '@/common/types'
+import type { NotificationType, ProfileType } from '@/common/types'
 import { displayMainNavNameAtom } from '@/store/naigation-atom'
 import { profileAtom } from '@/store/profile-atom'
 
+import { Notification } from '../notification/notification'
+import { Button } from '../ui/button'
 import { subQuestionNavigation, subSettingNavigation } from './nav-list-data'
 import { Tab } from './tab'
 
-export const SubNavigation = ({ session, profile }: { session: Session | null; profile: ProfileType | null }) => {
+export const SubNavigation = ({
+  session,
+  profile,
+  notifications,
+}: {
+  session: Session | null
+  profile: ProfileType | null
+  notifications: NotificationType[] | null
+}) => {
   const pathname = usePathname()
 
-  const [_, setUser] = useAtom(profileAtom)
+  const [user, setUser] = useAtom(profileAtom)
   const displayMainNavName = useAtomValue(displayMainNavNameAtom)
 
   // 状態管理にユーザー情報を保存
@@ -37,12 +49,35 @@ export const SubNavigation = ({ session, profile }: { session: Session | null; p
   return (
     <div className='hide-scrollbar flex w-64 flex-col'>
       <div
-        className='flex max-h-12 items-center justify-start space-x-2 border-b px-6'
+        className='flex max-h-12 items-center justify-between space-x-2 border-b px-6'
         style={{
           minHeight: '3rem',
         }}
       >
         <p className='text-lg'>{displayMainNavName === '質問' ? displayMainNavName : '設定'}</p>
+        <Notification notifications={notifications} />
+      </div>
+      <div
+        className='flex max-h-12 items-center justify-between space-x-2 border-b px-6'
+        style={{
+          minHeight: '3rem',
+        }}
+      >
+        <Link href='/settings/profile'>
+          <div className='relative h-8 w-8'>
+            <Image
+              src={user.avatar_url ? user.avatar_url : '/default.png'}
+              className='rounded-full object-cover'
+              alt='avatar'
+              fill
+              sizes='auto'
+              priority
+            />
+          </div>
+        </Link>
+        <Button type='button' variant='outline' asChild>
+          <Link href={'/questions/post'}>質問する</Link>
+        </Button>
       </div>
       <div
         className='flex-grow overflow-y-auto'

@@ -17,11 +17,17 @@ export const SupabaseListener = async () => {
 
   // プロフィールの取得
   let profile = null
+  let notifications = null
 
   if (session) {
     const { data: currentProfile } = await supabase.from('profiles').select('*').eq('id', session.user.id).single()
+    const { data: currentNotifications } = await supabase
+      .from('notifications')
+      .select('*')
+      .eq('user_id', currentProfile?.id)
 
     profile = currentProfile
+    notifications = currentNotifications
 
     // メールアドレスを変更した場合、プロフィールを更新
     if (currentProfile && currentProfile.email !== session.user.email) {
@@ -40,7 +46,7 @@ export const SupabaseListener = async () => {
   return (
     <>
       <MainNavigation />
-      <SubNavigation session={session} profile={profile} />
+      <SubNavigation session={session} profile={profile} notifications={notifications} />
     </>
   )
 }
