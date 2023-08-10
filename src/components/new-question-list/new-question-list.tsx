@@ -17,7 +17,7 @@ export const NewQuestionList = async () => {
   if (error) return <NotFound />
 
   return (
-    <div className='flex flex-wrap justify-start space-y-3'>
+    <div className='flex flex-wrap justify-start'>
       {questions.length === 0 ? (
         <div>質問はありません</div>
       ) : (

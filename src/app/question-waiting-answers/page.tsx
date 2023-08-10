@@ -13,7 +13,7 @@ const QuestionWaitingAnswersPage = async () => {
     .limit(10)
 
   return (
-    <main className='flex flex-wrap justify-start space-y-3'>
+    <div className='flex flex-wrap justify-start'>
       {questionWaitingAnswers?.length === 0 ? (
         <div>質問はありません</div>
       ) : (
@@ -25,7 +25,7 @@ const QuestionWaitingAnswersPage = async () => {
           )
         })
       )}
-    </main>
+    </div>
   )
 }
 export default QuestionWaitingAnswersPage
