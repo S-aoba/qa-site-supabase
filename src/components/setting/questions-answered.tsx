@@ -19,7 +19,7 @@ export const QuestionsAnswered = async ({ userId }: { userId: string }) => {
   }
 
   return (
-    <main className='flex flex-col justify-center space-y-4'>
+    <main className='flex flex-wrap justify-start'>
       {questionsAnswered.map((answer) => {
         return (
           <>

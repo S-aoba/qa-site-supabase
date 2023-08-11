@@ -9,7 +9,7 @@ export const MyQuestions = async ({ userId }: { userId: string }) => {
   const supabase = createServerComponentClient<Database>({ cookies })
   const { data: myQuestions } = await supabase.from('questions').select('*').eq('user_id', userId)
   return (
-    <main className='flex flex-col justify-center space-y-4'>
+    <main className='flex flex-wrap justify-start'>
       {myQuestions?.map((question) => {
         return <Card key={question.id} question={question} />
       })}
