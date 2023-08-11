@@ -136,7 +136,7 @@ export const AnswerForm = ({
   }
 
   return (
-    <div className={`${answerId === undefined && 'min-h-full rounded-lg border bg-background'}`}>
+    <div className={`${answerId === undefined && 'min-h-full rounded-md border border-input bg-background shadow'}`}>
       {answerId === undefined && (
         <div className='flex items-center space-x-2 rounded-t-lg border-b p-2'>
           <div className='relative h-8 w-8'>
