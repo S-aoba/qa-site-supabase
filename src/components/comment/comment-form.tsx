@@ -104,7 +104,7 @@ export const CommentForm = ({ answer, commentId }: { answer?: AnswerType; commen
   return (
     <div className={`${commentId === undefined && 'border-t'} p-2`}>
       {commentId === undefined && (
-        <div className='flex items-center space-x-2 pt-2 text-foreground'>
+        <div className='flex items-center space-x-2 text-foreground'>
           <div className='relative h-8 w-8'>
             <Image src={avatarUrl} className='rounded-full object-cover' alt='avatar' fill sizes='auto' priority />
           </div>
@@ -127,7 +127,7 @@ export const CommentForm = ({ answer, commentId }: { answer?: AnswerType; commen
               )
             }}
           />
-          <div className='flex w-full justify-end p-3'>
+          <div className='flex w-full justify-end px-3 pt-3'>
             {commentId === undefined ? (
               <Button type='submit' variant='default' disabled={isLoading}>
                 {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}

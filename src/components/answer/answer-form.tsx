@@ -136,49 +136,47 @@ export const AnswerForm = ({
   }
 
   return (
-    <div className={`${answerId === undefined && 'min-h-full rounded-md border border-input bg-background shadow'}`}>
+    <div className={`${answerId === undefined && 'min-h-full rounded-md border border-input bg-background shadow p-2'}`}>
       {answerId === undefined && (
-        <div className='flex items-center space-x-2 rounded-t-lg border-b p-2'>
+        <div className='flex items-center space-x-2 text-foreground'>
           <div className='relative h-8 w-8'>
             <Image src={avatarUrl} className='rounded-full object-cover' alt='avatar' fill sizes='auto' priority />
           </div>
           <span>回答する</span>
         </div>
       )}
-      <div className='px-2 py-5'>
-        <Form {...onHandleAnswerForm}>
-          <form onSubmit={onHandleAnswerForm.handleSubmit(handleOnSubmit)}>
-            <FormField
-              control={onHandleAnswerForm.control}
-              name='content'
-              render={() => {
-                return (
-                  <FormItem>
-                    <FormControl>
-                      <ContentEditor editor={editor} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )
-              }}
-            />
-            <div className='flex w-full justify-end px-3 pt-3'>
-              {answerId === undefined ? (
-                <Button type='submit' variant='default' disabled={isLoading}>
-                  {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
-                  {isLoading ? '回答を送信中' : '回答を送信'}
-                </Button>
-              ) : (
-                <Button type='submit' variant='default' disabled={isLoading}>
-                  {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
-                  {isLoading ? '回答を更新中' : '回答を更新'}
-                </Button>
-              )}
-            </div>
-          </form>
-          {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
-        </Form>
-      </div>
+      <Form {...onHandleAnswerForm}>
+        <form className='p-2' onSubmit={onHandleAnswerForm.handleSubmit(handleOnSubmit)}>
+          <FormField
+            control={onHandleAnswerForm.control}
+            name='content'
+            render={() => {
+              return (
+                <FormItem>
+                  <FormControl>
+                    <ContentEditor editor={editor} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )
+            }}
+          />
+          <div className='flex w-full justify-end px-3 pt-3'>
+            {answerId === undefined ? (
+              <Button type='submit' variant='default' disabled={isLoading}>
+                {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
+                {isLoading ? '回答を送信中' : '回答を送信'}
+              </Button>
+            ) : (
+              <Button type='submit' variant='default' disabled={isLoading}>
+                {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
+                {isLoading ? '回答を更新中' : '回答を更新'}
+              </Button>
+            )}
+          </div>
+        </form>
+        {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
+      </Form>
     </div>
   )
 }
