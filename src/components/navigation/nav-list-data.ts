@@ -16,13 +16,20 @@ export const mainNavigation = [
     name: '質問',
     icon: IconQuestionMark,
     href: '/',
-    hrefList: ['/', '/question-waiting-answers', '/settings/my-questions', '/settings/questions-answered'],
+    hrefList: ['/', '/question-waiting-answers'],
   },
   {
     name: '設定',
     icon: IconSettings,
     href: '/settings/profile',
-    hrefList: ['/settings/profile', '/settings/email', '/settings/password', '/settings/logout'],
+    hrefList: [
+      '/settings/profile',
+      '/settings/email',
+      '/settings/password',
+      '/settings/logout',
+      '/settings/my-questions',
+      '/settings/questions-answered',
+    ],
   },
 ]
 
@@ -72,3 +79,5 @@ export const subSettingNavigation = [
   },
 ]
 
+export const questionPathList = mainNavigation[0].hrefList
+export const settingsPathList = mainNavigation[1].hrefList
