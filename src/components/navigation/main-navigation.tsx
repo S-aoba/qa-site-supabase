@@ -9,7 +9,7 @@ import { usePathname } from 'next/navigation'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { displayMainNavNameAtom } from '@/store/navigation-atom'
 
-import { mainNavigation, questionPathList } from './nav-list-data'
+import { mainNavigation, settingsPathList } from './nav-list-data'
 
 export const MainNavigation = ({ session }: { session: Session | null }) => {
   const pathname = usePathname()
@@ -18,7 +18,7 @@ export const MainNavigation = ({ session }: { session: Session | null }) => {
 
   const questionNav = [mainNavigation[0]]
   const authenticatedNavList = session ? mainNavigation : questionNav
-  const selectedNav = questionPathList.includes(pathname) ? '質問' : '設定'
+  const selectedNav = settingsPathList.includes(pathname) ? '設定' : '質問'
 
   setDisplayMainNavName(selectedNav)
 

@@ -79,5 +79,4 @@ export const subSettingNavigation = [
   },
 ]
 
-export const questionPathList = mainNavigation[0].hrefList
 export const settingsPathList = mainNavigation[1].hrefList
