@@ -102,14 +102,10 @@ export const CommentForm = ({ answer, commentId }: { answer?: AnswerType; commen
     }
   }
   return (
-    <div
-      className={`${
-        commentId === undefined && ' border-b-0 border-l-0 border-r-0 border-t border-solid border-slate-300 '
-      } p-2`}
-    >
+    <div className={`${commentId === undefined && 'border-t'} p-2`}>
       {commentId === undefined && (
-        <div className='flex items-center space-x-2  pt-2 font-semibold text-slate-400'>
-          <div className='relative h-6 w-6'>
+        <div className='flex items-center space-x-2 pt-2 text-foreground'>
+          <div className='relative h-8 w-8'>
             <Image src={avatarUrl} className='rounded-full object-cover' alt='avatar' fill sizes='auto' priority />
           </div>
           <span>コメントする</span>

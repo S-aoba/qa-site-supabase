@@ -70,12 +70,12 @@ export const Action = ({ type, question, answer, comment }: ActionProps) => {
       <div className='flex items-center'>
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <IconMenu2 className='hover:cursor-pointer hover:bg-slate-200' />
+            <IconMenu2 className='hover:cursor-pointer' />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem onClick={handleSetData} className='hover:cursor-pointer'>
               {type === 'question' ? (
-                <Link href={'questions/edit'} className='flex items-center text-black no-underline'>
+                <Link href={'questions/edit'} className='flex items-center'>
                   <IconEdit className='mr-2' />
                   編集
                 </Link>

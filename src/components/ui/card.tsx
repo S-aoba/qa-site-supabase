@@ -7,10 +7,6 @@ import Link from 'next/link'
 import type { QuestionType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
 
-/**
- * @package
- */
-
 export const Card = async ({ question }: { question: QuestionType }) => {
   const supabase = createServerComponentClient<Database>({ cookies })
   const { data: profile } = await supabase.from('profiles').select('*').eq('id', question.user_id).single()
@@ -29,21 +25,12 @@ export const Card = async ({ question }: { question: QuestionType }) => {
   const daysDifference = Math.abs(Math.ceil(timeDifference / (1000 * 60 * 60 * 24)))
 
   return (
-    <div className='grid w-full grid-cols-12 rounded-lg border border-solid border-slate-300'>
-      <div className='col-span-2 flex items-center justify-center rounded-bl-lg rounded-tl-lg bg-slate-500 md:col-span-1'>
-        <Image
-          src={`/lang-icon/${question.tags[0]}.svg`}
-          className='rounded-full outline-dotted outline-4 outline-offset-4 outline-white'
-          alt='language-icon'
-          width={40}
-          height={40}
-          priority
-        />
+    <div className='grid grid-cols-12 rounded-lg shadow w-96 bg-background m-3 p-3 text-muted-foreground'>
+      <div className='col-span-2 flex items-center justify-center rounded-bl-lg rounded-tl-lg md:col-span-1'>
+        <Image src={`/lang-icon/${question.tags[0]}.svg`} alt='language-icon' width={40} height={40} priority />
       </div>
       <div className='col-span-10 flex w-full flex-col space-y-2 py-3 pl-2 md:col-span-11'>
-        <div className='w-fit max-w-[300px] truncate rounded-lg bg-slate-500 px-2 text-stone-50'>
-          {question.coding_problem}
-        </div>
+        <div className='w-fit max-w-[300px] truncate rounded-lg px-2'>{question.coding_problem}</div>
         <div className='flex items-center space-x-2 text-sm'>
           <Image
             src={profile && profile.avatar_url ? profile.avatar_url : '/default.png'}
@@ -52,7 +39,7 @@ export const Card = async ({ question }: { question: QuestionType }) => {
             height={30}
             priority
           />
-          <Link href={'/'} className='w-fit max-w-[100px] truncate text-black no-underline'>
+          <Link href={'/'} className='w-fit max-w-[100px] truncate'>
             {profile && profile.username}
           </Link>
           <span>{daysDifference === 0 ? '今日' : `${daysDifference}日前`}</span>
@@ -62,7 +49,7 @@ export const Card = async ({ question }: { question: QuestionType }) => {
         <div className='w-full truncate'>
           <Link
             href={`/${profile?.username}/questions/${question.id}`}
-            className='font-semibold text-black no-underline hover:underline hover:underline-offset-4'
+            className='hover:text-foreground'
           >
             {question.title}
           </Link>

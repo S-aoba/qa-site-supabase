@@ -3,8 +3,7 @@ import { ResetPasswordCombineForm } from '@/components/auth/reset-password-combi
 // パスワード再設定ページ
 const ResetPasswordConfirmPage = () => {
   return (
-    <div className='mx-auto max-w-[400px]'>
-      {/* パスワード変更 */}
+    <div>
       <ResetPasswordCombineForm />
     </div>
   )

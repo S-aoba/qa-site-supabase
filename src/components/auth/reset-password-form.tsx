@@ -9,7 +9,7 @@ import type * as z from 'zod'
 
 import { ReactHookForm } from '@/common/react-hook-form'
 import type { emailSchema } from '@/common/schemas'
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import type { Database } from '@/lib/database.types'
 
 import { Button } from '../ui/button'
@@ -50,37 +50,43 @@ export const ResetPasswordForm = () => {
     }
   }
   return (
-    <div>
-      <Form {...onHandleResetPasswordForm}>
-        <form
-          onSubmit={onHandleResetPasswordForm.handleSubmit(onSubmit)}
-          className='flex flex-col space-y-3 rounded-lg border border-solid border-slate-300 bg-[#f6f8fa] p-5'
-        >
-          <FormField
-            control={onHandleResetPasswordForm.control}
-            name='email'
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <FormControl>
-                    <Input placeholder='メールアドレス' type='email' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )
-            }}
-          />
-          <div className='flex justify-end'>
-            <Button type='submit' variant='default' disabled={isLoading}>
-              {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
-              {isLoading ? '送信中' : '送信'}
-            </Button>
-          </div>
-        </form>
-      </Form>
-      {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
-      <div className=' mt-5 flex flex-col space-y-3 rounded-lg border border-solid border-slate-300 p-5 text-center text-sm'>
-        <Link href='/auth/login' className='font-bold text-slate-500 hover:text-slate-600'>
+    <div className='space-y-10'>
+      <div className='text-center'>
+        <h1 className='text-2xl'>Reset Password</h1>
+      </div>
+      <div>
+        <Form {...onHandleResetPasswordForm}>
+          <form
+            onSubmit={onHandleResetPasswordForm.handleSubmit(onSubmit)}
+            className='flex flex-col space-y-5 rounded bg-white p-5 shadow-lg'
+          >
+            <FormField
+              control={onHandleResetPasswordForm.control}
+              name='email'
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <FormLabel>メールアドレス</FormLabel>
+                    <FormControl>
+                      <Input type='email' placeholder='mail@example.com' {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )
+              }}
+            />
+            <div className='flex justify-start pt-2'>
+              <Button type='submit' variant='default' disabled={isLoading}>
+                {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
+                {isLoading ? '送信中' : '送信'}
+              </Button>
+            </div>
+          </form>
+        </Form>
+        {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
+      </div>
+      <div className='flex flex-col items-center justify-center space-y-3 rounded bg-white p-5 text-sm shadow-lg'>
+        <Link href='/auth/login' className='text-muted-foreground hover:text-black'>
           ログインはこちら
         </Link>
       </div>

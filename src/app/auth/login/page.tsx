@@ -2,7 +2,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
-import { Login } from '@/components/auth/login'
+import { LoginForm } from '@/components/auth/login-form'
 import type { Database } from '@/lib/database.types'
 
 // ログインページ
@@ -21,7 +21,7 @@ const LoginPage = async () => {
     redirect('/')
   }
 
-  return <Login />
+  return <LoginForm />
 }
 
 export default LoginPage

@@ -9,7 +9,7 @@ import type * as z from 'zod'
 
 import { ReactHookForm } from '@/common/react-hook-form'
 import type { signupSchema } from '@/common/schemas'
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import type { Database } from '@/lib/database.types'
 
 import { Button } from '../ui/button'
@@ -63,68 +63,75 @@ export const SignupForm = () => {
     }
   }
   return (
-    <div>
-      <Form {...onHandleSignupForm}>
-        <form
-          onSubmit={onHandleSignupForm.handleSubmit(onSubmit)}
-          className='flex flex-col space-y-3 rounded-lg border border-solid border-slate-300 bg-[#f6f8fa] p-5'
-        >
-          <FormField
-            control={onHandleSignupForm.control}
-            name='username'
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <FormControl>
-                    <Input placeholder='ユーザーネーム' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )
-            }}
-          />
-          <FormField
-            control={onHandleSignupForm.control}
-            name='email'
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <FormControl>
-                    <Input placeholder='メールアドレス' type='email' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )
-            }}
-          />
-          <FormField
-            control={onHandleSignupForm.control}
-            name='password'
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <FormControl>
-                    <Input placeholder='パスワード' type='password' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )
-            }}
-          />
-          <div className='flex justify-end'>
-            <Button type='submit' variant='default' disabled={isLoading}>
-              {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
-              {isLoading ? '新規登録中' : '新規登録'}
-            </Button>
-          </div>
-        </form>
-      </Form>
+    <div className='space-y-10'>
+      <div className='text-center'>
+        <h1 className='text-2xl'>Signup</h1>
+      </div>
+      <div>
+        <Form {...onHandleSignupForm}>
+          <form
+            onSubmit={onHandleSignupForm.handleSubmit(onSubmit)}
+            className='flex flex-col space-y-5 rounded bg-white p-5 shadow-lg'
+          >
+            <FormField
+              control={onHandleSignupForm.control}
+              name='username'
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <FormLabel>ユーザーネーム</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )
+              }}
+            />
+            <FormField
+              control={onHandleSignupForm.control}
+              name='email'
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <FormLabel>メールアドレス</FormLabel>
+                    <FormControl>
+                      <Input placeholder='mail@example.com' type='email' {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )
+              }}
+            />
+            <FormField
+              control={onHandleSignupForm.control}
+              name='password'
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <FormLabel>パスワード</FormLabel>
+                    <FormControl>
+                      <Input type='password' {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )
+              }}
+            />
+            <div className='flex justify-start pt-2'>
+              <Button type='submit' variant='default' disabled={isLoading}>
+                {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
+                {isLoading ? '新規登録中' : '新規登録'}
+              </Button>
+            </div>
+          </form>
+        </Form>
 
-      {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
-
-      <div className='mt-5 flex items-center  space-x-2 rounded-lg border border-solid border-slate-300 p-5 text-sm'>
-        <span>既にアカウントはお持ちですか?</span>
-        <Link href='/auth/login' className='font-bold text-slate-500 hover:text-slate-600'>
+        {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
+      </div>
+      <div className='flex items-center justify-center space-x-3 rounded bg-white p-5 text-sm shadow-lg'>
+        <span className='text-muted-foreground'>既にアカウントはお持ちですか?</span>
+        <Link href='/auth/login' className='text-muted-foreground hover:text-black'>
           ログインはこちら
         </Link>
       </div>

@@ -7,13 +7,13 @@ import StarterKit from '@tiptap/starter-kit'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { z } from 'zod'
 
 import { FormAlert } from '@/common/form-alert'
 import { ReactHookForm } from '@/common/react-hook-form'
 import type { answerSchema } from '@/common/schemas'
-import type { ProfileType, QuestionType } from '@/common/types'
+import type { QuestionType } from '@/common/types'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import type { Database } from '@/lib/database.types'
 import { editedAnswerAtom, isAnswerEditModeAtom } from '@/store/answer-atom'
@@ -25,17 +25,16 @@ import { ContentEditor } from '../ui/content-editor'
 export const AnswerForm = ({
   userId,
   question,
-  profile,
   answerId,
 }: {
   userId?: string
   question?: QuestionType
-  profile?: ProfileType | null
   answerId?: string
 }) => {
   FormAlert()
   const [isLoading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
+  const [avatarUrl, setAvatarUrl] = useState('/default.png')
 
   const router = useRouter()
 
@@ -56,6 +55,13 @@ export const AnswerForm = ({
     },
   })
 
+  // アバター画像の取得
+  useEffect(() => {
+    if (user && user.avatar_url) {
+      setAvatarUrl(user.avatar_url)
+    }
+  }, [user])
+
   const handleOnSubmit = async (values: z.infer<typeof answerSchema>) => {
     setLoading(true)
     const { content } = values
@@ -65,6 +71,8 @@ export const AnswerForm = ({
         const { data: answer, error: createAnswerError } = await supabase
           .from('answers')
           .upsert({
+            username: user.username,
+            avatar_url: user.avatar_url,
             user_id: userId,
             question_id: question.id,
             content,
@@ -128,20 +136,13 @@ export const AnswerForm = ({
   }
 
   return (
-    <div className={`${answerId === undefined && 'min-h-full rounded-lg border border-solid border-slate-300'}`}>
+    <div className={`${answerId === undefined && 'min-h-full rounded-md border border-input bg-background shadow'}`}>
       {answerId === undefined && (
-        <div className='flex items-center space-x-2 rounded-t-lg border-b border-l-0 border-r-0 border-t-0 border-solid border-slate-300 bg-[#f6f8fa] p-2'>
-          <div className='relative h-10 w-10'>
-            <Image
-              src={profile && profile.avatar_url ? profile.avatar_url : '/default.png'}
-              className='rounded-full object-cover'
-              alt='avatar'
-              fill
-              sizes='auto'
-              priority
-            />
+        <div className='flex items-center space-x-2 rounded-t-lg border-b p-2'>
+          <div className='relative h-8 w-8'>
+            <Image src={avatarUrl} className='rounded-full object-cover' alt='avatar' fill sizes='auto' priority />
           </div>
-          <span className='text-xl font-semibold text-slate-600'>回答する</span>
+          <span className='text-xl'>回答する</span>
         </div>
       )}
       <div className='px-2 py-5'>

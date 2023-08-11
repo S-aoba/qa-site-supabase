@@ -43,7 +43,7 @@ export const Select = ({
   return (
     <Popover open={isShowOpen} onOpenChange={handleSetIsOpen}>
       <PopoverTrigger asChild>
-        <Button variant='outline' role='combobox' aria-expanded={isShowOpen} className='w-full justify-between'>
+        <Button variant='outline' role='combobox' aria-expanded={isShowOpen} className='w-full justify-between text-muted-foreground'>
           {editedQuestion.coding_problem
             ? codingProblemList.find((item) => {
                 return item === editedQuestion.coding_problem
@@ -54,9 +54,9 @@ export const Select = ({
       </PopoverTrigger>
       <PopoverContent className='w-full p-0' side='bottom' align='start'>
         <Command>
-          <CommandInput placeholder='Search framework...' />
+          <CommandInput placeholder='問題を検索する' />
           <CommandList>
-            <CommandEmpty>該当の質問はありません</CommandEmpty>
+            <CommandEmpty>該当の問題はありません</CommandEmpty>
             <CommandGroup>
               {codingProblemList.map((item) => {
                 return (

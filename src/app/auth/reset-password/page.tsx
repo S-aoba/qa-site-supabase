@@ -2,7 +2,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
-import { ResetPassword } from '@/components/auth/reset-password'
+import { ResetPasswordForm } from '@/components/auth/reset-password-form'
 import type { Database } from '@/lib/database.types'
 
 // パスワードリセットページ
@@ -21,7 +21,7 @@ const ResetPasswordPage = async () => {
     redirect('/')
   }
 
-  return <ResetPassword />
+  return <ResetPasswordForm />
 }
 
 export default ResetPasswordPage

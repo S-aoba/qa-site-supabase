@@ -1,8 +1,9 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 
-import { Card } from '@/components/card'
 import type { Database } from '@/lib/database.types'
+
+import { Card } from '../ui/card'
 
 export const QuestionSearch = async ({ q }: { q: string | string[] | undefined }) => {
   const supabase = createServerComponentClient<Database>({ cookies })
@@ -13,7 +14,7 @@ export const QuestionSearch = async ({ q }: { q: string | string[] | undefined }
     .order('updated_at', { ascending: false })
     .limit(10)
   return (
-    <main className='flex flex-col items-center justify-center space-y-4'>
+    <main className='flex flex-wrap justify-start'>
       {questions && questions.length === 0 ? (
         <div className='flex flex-col text-2xl'>
           <span>検索ワード: {q}</span>

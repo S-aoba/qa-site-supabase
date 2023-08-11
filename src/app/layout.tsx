@@ -1,6 +1,7 @@
 import './globals.css'
 
-import { Navigation } from '@/components/navigation'
+import type { ReactNode } from 'react'
+
 import { SupabaseListener } from '@/components/supabase-listener'
 
 export const metadata = {
@@ -8,13 +9,16 @@ export const metadata = {
   description: 'QA app',
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang='ja'>
-      <body className='max-w-screen vsc-initialized flex h-screen flex-col'>
-        <SupabaseListener />
-        <Navigation />
-        <main className='container mx-auto max-w-screen-lg p-5'>{children}</main>
+      <body className='light vsc-initialized'>
+        <div className='flex h-screen min-h-screen flex-col'>
+          <div className='flex h-fit'>
+            <SupabaseListener />
+            <main className='h-fit min-h-full w-full flex-1 border-l bg-[#f5f7fa] p-5'>{children}</main>
+          </div>
+        </div>
       </body>
     </html>
   )

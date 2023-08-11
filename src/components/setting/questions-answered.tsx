@@ -1,8 +1,9 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 
-import { Card } from '@/components/card'
 import type { Database } from '@/lib/database.types'
+
+import { Card } from '../ui/card'
 
 export const QuestionsAnswered = async ({ userId }: { userId: string }) => {
   const supabase = createServerComponentClient<Database>({ cookies })
@@ -12,13 +13,13 @@ export const QuestionsAnswered = async ({ userId }: { userId: string }) => {
   if (questionsAnswered === null || questionsAnswered.length === 0) {
     return (
       <main className='flex flex-col justify-center'>
-        <div className='p-2 text-center text-2xl font-semibold'>まだ回答した質問はありません</div>
+        <div className='p-2 text-center'>まだ回答した質問はありません</div>
       </main>
     )
   }
 
   return (
-    <main className='flex flex-col justify-center space-y-4'>
+    <main className='flex flex-wrap justify-start'>
       {questionsAnswered.map((answer) => {
         return (
           <>

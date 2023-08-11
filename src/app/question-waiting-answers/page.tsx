@@ -1,7 +1,7 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 
-import { Card } from '@/components/card'
+import { Card } from '@/components/ui/card'
 import type { Database } from '@/lib/database.types'
 
 const QuestionWaitingAnswersPage = async () => {
@@ -13,7 +13,7 @@ const QuestionWaitingAnswersPage = async () => {
     .limit(10)
 
   return (
-    <main className='flex flex-col items-center justify-center space-y-4'>
+    <div className='flex flex-wrap justify-start'>
       {questionWaitingAnswers?.length === 0 ? (
         <div>質問はありません</div>
       ) : (
@@ -25,7 +25,7 @@ const QuestionWaitingAnswersPage = async () => {
           )
         })
       )}
-    </main>
+    </div>
   )
 }
 export default QuestionWaitingAnswersPage

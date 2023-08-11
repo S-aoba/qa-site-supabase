@@ -62,41 +62,43 @@ export const Email = ({ email }: { email: string | undefined }) => {
   }
 
   return (
-    <div>
-      <div className='mb-10 text-center text-xl font-bold'>メールアドレス変更</div>
-      <Form {...onHandleEmailForm}>
-        <form onSubmit={onHandleEmailForm.handleSubmit(onSubmit)}>
-          <div className='mb-5'>
-            <div className='mb-1 text-sm font-bold'>現在のメールアドレス</div>
-            <div>{email && email}</div>
-          </div>
+    <div className='flex w-full flex-col items-center'>
+      <div className='w-full max-w-[800px] rounded border border-input bg-background p-3 shadow'>
+        <div className='mb-10 text-center'>メールアドレス変更</div>
+        <Form {...onHandleEmailForm}>
+          <form onSubmit={onHandleEmailForm.handleSubmit(onSubmit)}>
+            <div className='mb-5'>
+              <div className='mb-1'>現在のメールアドレス</div>
+              <div>{email && email}</div>
+            </div>
 
-          <FormField
-            control={onHandleEmailForm.control}
-            name='email'
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <FormControl>
-                    <div className='mb-5'>
-                      <div className='mb-1 text-sm font-bold'>新しいパスワード</div>
-                      <Input placeholder='メールアドレス' type='email' {...field} />
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )
-            }}
-          />
-          <div className='mb-5'>
-            <Button type='submit' variant='default' disabled={isLoading}>
-              {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
-              {isLoading ? '変更中' : '変更'}
-            </Button>
-          </div>
-        </form>
-        {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
-      </Form>
+            <FormField
+              control={onHandleEmailForm.control}
+              name='email'
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <FormControl>
+                      <div className='mb-5'>
+                        <div className='mb-1'>新しいメールアドレス</div>
+                        <Input placeholder='メールアドレス' type='email' {...field} />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )
+              }}
+            />
+            <div className='mb-2 mt-5'>
+              <Button type='submit' variant='default' disabled={isLoading}>
+                {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
+                {isLoading ? '変更中' : '変更'}
+              </Button>
+            </div>
+          </form>
+          {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
+        </Form>
+      </div>
     </div>
   )
 }
