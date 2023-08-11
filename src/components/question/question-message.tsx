@@ -6,7 +6,7 @@ import { Button } from '../ui/button'
 
 export const QuestionMessage = () => {
   return (
-    <div className=' flex flex-col space-y-2 rounded-lg border py-10 text-center'>
+    <div className=' flex flex-col space-y-2 rounded-md border border-input bg-background py-10 text-center shadow text-muted-foreground '>
       <span>あなたも回答してみませんか？</span>
       <div>
         <Button type='button' variant='default' asChild>
@@ -14,7 +14,10 @@ export const QuestionMessage = () => {
         </Button>
       </div>
       <p>
-        すでにアカウントを持っている方は<Link href={'/auth/login'}>ログイン</Link>
+        すでにアカウントを持っている方は
+        <Link href={'/auth/login'} className='text-foreground hover:underline hover:underline-offset-2'>
+          ログイン
+        </Link>
       </p>
     </div>
   )
