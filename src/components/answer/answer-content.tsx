@@ -18,7 +18,7 @@ export const AnswerContent = ({ answer }: { answer: AnswerType }) => {
         </div>
       ) : (
         <div
-          className='prose prose-sm prose-slate break-words p-3 lg:prose'
+          className='prose prose-sm m-2 dark:prose-invert sm:prose-base focus:outline-none'
           dangerouslySetInnerHTML={{ __html: answer.content }}
         />
       )}

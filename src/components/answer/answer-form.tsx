@@ -53,6 +53,11 @@ export const AnswerForm = ({
       onHandleAnswerForm.setValue('content', editor.getHTML())
       setEditedAnswerContent(editor.getHTML())
     },
+    editorProps: {
+      attributes: {
+        class: 'prose prose-sm m-2 dark:prose-invert sm:prose-base focus:outline-none',
+      },
+    },
   })
 
   // アバター画像の取得

@@ -40,6 +40,11 @@ export const QuestionForm = ({ userId }: { userId: string }) => {
     onUpdate({ editor }) {
       onHandleQuestionForm.setValue('content', editor.getHTML())
     },
+    editorProps: {
+      attributes: {
+        class: 'prose prose-sm m-2 dark:prose-invert sm:prose-base focus:outline-none',
+      },
+    },
   })
 
   const handleOnSubmit = async (values: z.infer<typeof questionSchema>) => {

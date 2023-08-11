@@ -45,6 +45,11 @@ export const CommentForm = ({ answer, commentId }: { answer?: AnswerType; commen
       onHandleCommentForm.setValue('content', editor.getHTML())
       setEditedCommentContent(editor.getHTML())
     },
+    editorProps: {
+      attributes: {
+        class: 'prose prose-sm m-2 dark:prose-invert sm:prose-base focus:outline-none',
+      },
+    },
   })
 
   // アバター画像の取得
