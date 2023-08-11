@@ -14,7 +14,7 @@ export const QuestionSearch = async ({ q }: { q: string | string[] | undefined }
     .order('updated_at', { ascending: false })
     .limit(10)
   return (
-    <main className='flex flex-col items-center justify-center space-y-4'>
+    <main className='flex flex-wrap justify-start'>
       {questions && questions.length === 0 ? (
         <div className='flex flex-col text-2xl'>
           <span>検索ワード: {q}</span>

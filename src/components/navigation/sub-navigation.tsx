@@ -14,6 +14,7 @@ import { profileAtom } from '@/store/profile-atom'
 import { Notification } from '../notification/notification'
 import { Button } from '../ui/button'
 import { subQuestionNavigation, subSettingNavigation } from './nav-list-data'
+import { Search } from './search'
 import { Tab } from './tab'
 
 export const SubNavigation = ({
@@ -57,7 +58,14 @@ export const SubNavigation = ({
         }}
       >
         <p className='text-lg'>{displayMainNavName === '質問' ? displayMainNavName : '設定'}</p>
-        {session && <Notification notifications={notifications} />}
+        <div className='flex items-center space-x-2'>
+          {session && (
+            <>
+              <Search />
+              <Notification notifications={notifications} />
+            </>
+          )}
+        </div>
       </div>
       <div
         className='flex max-h-12 items-center justify-between space-x-2 border-b px-6'
