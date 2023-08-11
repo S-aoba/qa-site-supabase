@@ -8,6 +8,7 @@ import type { z } from 'zod'
 import { ReactHookForm } from '@/common/react-hook-form'
 import type { questionSearchSchema } from '@/common/schemas'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
 import { Input } from '../ui/input'
 
@@ -32,11 +33,18 @@ export const Search = () => {
     <Form {...onHandleQuestionSearchForm}>
       <form onSubmit={onHandleQuestionSearchForm.handleSubmit(handleOnSubmit)} className='w-full'>
         <div className='relative flex w-full justify-end'>
-          <IconSearch
-            size={20}
-            className='text-muted-foreground hover:cursor-pointer hover:text-foreground'
-            onClick={handleShowSearchBar}
-          />
+          <TooltipProvider delayDuration={100}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className='rounded border border-input bg-background px-2 shadow-sm hover:cursor-pointer hover:bg-accent hover:text-accent-foreground'>
+                  <IconSearch className='h-5 w-5 text-muted-foreground' onClick={handleShowSearchBar} />
+                </div>
+              </TooltipTrigger>
+              <TooltipContent side='left' sideOffset={10} align='start'>
+                <p>検索</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
         {isShowSearchBar && (
           <FormField
