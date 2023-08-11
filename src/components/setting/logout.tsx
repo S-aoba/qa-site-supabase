@@ -42,25 +42,27 @@ export const Logout = () => {
       return
     } finally {
       setLoading(false)
-      setDisplayMainNavName("質問")
+      setDisplayMainNavName('質問')
       router.refresh()
     }
   }
 
   return (
-    <div>
-      <div className='mb-5 text-center'>ログアウトしますか？</div>
-      {/* ログアウトボタン */}
-      <form onSubmit={handleOnSubmit}>
-        <div className='mb-5'>
-          <Button type='submit' variant='destructive' disabled={isLoading}>
-            {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
-            {isLoading ? 'ログアウト中' : 'ログアウト'}
-          </Button>
-        </div>
-      </form>
+    <div className='flex w-full flex-col items-center'>
+      <div className='w-full max-w-[800px] rounded border border-input bg-background p-3 shadow'>
+        <div className='mb-5 text-center'>ログアウトしますか？</div>
+        {/* ログアウトボタン */}
+        <form onSubmit={handleOnSubmit}>
+          <div className='mb-5'>
+            <Button type='submit' variant='destructive' disabled={isLoading}>
+              {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
+              {isLoading ? 'ログアウト中' : 'ログアウト'}
+            </Button>
+          </div>
+        </form>
 
-      {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
+        {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
+      </div>
     </div>
   )
 }

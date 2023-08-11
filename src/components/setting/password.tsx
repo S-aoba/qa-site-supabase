@@ -48,53 +48,55 @@ export const Password = () => {
   }
 
   return (
-    <div>
-      <div className='mb-10 text-center'>パスワード変更</div>
-      <Form {...onHandlePasswordForm}>
-        <form onSubmit={onHandlePasswordForm.handleSubmit(onSubmit)}>
-          <FormField
-            control={onHandlePasswordForm.control}
-            name='password'
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <FormControl>
-                    <div className='mb-5'>
-                      <div className='mb-1'>新しいパスワード</div>
-                      <Input placeholder='パスワード' type='password' {...field} />
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )
-            }}
-          />
-          <FormField
-            control={onHandlePasswordForm.control}
-            name='confirmation'
-            render={({ field }) => {
-              return (
-                <FormItem>
-                  <FormControl>
-                    <div className='mb-5'>
-                      <div className='mb-1'>確認用パスワード</div>
-                      <Input placeholder='確認用パスワード' type='password' {...field} />
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )
-            }}
-          />
-          <div className='mb-5'>
-            <Button type='submit' variant='default' disabled={isLoading}>
-              {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
-              {isLoading ? '変更中' : '変更'}
-            </Button>
-          </div>
-          {message && <div className='text-center text-sm text-red-500'>{message}</div>}
-        </form>
-      </Form>
+    <div className='flex w-full flex-col items-center'>
+      <div className='w-full max-w-[800px] rounded border border-input bg-background p-3 shadow'>
+        <div className='mb-10 text-center'>パスワード変更</div>
+        <Form {...onHandlePasswordForm}>
+          <form onSubmit={onHandlePasswordForm.handleSubmit(onSubmit)}>
+            <FormField
+              control={onHandlePasswordForm.control}
+              name='password'
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <FormControl>
+                      <div className='mb-2'>
+                        <div className='mb-1'>新しいパスワード</div>
+                        <Input placeholder='パスワード' type='password' {...field} />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )
+              }}
+            />
+            <FormField
+              control={onHandlePasswordForm.control}
+              name='confirmation'
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <FormControl>
+                      <div className='mb-2 mt-5'>
+                        <div className='mb-1'>確認用パスワード</div>
+                        <Input placeholder='確認用パスワード' type='password' {...field} />
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )
+              }}
+            />
+            <div className='mb-2 mt-5'>
+              <Button type='submit' variant='default' disabled={isLoading}>
+                {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
+                {isLoading ? '変更中' : '変更'}
+              </Button>
+            </div>
+            {message && <div className='text-center text-sm text-red-500'>{message}</div>}
+          </form>
+        </Form>
+      </div>
     </div>
   )
 }
