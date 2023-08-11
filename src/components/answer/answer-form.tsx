@@ -142,7 +142,7 @@ export const AnswerForm = ({
           <div className='relative h-8 w-8'>
             <Image src={avatarUrl} className='rounded-full object-cover' alt='avatar' fill sizes='auto' priority />
           </div>
-          <span className='text-xl'>回答する</span>
+          <span>回答する</span>
         </div>
       )}
       <div className='px-2 py-5'>
