@@ -1,5 +1,3 @@
-'use client'
-
 import type { Session } from '@supabase/auth-helpers-nextjs'
 import { Provider as JotaiProvider } from 'jotai'
 
@@ -13,14 +11,16 @@ export const CommentBody = ({ comment, session }: { comment: CommentType; sessio
   return (
     <JotaiProvider>
       <div className='border-t'>
-        <div className='flex justify-between space-x-2 p-2 border-b'>
-          <UserInfo
-            created_at={comment.created_at}
-            updated_at={comment.updated_at}
-            avatar_url={comment.avatar_url}
-            username={comment.username}
-          />
-          {session && session.user.id === comment.user_id && <Action type='default' comment={comment} />}
+        <div className='rounded-t-lg border-b px-2'>
+          <div className='flex justify-between'>
+            <UserInfo
+              created_at={comment.created_at}
+              updated_at={comment.updated_at}
+              avatar_url={comment.avatar_url}
+              username={comment.username}
+            />
+            {session && session.user.id === comment.user_id && <Action type='default' comment={comment} />}
+          </div>
         </div>
         <CommentContent comment={comment} />
       </div>

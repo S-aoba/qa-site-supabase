@@ -1,4 +1,5 @@
 'use client'
+
 import type { Session } from '@supabase/auth-helpers-nextjs'
 import { Provider as JotaiProvider } from 'jotai'
 import type { ReactNode } from 'react'
