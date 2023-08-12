@@ -46,7 +46,7 @@ export const Question = async ({ session, question_id }: { session: Session | nu
             </div>
             <QuestionTags tags={question.tags} />
             <div
-              className='prose prose-sm m-2 dark:prose-invert sm:prose-base focus:outline-none'
+              className='prose prose-sm m-2 pb-2 pl-5 dark:prose-invert sm:prose-base focus:outline-none'
               dangerouslySetInnerHTML={{ __html: question.content }}
             />
           </div>
