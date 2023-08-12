@@ -12,11 +12,11 @@ export const metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang='ja'>
-      <body className='light vsc-initialized'>
+      <body className='dark vsc-initialized'>
         <div className='flex h-screen min-h-screen flex-col'>
           <div className='flex h-fit'>
             <SupabaseListener />
-            <main className='h-fit min-h-full w-full flex-1 bg-[#f5f7fa] p-5'>{children}</main>
+            <main className='h-fit min-h-full w-full flex-1 bg-main-foreground p-5'>{children}</main>
           </div>
         </div>
       </body>
