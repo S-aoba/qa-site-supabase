@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <div className='flex h-screen min-h-screen flex-col'>
           <div className='flex h-fit'>
             <SupabaseListener />
-            <main className='h-fit min-h-full w-full flex-1 border-l bg-[#f5f7fa] p-5'>{children}</main>
+            <main className='h-fit min-h-full w-full flex-1 bg-[#f5f7fa] p-5'>{children}</main>
           </div>
         </div>
       </body>

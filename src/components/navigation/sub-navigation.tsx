@@ -50,7 +50,7 @@ export const SubNavigation = ({
   }, [session, setUser, profile])
 
   return (
-    <div className='hide-scrollbar flex w-64 flex-col'>
+    <div className='hide-scrollbar flex w-64 flex-col border-r border-input'>
       <div
         className='flex max-h-12 items-center justify-between space-x-2 border-b px-6'
         style={{
