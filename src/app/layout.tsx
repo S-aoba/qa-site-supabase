@@ -12,11 +12,18 @@ export const metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang='ja'>
-      <body className='dark vsc-initialized'>
-        <div className='flex h-screen min-h-screen flex-col'>
-          <div className='flex h-fit'>
-            <SupabaseListener />
-            <main className='h-fit min-h-full w-full flex-1 bg-main-foreground p-5'>{children}</main>
+      <body className='light vsc-initialized'>
+        <div>
+          <div
+            style={{
+              height: 'calc(100vh - 0px)',
+              maxHeight: 'calc(100vh - 0px)',
+            }}
+          >
+            <div className='flex h-full'>
+              <SupabaseListener />
+              <main className='flex overflow-x-hidden w-full flex-1 flex-col bg-main-foreground p-5'>{children}</main>
+            </div>
           </div>
         </div>
       </body>
