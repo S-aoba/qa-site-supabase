@@ -42,7 +42,7 @@ export const QuestionForm = ({ userId }: { userId: string }) => {
     },
     editorProps: {
       attributes: {
-        class: 'prose prose-sm m-2 dark:prose-invert sm:prose-base focus:outline-none',
+        class: 'prose prose-sm m-2 pb-2 pl-5 dark:prose-invert sm:prose-base focus:outline-none',
       },
     },
   })

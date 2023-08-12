@@ -55,7 +55,7 @@ export const AnswerForm = ({
     },
     editorProps: {
       attributes: {
-        class: 'prose prose-sm m-2 dark:prose-invert sm:prose-base focus:outline-none',
+        class: 'prose prose-sm m-2 pb-2 pl-5 dark:prose-invert sm:prose-base focus:outline-none',
       },
     },
   })
@@ -141,7 +141,9 @@ export const AnswerForm = ({
   }
 
   return (
-    <div className={`${answerId === undefined && 'min-h-full rounded-md border border-input bg-background shadow p-2'}`}>
+    <div
+      className={`${answerId === undefined && 'min-h-full rounded-md border border-input bg-background p-2 shadow'}`}
+    >
       {answerId === undefined && (
         <div className='flex items-center space-x-2 text-foreground'>
           <div className='relative h-8 w-8'>
