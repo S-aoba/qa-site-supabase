@@ -10,9 +10,9 @@ import { CommentContent } from './comment-content'
 export const CommentBody = ({ comment, session }: { comment: CommentType; session: Session | null }) => {
   return (
     <JotaiProvider>
-      <div className='border-t'>
-        <div className='rounded-t-lg border-b px-2'>
-          <div className='flex justify-between'>
+      <div>
+        <div className='border-y'>
+          <div className='flex justify-between pr-2'>
             <UserInfo
               created_at={comment.created_at}
               updated_at={comment.updated_at}

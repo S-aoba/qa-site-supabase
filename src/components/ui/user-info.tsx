@@ -12,7 +12,7 @@ type Props = {
 
 export const UserInfo: NextPage<Props> = ({ ...props }) => {
   return (
-    <div className='flex items-center space-x-2 py-2 text-sm text-foreground'>
+    <div className='flex items-center space-x-2 p-2 text-sm text-foreground'>
       <div className='relative h-8 w-8'>
         <Image
           src={props.avatar_url ? props.avatar_url : '/default.png'}
