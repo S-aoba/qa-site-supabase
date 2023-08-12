@@ -6,6 +6,7 @@ import type { AnswerType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
 
 import { Comment } from './comment'
+import { CommentForm } from './comment-form'
 
 export const CommentList = async ({ answer, session }: { answer: AnswerType; session: Session | null }) => {
   const supabase = createServerComponentClient<Database>({
@@ -19,5 +20,12 @@ export const CommentList = async ({ answer, session }: { answer: AnswerType; ses
 
   if (error) return <NotFound />
 
-  return <Comment comments={comments} answer={answer} session={session} />
+  const commentLength = comments.length
+
+  return (
+    <>
+      {commentLength > 0 && <Comment comments={comments} session={session} />}
+      {session && <CommentForm answer={answer} />}
+    </>
+  )
 }

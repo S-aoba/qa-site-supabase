@@ -16,7 +16,7 @@ import type { commentSchema } from '@/common/schemas'
 import type { AnswerType } from '@/common/types'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import type { Database } from '@/lib/database.types'
-import { editedCommentAtom, isCommentEditModeAtom } from '@/store/comment-atom'
+import { editedCommentAtom, isCommentEditModeAtom, isDisplayCommentsAtom } from '@/store/comment-atom'
 import { profileAtom } from '@/store/profile-atom'
 
 import { Button } from '../ui/button'
@@ -35,6 +35,7 @@ export const CommentForm = ({ answer, commentId }: { answer?: AnswerType; commen
   const setIsEditMode = useSetAtom(isCommentEditModeAtom)
   const [editedCommentContent, setEditedCommentContent] = useAtom(editedCommentAtom)
   const user = useAtomValue(profileAtom)
+  const setIsDisplayComments = useSetAtom(isDisplayCommentsAtom)
 
   const { onHandleCommentForm } = ReactHookForm()
 
@@ -104,6 +105,7 @@ export const CommentForm = ({ answer, commentId }: { answer?: AnswerType; commen
       setIsLoading(false)
       setIsEditMode(false)
       router.refresh()
+      setIsDisplayComments(true)
     }
   }
   return (

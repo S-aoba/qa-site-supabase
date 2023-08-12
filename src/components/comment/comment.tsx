@@ -1,27 +1,19 @@
 'use client'
 
 import type { Session } from '@supabase/auth-helpers-nextjs'
-import { useState } from 'react'
+import { useAtom } from 'jotai'
 
-import type { AnswerType, CommentType } from '@/common/types'
+import type { CommentType } from '@/common/types'
+import { isDisplayCommentsAtom } from '@/store/comment-atom'
 
 import { Button } from '../ui/button'
 import { CommentBody } from './comment-body'
-import { CommentForm } from './comment-form'
 
-export const Comment = ({
-  comments,
-  answer,
-  session,
-}: {
-  comments: CommentType[]
-  answer: AnswerType
-  session: Session | null
-}) => {
-  const [isDisplayComments, setIsDisplayComments] = useState(false)
+export const Comment = ({ comments, session }: { comments: CommentType[]; session: Session | null }) => {
+  const [isDisplayComments, setIsDisplayComments] = useAtom(isDisplayCommentsAtom)
 
-  const firstComment = comments[0]
   const commentLength = comments.length
+  const firstComment = commentLength === 0 ? null : comments[0]
   const remainComment = commentLength > 1 ? comments.slice(1, commentLength) : null
 
   const handleToggleComment = () => {
@@ -34,7 +26,7 @@ export const Comment = ({
       <div className='h-6 border-t border-input pb-10 pl-2 pt-2'>
         <p className='text-foreground'>コメント</p>
       </div>
-      <CommentBody comment={firstComment} session={session} />
+      {firstComment && <CommentBody comment={firstComment} session={session} />}
       {remainComment &&
         isDisplayComments &&
         remainComment.map((comment) => {
@@ -49,8 +41,6 @@ export const Comment = ({
           </Button>
         </div>
       )}
-
-      {session && <CommentForm answer={answer} />}
     </div>
   )
 }
