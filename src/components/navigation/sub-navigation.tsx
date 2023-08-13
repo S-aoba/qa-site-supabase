@@ -57,7 +57,7 @@ export const SubNavigation = ({
           minHeight: '3rem',
         }}
       >
-        <p className='text-lg'>{displayMainNavName === '質問' ? displayMainNavName : '設定'}</p>
+        <p className='text-lg text-card-foreground'>{displayMainNavName === '質問' ? displayMainNavName : '設定'}</p>
         <div className='flex items-center space-x-2'>
           {session && (
             <>
@@ -79,7 +79,7 @@ export const SubNavigation = ({
               <div className='relative h-8 w-8'>
                 <Image
                   src={user.avatar_url ? user.avatar_url : '/default.png'}
-                  className='rounded-full object-cover'
+                  className='rounded-full object-cover dark:brightness-75'
                   alt='avatar'
                   fill
                   sizes='auto'
@@ -87,7 +87,7 @@ export const SubNavigation = ({
                 />
               </div>
             </Link>
-            <Button type='button' variant='outline' asChild>
+            <Button type='button' variant='default' asChild>
               <Link href={'/questions/post'}>質問する</Link>
             </Button>
           </>
