@@ -55,7 +55,7 @@ export const Search = () => {
                 <FormItem>
                   <FormControl>
                     <div className='absolute left-0 top-16 z-10 w-full px-5'>
-                      <Input type='search' autoComplete='on' required placeholder='質問を検索' {...field} />
+                      <Input type='search' autoComplete='on' required placeholder='質問を検索' {...field} className='shadow shadow-input bg-background'/>
                     </div>
                   </FormControl>
                   <FormMessage />
