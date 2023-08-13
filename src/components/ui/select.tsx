@@ -43,16 +43,25 @@ export const Select = ({
   return (
     <Popover open={isShowOpen} onOpenChange={handleSetIsOpen}>
       <PopoverTrigger asChild>
-        <Button variant='outline' role='combobox' aria-expanded={isShowOpen} className='w-full justify-between text-muted-foreground'>
-          {editedQuestion.coding_problem
-            ? codingProblemList.find((item) => {
-                return item === editedQuestion.coding_problem
-              })
-            : '問題を選んでください(検索する場合は、問題番号からお願いします。)'}
+        <Button
+          variant='ghost'
+          role='combobox'
+          aria-expanded={isShowOpen}
+          className='w-full justify-between bg-background rounded shadow dark:border dark:border-border dark:shadow-border text-card-foreground'
+        >
+          {editedQuestion.coding_problem ? (
+            codingProblemList.find((item) => {
+              return item === editedQuestion.coding_problem
+            })
+          ) : (
+            <span className='text-muted-foreground'>
+              問題を選んでください( 検索する場合は、問題番号からお願いします。)
+            </span>
+          )}
           <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className='w-full p-0' side='bottom' align='start'>
+      <PopoverContent className='w-full p-0 dark:brightness-75' side='bottom' align='start'>
         <Command>
           <CommandInput placeholder='問題を検索する' />
           <CommandList>
