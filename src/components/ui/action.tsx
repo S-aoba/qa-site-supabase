@@ -70,10 +70,10 @@ export const Action = ({ type, question, answer, comment }: ActionProps) => {
       <div className='flex items-center'>
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <IconMenu2 className='hover:cursor-pointer' />
+            <IconMenu2 className='hover:cursor-pointer text-primary dark:brightness-75' />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem onClick={handleSetData} className='hover:cursor-pointer'>
+            <DropdownMenuItem onClick={handleSetData} className='hover:cursor-pointer text-primary dark:brightness-75'>
               {type === 'question' ? (
                 <Link href={'questions/edit'} className='flex items-center'>
                   <IconEdit className='mr-2' />
@@ -86,7 +86,7 @@ export const Action = ({ type, question, answer, comment }: ActionProps) => {
                 </>
               )}
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleShowDialog} className='hover:cursor-pointer'>
+            <DropdownMenuItem onClick={handleShowDialog} className='hover:cursor-pointer text-primary dark:brightness-75'>
               <IconTrash className='mr-2' />
               削除
             </DropdownMenuItem>
@@ -96,7 +96,7 @@ export const Action = ({ type, question, answer, comment }: ActionProps) => {
 
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>削除してもよろしいですか？</AlertDialogTitle>
+          <AlertDialogTitle className='text-primary dark:brightness-75'>削除してもよろしいですか？</AlertDialogTitle>
           <AlertDialogDescription>この手順は取り消すことはできません。</AlertDialogDescription>
           {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
         </AlertDialogHeader>

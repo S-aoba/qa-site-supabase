@@ -52,8 +52,8 @@ export const MainNavigation = ({ session }: { session: Session | null }) => {
                       >
                         <span
                           className={`${
-                            item.hrefList.includes(pathname) && 'bg-muted hover:text-primary'
-                          } hover:text-foreground' flex h-10 w-10 items-center justify-center rounded text-muted-foreground transition-colors duration-200 hover:bg-muted hover:text-primary`}
+                            item.hrefList.includes(pathname) && 'bg-muted text-card-foreground hover:text-primary'
+                          } flex h-10 w-10 items-center justify-center rounded text-card-foreground transition-colors duration-300 hover:bg-muted hover:text-primary`}
                         >
                           {<item.icon />}
                         </span>

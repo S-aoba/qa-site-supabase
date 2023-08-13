@@ -8,7 +8,7 @@ import type * as z from 'zod'
 
 import { ReactHookForm } from '@/common/react-hook-form'
 import type { emailSchema } from '@/common/schemas'
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import type { Database } from '@/lib/database.types'
 
 import { Button } from '../ui/button'
@@ -63,11 +63,11 @@ export const Email = ({ email }: { email: string | undefined }) => {
 
   return (
     <div className='flex w-full flex-col items-center'>
-      <div className='w-full max-w-[800px] rounded border border-input bg-background p-3 shadow'>
-        <div className='mb-10 text-center'>メールアドレス変更</div>
+      <div className='w-full max-w-[800px] rounded border border-input bg-background p-3 shadow dark:shadow-input'>
+        <div className='mb-10 text-center dark:brightness-75'>メールアドレス変更</div>
         <Form {...onHandleEmailForm}>
           <form onSubmit={onHandleEmailForm.handleSubmit(onSubmit)}>
-            <div className='mb-5'>
+            <div className='mb-5 dark:brightness-75'>
               <div className='mb-1'>現在のメールアドレス</div>
               <div>{email && email}</div>
             </div>
@@ -78,11 +78,9 @@ export const Email = ({ email }: { email: string | undefined }) => {
               render={({ field }) => {
                 return (
                   <FormItem>
+                    <FormLabel className='dark:brightness-75'>メールアドレス</FormLabel>
                     <FormControl>
-                      <div className='mb-5'>
-                        <div className='mb-1'>新しいメールアドレス</div>
-                        <Input placeholder='メールアドレス' type='email' {...field} />
-                      </div>
+                      <Input placeholder='email@example.com' type='email' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

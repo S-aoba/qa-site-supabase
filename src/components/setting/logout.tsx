@@ -49,8 +49,8 @@ export const Logout = () => {
 
   return (
     <div className='flex w-full flex-col items-center'>
-      <div className='w-full max-w-[800px] rounded border border-input bg-background p-3 shadow'>
-        <div className='mb-5 text-center'>ログアウトしますか？</div>
+      <div className='w-full max-w-[800px] rounded border border-input bg-background p-3 shadow dark:border-input'>
+        <div className='mb-5 text-center dark:brightness-75'>ログアウトしますか？</div>
         {/* ログアウトボタン */}
         <form onSubmit={handleOnSubmit}>
           <div className='mb-5'>

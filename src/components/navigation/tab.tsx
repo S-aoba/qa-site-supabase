@@ -16,8 +16,8 @@ export const Tab = ({
     <Link
       href={href}
       className={`${
-        href === pathname && 'bg-muted hover:text-primary'
-      } hover:text-foreground' flex h-10 w-full items-center justify-start space-x-2 rounded px-3 text-muted-foreground transition-colors duration-200 hover:text-primary`}
+        href === pathname && 'bg-muted text-card-foreground hover:text-primary'
+      } flex h-10 w-full items-center justify-start space-x-2 rounded px-3 text-card-foreground transition-colors duration-300 hover:bg-muted hover:text-primary`}
     >
       {icon}
       <span>{name}</span>

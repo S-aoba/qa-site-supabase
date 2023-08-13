@@ -23,8 +23,8 @@ export const Comment = ({ comments, session }: { comments: CommentType[]; sessio
 
   return (
     <div>
-      <div className='h-6 border-t border-input pb-10 pl-2 pt-2'>
-        <p className='text-foreground'>コメント</p>
+      <div className='h-6 border-t border-input pb-10 pl-2 pt-2 text-primary dark:brightness-75'>
+        <p >コメント</p>
       </div>
       {firstComment && <CommentBody comment={firstComment} session={session} />}
       {remainComment &&

@@ -20,7 +20,7 @@ export const AnswerBody = ({
 }) => {
   return (
     <JotaiProvider>
-      <div className='rounded-t-lg border-b px-2'>
+      <div className='rounded-t-lg border-b px-2 text-primary dark:brightness-75'>
         <div className='flex justify-between'>
           {children}
           {session && session.user.id === answer.user_id && <Action type='default' answer={answer} />}

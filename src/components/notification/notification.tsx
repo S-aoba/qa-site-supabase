@@ -35,12 +35,12 @@ export const Notification = ({ notifications }: { notifications: NotificationTyp
           </TooltipProvider>
         </DropdownMenuTrigger>
         <DropdownMenuContent className=' -ml-3 mt-1 rounded-2xl p-4 shadow'>
-          <DropdownMenuLabel>通知</DropdownMenuLabel>
+          <DropdownMenuLabel className='dark:brightness-75'>通知</DropdownMenuLabel>
           <DropdownMenuSeparator />
           {notifications && notifications?.length > 0 ? (
             notifications.map((notification) => {
               return (
-                <DropdownMenuItem key={notification.id}>
+                <DropdownMenuItem key={notification.id} className='dark:brightness-75'>
                   <WithNotification key={notification.id} notification={notification} />
                 </DropdownMenuItem>
               )

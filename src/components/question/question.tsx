@@ -30,7 +30,7 @@ export const Question = async ({ session, question_id }: { session: Session | nu
     <div className='flex w-full flex-col items-center'>
       <div className='w-full max-w-[800px] p-2'>
         <div className='mb-4 mt-2 text-center'>
-          <h1 className='text-2xl text-foreground'>{question.title}</h1>
+          <h1 className='text-2xl text-primary dark:brightness-75'>{question.title}</h1>
         </div>
         <div className='rounded-md border border-input bg-background shadow'>
           <div>
@@ -46,7 +46,7 @@ export const Question = async ({ session, question_id }: { session: Session | nu
             </div>
             <QuestionTags tags={question.tags} />
             <div
-              className='prose prose-sm m-2 pb-2 pl-5 dark:prose-invert sm:prose-base focus:outline-none'
+              className='prose prose-sm m-2 pb-2 pl-5 text-primary dark:prose-invert sm:prose-base focus:outline-none dark:brightness-75'
               dangerouslySetInnerHTML={{ __html: question.content }}
             />
           </div>

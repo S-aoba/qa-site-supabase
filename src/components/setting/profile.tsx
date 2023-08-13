@@ -11,7 +11,7 @@ import type * as z from 'zod'
 
 import { ReactHookForm } from '@/common/react-hook-form'
 import type { profileSchema } from '@/common/schemas'
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import type { Database } from '@/lib/database.types'
 import { profileAtom } from '@/store/profile-atom'
 
@@ -132,8 +132,8 @@ export const Profile = () => {
 
   return (
     <div className='flex w-full flex-col items-center'>
-      <div className='w-full max-w-[800px] rounded border border-input bg-background p-3 shadow'>
-        <div className='mb-10 text-center'>プロフィール</div>
+      <div className='w-full max-w-[800px] rounded border border-input bg-background p-3 shadow dark:shadow-input'>
+        <div className='mb-10 text-center dark:brightness-75'>プロフィール</div>
         <Form {...onHandleProfileForm}>
           <form onSubmit={onHandleProfileForm.handleSubmit(onSubmit)}>
             {/* アバター画像 */}
@@ -142,7 +142,7 @@ export const Profile = () => {
                 <div className='relative mb-5 h-24 w-24'>
                   <Image
                     src={avatarUrl}
-                    className='rounded-full object-cover'
+                    className='rounded-full object-cover dark:brightness-75'
                     alt='avatar'
                     fill
                     sizes='auto'
@@ -159,11 +159,9 @@ export const Profile = () => {
               render={({ field }) => {
                 return (
                   <FormItem>
+                    <FormLabel className='dark:brightness-75'>名前</FormLabel>
                     <FormControl>
-                      <div className='mb-5'>
-                        <div className='mb-1'>名前</div>
-                        <Input placeholder='name' {...field} />
-                      </div>
+                      <Input placeholder='name' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -176,11 +174,9 @@ export const Profile = () => {
               render={({ field }) => {
                 return (
                   <FormItem>
+                    <FormLabel className='dark:brightness-75'>自己紹介</FormLabel>
                     <FormControl>
-                      <div className='mb-5'>
-                        <div className='mb-1'>自己紹介</div>
-                        <Textarea placeholder='ここに自己紹介文を記入してください' {...field} />
-                      </div>
+                      <Textarea placeholder='ここに自己紹介文を記入してください' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -193,11 +189,9 @@ export const Profile = () => {
               render={({ field }) => {
                 return (
                   <FormItem>
+                    <FormLabel className='dark:brightness-75'>Twitter</FormLabel>
                     <FormControl>
-                      <div className='mb-5'>
-                        <div className='mb-1 text-sm font-bold'>Twitter</div>
-                        <Input placeholder='twitter_url' {...field} />
-                      </div>
+                      <Input placeholder='twitter_url' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -210,11 +204,9 @@ export const Profile = () => {
               render={({ field }) => {
                 return (
                   <FormItem>
+                    <FormLabel className='dark:brightness-75'>Github</FormLabel>
                     <FormControl>
-                      <div className='mb-5'>
-                        <div className='mb-1'>Github</div>
-                        <Input placeholder='github_url' {...field} />
-                      </div>
+                      <Input placeholder='github_url' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -227,18 +219,16 @@ export const Profile = () => {
               render={({ field }) => {
                 return (
                   <FormItem>
+                    <FormLabel className='dark:brightness-75'>website</FormLabel>
                     <FormControl>
-                      <div className='mb-5'>
-                        <div className='mb-1'>Website</div>
-                        <Input placeholder='website_url' {...field} />
-                      </div>
+                      <Input placeholder='website_url' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )
               }}
             />
-            <div className='mb-5'>
+            <div className='mt-5'>
               <Button type='submit' variant='default' disabled={isLoading}>
                 {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
                 {isLoading ? '変更中' : '変更'}

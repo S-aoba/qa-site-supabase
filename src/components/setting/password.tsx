@@ -8,7 +8,7 @@ import type * as z from 'zod'
 
 import { ReactHookForm } from '@/common/react-hook-form'
 import type { passwordSchema } from '@/common/schemas'
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import type { Database } from '@/lib/database.types'
 
 import { Button } from '../ui/button'
@@ -49,8 +49,8 @@ export const Password = () => {
 
   return (
     <div className='flex w-full flex-col items-center'>
-      <div className='w-full max-w-[800px] rounded border border-input bg-background p-3 shadow'>
-        <div className='mb-10 text-center'>パスワード変更</div>
+      <div className='w-full max-w-[800px] rounded border border-input bg-background p-3 shadow dark:shadow-input'>
+        <div className='mb-10 text-center dark:brightness-75'>パスワード変更</div>
         <Form {...onHandlePasswordForm}>
           <form onSubmit={onHandlePasswordForm.handleSubmit(onSubmit)}>
             <FormField
@@ -59,11 +59,9 @@ export const Password = () => {
               render={({ field }) => {
                 return (
                   <FormItem>
+                    <FormLabel className='dark:brightness-75'>新しいパスワード</FormLabel>
                     <FormControl>
-                      <div className='mb-2'>
-                        <div className='mb-1'>新しいパスワード</div>
-                        <Input placeholder='パスワード' type='password' {...field} />
-                      </div>
+                      <Input placeholder='パスワード' type='password' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -76,11 +74,9 @@ export const Password = () => {
               render={({ field }) => {
                 return (
                   <FormItem>
+                    <FormLabel className='dark:brightness-75'>確認用パスワード</FormLabel>
                     <FormControl>
-                      <div className='mb-2 mt-5'>
-                        <div className='mb-1'>確認用パスワード</div>
-                        <Input placeholder='確認用パスワード' type='password' {...field} />
-                      </div>
+                      <Input placeholder='確認用パスワード' type='password' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
