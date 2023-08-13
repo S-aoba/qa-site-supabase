@@ -102,7 +102,10 @@ export const LoginForm = () => {
         {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
       </div>
       <div className='flex flex-col items-center justify-center space-y-3 rounded bg-background p-5 text-sm shadow dark:border dark:border-input dark:shadow-input'>
-        <Link href='/auth/reset-password' className='text-card-foreground hover:text-primary'>
+        <Link
+          href='/auth/reset-password'
+          className='text-card-foreground hover:text-primary hover:underline hover:underline-offset-2'
+        >
           パスワードを忘れた方はこちら
         </Link>
         <Link

@@ -31,8 +31,8 @@ export const MainNavigation = ({ session }: { session: Session | null }) => {
             src={'/logo.png'}
             alt='QA-site-supabase'
             priority
-            width={40}
-            height={40}
+            width={50}
+            height={50}
             className='mx-auto cursor-pointer rounded'
           />
         </Link>
