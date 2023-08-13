@@ -48,7 +48,7 @@ export const CommentForm = ({ answer, commentId }: { answer?: AnswerType; commen
     },
     editorProps: {
       attributes: {
-        class: 'prose prose-sm m-2 pb-2 pl-5 dark:prose-invert sm:prose-base focus:outline-none',
+        class: 'prose prose-sm m-2 pb-2 pl-5 dark:prose-invert sm:prose-base focus:outline-none text-primary dark:brightness-75',
       },
     },
   })
@@ -111,11 +111,11 @@ export const CommentForm = ({ answer, commentId }: { answer?: AnswerType; commen
   return (
     <div className={`${commentId === undefined && 'border-t'} p-2`}>
       {commentId === undefined && (
-        <div className='flex items-center space-x-2 text-foreground'>
+        <div className='flex items-center space-x-2 text-primary dark:brightness-75'>
           <div className='relative h-8 w-8'>
             <Image src={avatarUrl} className='rounded-full object-cover' alt='avatar' fill sizes='auto' priority />
           </div>
-          <span>コメントする</span>
+          <span className=''>コメントする</span>
         </div>
       )}
       <Form {...onHandleCommentForm}>
