@@ -65,13 +65,13 @@ export const SignupForm = () => {
   return (
     <div className='space-y-10'>
       <div className='text-center'>
-        <h1 className='text-2xl'>Signup</h1>
+        <h1 className='text-2xl dark:brightness-75'>Signup</h1>
       </div>
       <div>
         <Form {...onHandleSignupForm}>
           <form
             onSubmit={onHandleSignupForm.handleSubmit(onSubmit)}
-            className='flex flex-col space-y-5 rounded bg-white p-5 shadow-lg'
+            className='flex flex-col space-y-5 rounded bg-background p-5 shadow dark:shadow-input dark:border dark:border-input'
           >
             <FormField
               control={onHandleSignupForm.control}
@@ -79,7 +79,7 @@ export const SignupForm = () => {
               render={({ field }) => {
                 return (
                   <FormItem>
-                    <FormLabel>ユーザーネーム</FormLabel>
+                    <FormLabel className='dark:brightness-75'>ユーザーネーム</FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
@@ -94,7 +94,7 @@ export const SignupForm = () => {
               render={({ field }) => {
                 return (
                   <FormItem>
-                    <FormLabel>メールアドレス</FormLabel>
+                    <FormLabel className='dark:brightness-75'>メールアドレス</FormLabel>
                     <FormControl>
                       <Input placeholder='mail@example.com' type='email' {...field} />
                     </FormControl>
@@ -109,7 +109,7 @@ export const SignupForm = () => {
               render={({ field }) => {
                 return (
                   <FormItem>
-                    <FormLabel>パスワード</FormLabel>
+                    <FormLabel className='dark:brightness-75'>パスワード</FormLabel>
                     <FormControl>
                       <Input type='password' {...field} />
                     </FormControl>
@@ -129,9 +129,9 @@ export const SignupForm = () => {
 
         {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
       </div>
-      <div className='flex items-center justify-center space-x-3 rounded bg-white p-5 text-sm shadow-lg'>
+      <div className='flex items-center justify-center space-x-3 rounded bg-background p-5 text-sm shadow dark:shadow-input dark:border dark:border-input'>
         <span className='text-muted-foreground'>既にアカウントはお持ちですか?</span>
-        <Link href='/auth/login' className='text-muted-foreground hover:text-black'>
+        <Link href='/auth/login' className='text-card-foreground hover:text-primary hover:underline hover:underline-offset-2'>
           ログインはこちら
         </Link>
       </div>

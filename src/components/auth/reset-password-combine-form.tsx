@@ -49,11 +49,11 @@ export const ResetPasswordCombineForm = () => {
 
   return (
     <div>
-      <div className='mb-10 text-center'>パスワード変更</div>
+      <div className='mb-10 text-center dark:brightness-75'>パスワード変更</div>
       <Form {...onHandleResetPasswordConfirmForm}>
         <form
           onSubmit={onHandleResetPasswordConfirmForm.handleSubmit(onSubmit)}
-          className='flex flex-col space-y-5 rounded bg-white p-5 shadow-lg'
+          className='flex flex-col space-y-5 rounded bg-background p-5 shadow dark:border dark:border-input dark:shadow-input'
         >
           <FormField
             control={onHandleResetPasswordConfirmForm.control}
@@ -61,7 +61,7 @@ export const ResetPasswordCombineForm = () => {
             render={({ field }) => {
               return (
                 <FormItem>
-                  <FormLabel>パスワード</FormLabel>
+                  <FormLabel className='dark:brightness-75'>パスワード</FormLabel>
                   <FormControl>
                     <Input type='password' {...field} />
                   </FormControl>
@@ -76,7 +76,7 @@ export const ResetPasswordCombineForm = () => {
             render={({ field }) => {
               return (
                 <FormItem>
-                  <FormLabel>確認用パスワード</FormLabel>
+                  <FormLabel className='dark:brightness-75'>確認用パスワード</FormLabel>
                   <FormControl>
                     <Input type='password' {...field} />
                   </FormControl>
