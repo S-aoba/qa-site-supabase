@@ -68,7 +68,7 @@ export const LoginForm = () => {
                   <FormItem>
                     <FormLabel className='dark:brightness-75'>メールアドレス</FormLabel>
                     <FormControl>
-                      <Input type='email' placeholder='mail@example.com' {...field} />
+                      <Input type='email' placeholder='mail@example.com' autoComplete='email' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -83,7 +83,7 @@ export const LoginForm = () => {
                   <FormItem>
                     <FormLabel className='dark:brightness-75'>パスワード</FormLabel>
                     <FormControl>
-                      <Input type='password' {...field} />
+                      <Input type='password' autoComplete='current-password' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

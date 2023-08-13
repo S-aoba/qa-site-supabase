@@ -71,7 +71,7 @@ export const SignupForm = () => {
         <Form {...onHandleSignupForm}>
           <form
             onSubmit={onHandleSignupForm.handleSubmit(onSubmit)}
-            className='flex flex-col space-y-5 rounded bg-background p-5 shadow dark:shadow-input dark:border dark:border-input'
+            className='flex flex-col space-y-5 rounded bg-background p-5 shadow dark:border dark:border-input dark:shadow-input'
           >
             <FormField
               control={onHandleSignupForm.control}
@@ -81,7 +81,7 @@ export const SignupForm = () => {
                   <FormItem>
                     <FormLabel className='dark:brightness-75'>ユーザーネーム</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input type='text' autoComplete='username' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -96,7 +96,7 @@ export const SignupForm = () => {
                   <FormItem>
                     <FormLabel className='dark:brightness-75'>メールアドレス</FormLabel>
                     <FormControl>
-                      <Input placeholder='mail@example.com' type='email' {...field} />
+                      <Input type='email' placeholder='mail@example.com' autoComplete='email' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -111,7 +111,7 @@ export const SignupForm = () => {
                   <FormItem>
                     <FormLabel className='dark:brightness-75'>パスワード</FormLabel>
                     <FormControl>
-                      <Input type='password' {...field} />
+                      <Input type='password' autoComplete='current-password' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -129,9 +129,12 @@ export const SignupForm = () => {
 
         {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
       </div>
-      <div className='flex items-center justify-center space-x-3 rounded bg-background p-5 text-sm shadow dark:shadow-input dark:border dark:border-input'>
+      <div className='flex items-center justify-center space-x-3 rounded bg-background p-5 text-sm shadow dark:border dark:border-input dark:shadow-input'>
         <span className='text-muted-foreground'>既にアカウントはお持ちですか?</span>
-        <Link href='/auth/login' className='text-card-foreground hover:text-primary hover:underline hover:underline-offset-2'>
+        <Link
+          href='/auth/login'
+          className='text-card-foreground hover:text-primary hover:underline hover:underline-offset-2'
+        >
           ログインはこちら
         </Link>
       </div>
