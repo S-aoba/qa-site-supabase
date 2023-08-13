@@ -52,13 +52,13 @@ export const LoginForm = () => {
   return (
     <div className='space-y-10'>
       <div className='text-center'>
-        <h1 className='text-2xl'>Login</h1>
+        <h1 className='text-2xl dark:brightness-75'>Login</h1>
       </div>
       <div>
         <Form {...onHandleLoginForm}>
           <form
             onSubmit={onHandleLoginForm.handleSubmit(onSubmit)}
-            className='flex flex-col space-y-5 rounded bg-white p-5 shadow-lg'
+            className='flex flex-col space-y-5 rounded bg-background p-5 shadow dark:border dark:border-input dark:shadow-input'
           >
             <FormField
               control={onHandleLoginForm.control}
@@ -66,7 +66,7 @@ export const LoginForm = () => {
               render={({ field }) => {
                 return (
                   <FormItem>
-                    <FormLabel>メールアドレス</FormLabel>
+                    <FormLabel className='dark:brightness-75'>メールアドレス</FormLabel>
                     <FormControl>
                       <Input type='email' placeholder='mail@example.com' {...field} />
                     </FormControl>
@@ -81,7 +81,7 @@ export const LoginForm = () => {
               render={({ field }) => {
                 return (
                   <FormItem>
-                    <FormLabel>パスワード</FormLabel>
+                    <FormLabel className='dark:brightness-75'>パスワード</FormLabel>
                     <FormControl>
                       <Input type='password' {...field} />
                     </FormControl>
@@ -101,11 +101,14 @@ export const LoginForm = () => {
 
         {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
       </div>
-      <div className='flex flex-col items-center justify-center space-y-3 rounded bg-white p-5 text-sm shadow-lg'>
-        <Link href='/auth/reset-password' className='text-muted-foreground hover:text-black'>
+      <div className='flex flex-col items-center justify-center space-y-3 rounded bg-background p-5 text-sm shadow dark:border dark:border-input dark:shadow-input'>
+        <Link href='/auth/reset-password' className='text-card-foreground hover:text-primary'>
           パスワードを忘れた方はこちら
         </Link>
-        <Link href='/auth/signup' className='text-muted-foreground hover:text-black'>
+        <Link
+          href='/auth/signup'
+          className='text-card-foreground hover:text-primary hover:underline hover:underline-offset-2'
+        >
           アカウントを作成する
         </Link>
       </div>

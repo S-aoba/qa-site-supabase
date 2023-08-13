@@ -52,13 +52,13 @@ export const ResetPasswordForm = () => {
   return (
     <div className='space-y-10'>
       <div className='text-center'>
-        <h1 className='text-2xl'>Reset Password</h1>
+        <h1 className='text-2xl dark:brightness-75'>Reset Password</h1>
       </div>
       <div>
         <Form {...onHandleResetPasswordForm}>
           <form
             onSubmit={onHandleResetPasswordForm.handleSubmit(onSubmit)}
-            className='flex flex-col space-y-5 rounded bg-white p-5 shadow-lg'
+            className='flex flex-col space-y-5 rounded bg-background p-5 shadow dark:border dark:border-input dark:shadow-input'
           >
             <FormField
               control={onHandleResetPasswordForm.control}
@@ -66,7 +66,7 @@ export const ResetPasswordForm = () => {
               render={({ field }) => {
                 return (
                   <FormItem>
-                    <FormLabel>メールアドレス</FormLabel>
+                    <FormLabel className='dark:brightness-75'>メールアドレス</FormLabel>
                     <FormControl>
                       <Input type='email' placeholder='mail@example.com' {...field} />
                     </FormControl>
@@ -85,8 +85,11 @@ export const ResetPasswordForm = () => {
         </Form>
         {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
       </div>
-      <div className='flex flex-col items-center justify-center space-y-3 rounded bg-white p-5 text-sm shadow-lg'>
-        <Link href='/auth/login' className='text-muted-foreground hover:text-black'>
+      <div className='flex flex-col items-center justify-center space-y-3 rounded bg-background p-5 text-sm shadow dark:border dark:border-input dark:shadow-input'>
+        <Link
+          href='/auth/login'
+          className='text-card-foreground hover:text-primary hover:underline hover:underline-offset-2'
+        >
           ログインはこちら
         </Link>
       </div>
