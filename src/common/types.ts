@@ -10,7 +10,6 @@ export type TagType = {
   label: string
 }
 export type ActionProps = {
-  type: 'question' | 'default'
   question?: QuestionType
   answer?: AnswerType
   comment?: CommentType
