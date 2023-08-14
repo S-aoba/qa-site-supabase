@@ -61,14 +61,13 @@ export const useAuth = () => {
         return
       }
       onHandleLoginForm.reset()
-      // トップページに遷移
-      // router.push('/')
+      router.push('/')
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
       return
     } finally {
       setLoading(false)
-      // router.refresh()
+      router.refresh()
     }
   }
 
