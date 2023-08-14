@@ -73,7 +73,7 @@ export const AnswerForm = ({
     const { content } = values
 
     try {
-      if (answerId === undefined && userId && question) {
+      if (answerId === undefined && userId && question && user.username) {
         const { data: answer, error: createAnswerError } = await supabase
           .from('answers')
           .upsert({

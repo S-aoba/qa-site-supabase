@@ -48,7 +48,8 @@ export const CommentForm = ({ answer, commentId }: { answer?: AnswerType; commen
     },
     editorProps: {
       attributes: {
-        class: 'prose prose-sm m-2 pb-2 pl-5 dark:prose-invert sm:prose-base focus:outline-none text-primary dark:brightness-75',
+        class:
+          'prose prose-sm m-2 pb-2 pl-5 dark:prose-invert sm:prose-base focus:outline-none text-primary dark:brightness-75',
       },
     },
   })
@@ -65,7 +66,7 @@ export const CommentForm = ({ answer, commentId }: { answer?: AnswerType; commen
     const { content } = values
 
     try {
-      if (commentId === undefined && answer) {
+      if (commentId === undefined && answer && user.username) {
         const { error: createCommentError } = await supabase
           .from('comments')
           .insert({
