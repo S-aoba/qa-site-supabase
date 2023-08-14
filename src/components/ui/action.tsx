@@ -5,6 +5,7 @@ import { IconEdit, IconMenu2, IconTrash } from '@tabler/icons-react'
 import Link from 'next/link'
 import { useState } from 'react'
 
+import { useAction } from '@/common/hooks/useAction'
 import type { AnswerType, CommentType, QuestionType } from '@/common/types'
 
 import { useAnswer } from '../answer/useAnswer'
@@ -31,20 +32,13 @@ type ActionProps = {
 
 export const Action = ({ type, question, answer, comment }: ActionProps) => {
   const [message, _] = useState('')
-  const [isShowDialog, setShowDialog] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
   const { handleDeleteQuestion, handleSetQuestion } = useQuestion(setIsLoading)
   const { handleDeleteAnswer, handleSetIsEditMode } = useAnswer(setIsLoading)
   const { handleDeleteComment, handleSetComment } = useComment(setIsLoading)
 
-  const handleShowDialog = () => {
-    return setShowDialog(true)
-  }
-
-  const handleHideDialog = () => {
-    setShowDialog(false)
-  }
+  const { isShowDialog, handleShowDialog, handleHideDialog } = useAction()
 
   const handleSetData = () => {
     if (question) {
@@ -70,10 +64,10 @@ export const Action = ({ type, question, answer, comment }: ActionProps) => {
       <div className='flex items-center'>
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <IconMenu2 className='hover:cursor-pointer text-primary dark:brightness-75' />
+            <IconMenu2 className='text-primary hover:cursor-pointer dark:brightness-75' />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem onClick={handleSetData} className='hover:cursor-pointer text-primary dark:brightness-75'>
+            <DropdownMenuItem onClick={handleSetData} className='text-primary hover:cursor-pointer dark:brightness-75'>
               {type === 'question' ? (
                 <Link href={'questions/edit'} className='flex items-center'>
                   <IconEdit className='mr-2' />
@@ -86,7 +80,10 @@ export const Action = ({ type, question, answer, comment }: ActionProps) => {
                 </>
               )}
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleShowDialog} className='hover:cursor-pointer text-primary dark:brightness-75'>
+            <DropdownMenuItem
+              onClick={handleShowDialog}
+              className='text-primary hover:cursor-pointer dark:brightness-75'
+            >
               <IconTrash className='mr-2' />
               削除
             </DropdownMenuItem>
