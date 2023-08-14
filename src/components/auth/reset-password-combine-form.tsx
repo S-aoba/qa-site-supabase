@@ -1,58 +1,23 @@
 'use client'
 
 import { ReloadIcon } from '@radix-ui/react-icons'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import type * as z from 'zod'
 
-import { ReactHookForm } from '@/common/react-hook-form'
-import type { passwordSchema } from '@/common/schemas'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import type { Database } from '@/lib/database.types'
 
 import { Button } from '../ui/button'
+import { ErrorMessage } from '../ui/error-message'
 import { Input } from '../ui/input'
+import { useAuth } from './useAuth'
 
 export const ResetPasswordCombineForm = () => {
-  const router = useRouter()
-  const supabase = createClientComponentClient<Database>()
-  const [isLoading, setLoading] = useState(false)
-  const [message, setMessage] = useState('')
-  const { onHandleResetPasswordConfirmForm } = ReactHookForm()
-
-  const onSubmit = async (values: z.infer<typeof passwordSchema>) => {
-    setLoading(true)
-    setMessage('')
-    const { password } = values
-
-    try {
-      // パスワードの更新
-      const { error } = await supabase.auth.updateUser({
-        password,
-      })
-
-      if (error) {
-        setMessage('エラーが発生しました。' + error.message)
-        return
-      }
-
-      setMessage('パスワードは正常に更新されました。')
-    } catch (error) {
-      setMessage('エラーが発生しました。' + error)
-      return
-    } finally {
-      setLoading(false)
-      router.refresh()
-    }
-  }
+  const { isLoading, message, resetPasswordConfirm, onHandleResetPasswordConfirmForm } = useAuth()
 
   return (
     <div>
       <div className='mb-10 text-center dark:brightness-75'>パスワード変更</div>
       <Form {...onHandleResetPasswordConfirmForm}>
         <form
-          onSubmit={onHandleResetPasswordConfirmForm.handleSubmit(onSubmit)}
+          onSubmit={onHandleResetPasswordConfirmForm.handleSubmit(resetPasswordConfirm)}
           className='flex flex-col space-y-5 rounded bg-background p-5 shadow dark:border dark:border-input dark:shadow-input'
         >
           <FormField
@@ -85,13 +50,13 @@ export const ResetPasswordCombineForm = () => {
               )
             }}
           />
+          {message && <ErrorMessage message={message} />}
           <div className='flex justify-start pt-2'>
             <Button type='submit' variant='default' disabled={isLoading}>
               {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
               {isLoading ? '更新中' : '更新'}
             </Button>
           </div>
-          {message && <div className='pt-3 text-center text-sm text-red-500'>{message}</div>}
         </form>
       </Form>
     </div>

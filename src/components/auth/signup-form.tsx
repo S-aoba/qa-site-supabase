@@ -1,67 +1,18 @@
 'use client'
 
 import { ReloadIcon } from '@radix-ui/react-icons'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import type * as z from 'zod'
 
-import { ReactHookForm } from '@/common/react-hook-form'
-import type { signupSchema } from '@/common/schemas'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import type { Database } from '@/lib/database.types'
 
 import { Button } from '../ui/button'
+import { ErrorMessage } from '../ui/error-message'
 import { Input } from '../ui/input'
+import { useAuth } from './useAuth'
 
 export const SignupForm = () => {
-  const router = useRouter()
-  const supabase = createClientComponentClient<Database>()
-  const [isLoading, setLoading] = useState(false)
-  const [message, setMessage] = useState('')
+  const { isLoading, message, signup, onHandleSignupForm } = useAuth()
 
-  const { onHandleSignupForm } = ReactHookForm()
-  // 送信
-  const onSubmit = async (values: z.infer<typeof signupSchema>) => {
-    setLoading(true)
-    const { username, email, password } = values
-
-    try {
-      // サインアップ
-      const { error: errorSignup } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: `${location.origin}/auth/callback`,
-        },
-      })
-
-      // エラーチェック
-      if (errorSignup) {
-        setMessage('エラーが発生しました。' + errorSignup.message)
-        return
-      }
-      // プロフィールの名前を更新
-      const { error: updateError } = await supabase.from('profiles').update({ username }).eq('email', email)
-
-      // エラーチェック
-      if (updateError) {
-        setMessage('エラーが発生しました。' + updateError.message)
-        return
-      }
-
-      setMessage(
-        '本登録用のURLを記載したメールを送信しました。メールをご確認の上、メール本文中のURLをクリックして、本登録を行ってください。'
-      )
-    } catch (error) {
-      setMessage('エラーが発生しました。' + error)
-      return
-    } finally {
-      setLoading(false)
-      router.refresh()
-    }
-  }
   return (
     <div className='space-y-10'>
       <div className='text-center'>
@@ -70,7 +21,7 @@ export const SignupForm = () => {
       <div>
         <Form {...onHandleSignupForm}>
           <form
-            onSubmit={onHandleSignupForm.handleSubmit(onSubmit)}
+            onSubmit={onHandleSignupForm.handleSubmit(signup)}
             className='flex flex-col space-y-5 rounded bg-background p-5 shadow dark:border dark:border-input dark:shadow-input'
           >
             <FormField
@@ -127,7 +78,7 @@ export const SignupForm = () => {
           </form>
         </Form>
 
-        {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
+        {message && <ErrorMessage message={message} />}
       </div>
       <div className='flex items-center justify-center space-x-3 rounded bg-background p-5 text-sm shadow dark:border dark:border-input dark:shadow-input'>
         <span className='text-muted-foreground'>既にアカウントはお持ちですか?</span>

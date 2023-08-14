@@ -9,16 +9,7 @@ import { profileAtom } from '@/store/profile-atom'
 import { editedQuestionAtom } from '@/store/question-atom'
 
 import { questionSearchSchema } from './schemas'
-import {
-  answerSchema,
-  commentSchema,
-  emailSchema,
-  loginSchema,
-  passwordSchema,
-  profileSchema,
-  questionSchema,
-  signupSchema,
-} from './schemas'
+import { answerSchema, commentSchema, emailSchema, passwordSchema, profileSchema, questionSchema } from './schemas'
 
 export const ReactHookForm = () => {
   const editedQuestion = useAtomValue(editedQuestionAtom)
@@ -80,33 +71,6 @@ export const ReactHookForm = () => {
     resolver: zodResolver(emailSchema),
   })
 
-  const onHandleSignupForm = useForm({
-    // 初期値
-    defaultValues: { username: '', email: '', password: '' },
-    // 入力値の検証
-    resolver: zodResolver(signupSchema),
-  })
-
-  const onHandleResetPasswordForm = useForm({
-    // 初期値
-    defaultValues: { email: '' },
-    // 入力値の検証
-    resolver: zodResolver(emailSchema),
-  })
-
-  const onHandleResetPasswordConfirmForm = useForm({
-    // 初期値
-    defaultValues: { password: '', confirmation: '' },
-    // 入力値の検証
-    resolver: zodResolver(passwordSchema),
-  })
-
-  const onHandleLoginForm = useForm({
-    // 初期値
-    defaultValues: { email: '', password: '' },
-    // 入力値の検証
-    resolver: zodResolver(loginSchema),
-  })
   return {
     onHandleQuestionForm,
     onHandleAnswerForm,
@@ -114,10 +78,6 @@ export const ReactHookForm = () => {
     onHandleProfileForm,
     onHandlePasswordForm,
     onHandleEmailForm,
-    onHandleSignupForm,
-    onHandleResetPasswordForm,
-    onHandleResetPasswordConfirmForm,
-    onHandleLoginForm,
     onHandleQuestionSearchForm,
   }
 }

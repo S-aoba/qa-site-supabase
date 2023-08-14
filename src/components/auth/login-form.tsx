@@ -1,54 +1,18 @@
 'use client'
-import { ReloadIcon } from '@radix-ui/react-icons'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import type * as z from 'zod'
 
-import { ReactHookForm } from '@/common/react-hook-form'
-import type { loginSchema } from '@/common/schemas'
+import { ReloadIcon } from '@radix-ui/react-icons'
+import Link from 'next/link'
+
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import type { Database } from '@/lib/database.types'
 
 import { Button } from '../ui/button'
+import { ErrorMessage } from '../ui/error-message'
 import { Input } from '../ui/input'
+import { useAuth } from './useAuth'
 
 export const LoginForm = () => {
-  const router = useRouter()
-  const supabase = createClientComponentClient<Database>()
-  const [isLoading, setLoading] = useState(false)
-  const [message, setMessage] = useState('')
+  const { isLoading, message, login, onHandleLoginForm } = useAuth()
 
-  const { onHandleLoginForm } = ReactHookForm()
-
-  const onSubmit = async (values: z.infer<typeof loginSchema>) => {
-    setLoading(true)
-    const { email, password } = values
-
-    try {
-      // ログイン
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      })
-
-      // エラーチェック
-      if (error) {
-        setMessage('エラーが発生しました。' + error.message)
-        return
-      }
-
-      // トップページに遷移
-      router.push('/')
-    } catch (error) {
-      setMessage('エラーが発生しました。' + error)
-      return
-    } finally {
-      setLoading(false)
-      router.refresh()
-    }
-  }
   return (
     <div className='space-y-10'>
       <div className='text-center'>
@@ -57,7 +21,7 @@ export const LoginForm = () => {
       <div>
         <Form {...onHandleLoginForm}>
           <form
-            onSubmit={onHandleLoginForm.handleSubmit(onSubmit)}
+            onSubmit={onHandleLoginForm.handleSubmit(login)}
             className='flex flex-col space-y-5 rounded bg-background p-5 shadow dark:border dark:border-input dark:shadow-input'
           >
             <FormField
@@ -99,7 +63,7 @@ export const LoginForm = () => {
           </form>
         </Form>
 
-        {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
+        {message && <ErrorMessage message={message} />}
       </div>
       <div className='flex flex-col items-center justify-center space-y-3 rounded bg-background p-5 text-sm shadow dark:border dark:border-input dark:shadow-input'>
         <Link
