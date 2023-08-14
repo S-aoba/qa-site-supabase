@@ -1,21 +1,17 @@
 'use client'
 
 import type { Session } from '@supabase/supabase-js'
-import { useAtom, useAtomValue } from 'jotai'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import { useEffect } from 'react'
 
 import type { NotificationType, ProfileType } from '@/common/types'
-import { displayMainNavNameAtom } from '@/store/navigation-atom'
-import { profileAtom } from '@/store/profile-atom'
 
 import { Notification } from '../notification/notification'
 import { Button } from '../ui/button'
-import { subQuestionNavigation, subSettingNavigation } from './nav-list-data'
 import { Search } from './search'
 import { Tab } from './tab'
+import { useNavigation } from './useNavigation'
 
 export const SubNavigation = ({
   session,
@@ -26,12 +22,7 @@ export const SubNavigation = ({
   profile: ProfileType | null
   notifications: NotificationType[] | null
 }) => {
-  const pathname = usePathname()
-
-  const [user, setUser] = useAtom(profileAtom)
-  const displayMainNavName = useAtomValue(displayMainNavNameAtom)
-
-  const navList = displayMainNavName === '質問' ? subQuestionNavigation : subSettingNavigation
+  const { pathname, displayMainNavName, navList, user, setUser } = useNavigation()
 
   // 状態管理にユーザー情報を保存
   useEffect(() => {
