@@ -13,7 +13,7 @@ export const useAuth = () => {
   const router = useRouter()
   const supabase = createClientComponentClient<Database>()
   const [isLoading, setLoading] = useState(false)
-  const [message, setMessage] = useState('ddd')
+  const [message, setMessage] = useState('')
 
   const onHandleLoginForm = useForm({
     // 初期値
