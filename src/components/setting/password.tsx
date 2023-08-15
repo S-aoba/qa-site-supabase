@@ -1,58 +1,23 @@
 'use client'
 
 import { ReloadIcon } from '@radix-ui/react-icons'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import type * as z from 'zod'
 
-import { ReactHookForm } from '@/common/react-hook-form'
-import type { passwordSchema } from '@/common/schemas'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import type { Database } from '@/lib/database.types'
 
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
+import { useSettings } from './useSettings'
 
 // パスワード変更
 export const Password = () => {
-  const router = useRouter()
-  const supabase = createClientComponentClient<Database>()
-  const [isLoading, setLoading] = useState(false)
-  const [message, setMessage] = useState('')
-
-  const { onHandlePasswordForm } = ReactHookForm()
-  // 送信
-  const onSubmit = async (values: z.infer<typeof passwordSchema>) => {
-    setLoading(true)
-    const { password } = values
-    try {
-      // パスワードの更新
-      const { error } = await supabase.auth.updateUser({
-        password,
-      })
-
-      if (error) {
-        setMessage('エラーが発生しました。' + error.message)
-        return
-      }
-
-      setMessage('パスワードは正常に更新されました。')
-    } catch (error) {
-      setMessage('エラーが発生しました。' + error)
-      return
-    } finally {
-      setLoading(false)
-      router.refresh()
-    }
-  }
+  const { message, isLoading, onHandlePasswordForm, editPassword } = useSettings()
 
   return (
     <div className='flex w-full flex-col items-center'>
       <div className='w-full max-w-[800px] rounded border border-input bg-background p-3 shadow dark:shadow-input'>
         <div className='mb-10 text-center dark:brightness-75'>パスワード変更</div>
         <Form {...onHandlePasswordForm}>
-          <form onSubmit={onHandlePasswordForm.handleSubmit(onSubmit)}>
+          <form onSubmit={onHandlePasswordForm.handleSubmit(editPassword)}>
             <FormField
               control={onHandlePasswordForm.control}
               name='password'

@@ -5,7 +5,7 @@ type Props = {
   created_at: string
   updated_at: string
   avatar_url: string | null
-  username: string
+  username: string | null
 } & {
   coding_problem?: string
 }

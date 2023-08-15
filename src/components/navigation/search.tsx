@@ -1,37 +1,19 @@
 'use client'
 
 import { IconSearch } from '@tabler/icons-react'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import type { z } from 'zod'
 
-import { ReactHookForm } from '@/common/react-hook-form'
-import type { questionSearchSchema } from '@/common/schemas'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
 import { Input } from '../ui/input'
+import { useNavigation } from './useNavigation'
 
 export const Search = () => {
-  const [isShowSearchBar, setIsShowSearchBar] = useState(false)
-  const router = useRouter()
-
-  const { onHandleQuestionSearchForm } = ReactHookForm()
-
-  const handleOnSubmit = (values: z.infer<typeof questionSearchSchema>) => {
-    const { q } = values
-    router.push('/questions/search' + '?q=' + q)
-    onHandleQuestionSearchForm.reset()
-    setIsShowSearchBar(false)
-  }
-
-  const handleShowSearchBar = () => {
-    setIsShowSearchBar(!isShowSearchBar)
-  }
+  const { onHandleQuestionSearchForm, searchQuestion, handleShowSearchBar, isShowSearchBar } = useNavigation()
 
   return (
     <Form {...onHandleQuestionSearchForm}>
-      <form onSubmit={onHandleQuestionSearchForm.handleSubmit(handleOnSubmit)} className='w-full'>
+      <form onSubmit={onHandleQuestionSearchForm.handleSubmit(searchQuestion)} className='w-full'>
         <div className='relative flex w-full justify-end'>
           <TooltipProvider delayDuration={100}>
             <Tooltip>
@@ -55,7 +37,14 @@ export const Search = () => {
                 <FormItem>
                   <FormControl>
                     <div className='absolute left-0 top-16 z-10 w-full px-5'>
-                      <Input type='search' autoComplete='on' required placeholder='質問を検索' {...field} className='shadow shadow-input bg-background'/>
+                      <Input
+                        type='search'
+                        autoComplete='on'
+                        required
+                        placeholder='質問を検索'
+                        {...field}
+                        className='bg-background shadow shadow-input'
+                      />
                     </div>
                   </FormControl>
                   <FormMessage />

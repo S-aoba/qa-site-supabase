@@ -189,7 +189,7 @@ export interface Database {
           id: string
           introduce: string | null
           twitter_url: string | null
-          username: string
+          username: string | null
           website_url: string | null
         }
         Insert: {
@@ -199,7 +199,7 @@ export interface Database {
           id: string
           introduce?: string | null
           twitter_url?: string | null
-          username: string
+          username?: string | null
           website_url?: string | null
         }
         Update: {
@@ -209,7 +209,7 @@ export interface Database {
           id?: string
           introduce?: string | null
           twitter_url?: string | null
-          username?: string
+          username?: string | null
           website_url?: string | null
         }
         Relationships: [

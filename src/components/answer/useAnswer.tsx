@@ -1,64 +1,133 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { useEditor } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { useRouter } from 'next/navigation'
-import type { Dispatch, SetStateAction } from 'react'
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import type { z } from 'zod'
 
-import { useAction } from '@/common/hooks/useAction'
-import type { AnswerType } from '@/common/types'
+import { answerSchema } from '@/common/schemas'
+import type { QuestionType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
+import { editedAnswerAtom, isAnswerEditModeAtom } from '@/store/answer-atom'
+import { profileAtom } from '@/store/profile-atom'
 
-export const useAnswer = (setIsLoading: Dispatch<SetStateAction<boolean>>) => {
+export const useAnswer = (userId?: string, question?: QuestionType, answerId?: string) => {
+  const [isLoading, setLoading] = useState(false)
+  const [message, setMessage] = useState('')
+  const [avatarUrl, setAvatarUrl] = useState('/default.png')
+
   const router = useRouter()
+
   const supabase = createClientComponentClient<Database>()
 
-  const { isEditAnswerMode, setEditedAnswer, setIsEditAnswerMode, setMessage, handleHideDialog } = useAction()
+  const [editedAnswerContent, setEditedAnswerContent] = useAtom(editedAnswerAtom)
+  const setIsEditMode = useSetAtom(isAnswerEditModeAtom)
+  const user = useAtomValue(profileAtom)
 
-  const handleSetIsEditMode = (answer: AnswerType) => {
-    if (!isEditAnswerMode) {
-      setIsEditAnswerMode(true)
-      setEditedAnswer(answer.content)
-      return
+  const onHandleAnswerForm = useForm<z.infer<typeof answerSchema>>({
+    resolver: zodResolver(answerSchema),
+    defaultValues: {
+      content: editedAnswerContent,
+    },
+  })
+
+  const editor = useEditor({
+    extensions: [StarterKit],
+    content: editedAnswerContent,
+    onUpdate({ editor }) {
+      onHandleAnswerForm.setValue('content', editor.getHTML())
+      setEditedAnswerContent(editor.getHTML())
+    },
+    editorProps: {
+      attributes: {
+        class:
+          'prose prose-sm m-2 pb-2 pl-5 dark:prose-invert sm:prose-base focus:outline-none text-primary dark:brightness-75',
+      },
+    },
+  })
+
+  // アバター画像の取得
+  useEffect(() => {
+    if (user && user.avatar_url) {
+      setAvatarUrl(user.avatar_url)
     }
-    setIsEditAnswerMode(false)
-  }
+  }, [user])
 
-  const handleDeleteAnswer = async (answer: AnswerType) => {
-    setIsLoading(true)
+  const handleOnSubmit = async (values: z.infer<typeof answerSchema>) => {
+    setLoading(true)
+    const { content } = values
+
     try {
-      const { error: deleteAnswerError } = await supabase.from('answers').delete().eq('id', answer.id)
-      if (deleteAnswerError) {
-        setMessage('予期せぬエラーが発生しました。' + deleteAnswerError.message)
-        return
-      }
+      if (answerId === undefined && userId && question && user.username) {
+        const { data: answer, error: createAnswerError } = await supabase
+          .from('answers')
+          .upsert({
+            username: user.username,
+            avatar_url: user.avatar_url,
+            user_id: userId,
+            question_id: question.id,
+            content,
+          })
+          .select()
+          .single()
 
-      // 回答が他にも存在するかどうか確認
-      const { data: otherAnswers, error: otherAnswersError } = await supabase
-        .from('answers')
-        .select('*')
-        .eq('question_id', answer.question_id)
-
-      if (otherAnswersError) {
-        setMessage('予期せぬエラーが発生しました。' + otherAnswersError.message)
-        return
-      }
-      // 回答が存在していなければ、質問を募集中テーブルに追加
-      if (otherAnswers.length === 0) {
-        const { error: questionWaitingAnswersError } = await supabase.from('question_waiting_answers').insert({
-          question_id: answer.question_id,
-        })
-        if (questionWaitingAnswersError) {
-          setMessage('予期せぬエラーが発生しました。' + questionWaitingAnswersError.message)
+        if (createAnswerError) {
+          setMessage('予期せぬエラーが発生しました。' + createAnswerError.message)
+          return
         }
-      }
 
-      setEditedAnswer('')
+        const { error: createNotificationError } = await supabase.from('notifications').insert({
+          user_id: question.user_id,
+          question_id: question.id,
+          username: user.username,
+          title: question.title,
+          avatar_url: user.avatar_url,
+          answer_id: answer.id,
+        })
+        if (createNotificationError) {
+          setMessage('予期せぬエラーが発生しました。' + createNotificationError.message)
+          return
+        }
+
+        // 質問募集中テーブルから該当の質問を削除
+        const { error: deleteQuestionError } = await supabase
+          .from('question_waiting_answers')
+          .delete()
+          .eq('question_id', question.id)
+
+        if (deleteQuestionError) {
+          setMessage('予期せぬエラーが発生しました。' + deleteQuestionError.message)
+          return
+        }
+      } else {
+        const { error } = await supabase
+          .from('answers')
+          .update({
+            content,
+          })
+          .eq('id', answerId)
+        if (error) {
+          setMessage('予期せぬエラーが発生しました。' + error.message)
+          return
+        }
+        setIsEditMode(false)
+      }
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
       return
     } finally {
-      setIsLoading(false)
-      handleHideDialog()
+      if (editor) {
+        editor.commands.clearContent()
+        setEditedAnswerContent('')
+        onHandleAnswerForm.reset()
+      }
+      setLoading(false)
       router.refresh()
     }
   }
-  return { handleDeleteAnswer, handleSetIsEditMode }
+
+  return { isLoading, message, avatarUrl, onHandleAnswerForm, editor, handleOnSubmit }
 }

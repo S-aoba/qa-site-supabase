@@ -3,13 +3,10 @@
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { IconEdit, IconMenu2, IconTrash } from '@tabler/icons-react'
 import Link from 'next/link'
-import { useState } from 'react'
 
-import type { AnswerType, CommentType, QuestionType } from '@/common/types'
+import { useAction } from '@/common/hooks/useAction'
+import type { ActionProps } from '@/common/types'
 
-import { useAnswer } from '../answer/useAnswer'
-import { useComment } from '../comment/useComment'
-import { useQuestion } from '../question/useQuestion'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -22,59 +19,24 @@ import {
 } from '../ui/alert-dialog'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu'
 
-type ActionProps = {
-  type: 'question' | 'default'
-  question?: QuestionType
-  answer?: AnswerType
-  comment?: CommentType
-}
+export const Action = ({ question, answer, comment }: ActionProps) => {
+  const { message, isShowDialog, isLoading, handleShowDialog, handleHideDialog, handleSetData, handleDeleteData } =
+    useAction({
+      question,
+      answer,
+      comment,
+    })
 
-export const Action = ({ type, question, answer, comment }: ActionProps) => {
-  const [message, _] = useState('')
-  const [isShowDialog, setShowDialog] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
-
-  const { handleDeleteQuestion, handleSetQuestion } = useQuestion(setIsLoading)
-  const { handleDeleteAnswer, handleSetIsEditMode } = useAnswer(setIsLoading)
-  const { handleDeleteComment, handleSetComment } = useComment(setIsLoading)
-
-  const handleShowDialog = () => {
-    return setShowDialog(true)
-  }
-
-  const handleHideDialog = () => {
-    setShowDialog(false)
-  }
-
-  const handleSetData = () => {
-    if (question) {
-      handleSetQuestion(question)
-    } else if (answer) {
-      handleSetIsEditMode(answer)
-    } else if (comment) {
-      handleSetComment(comment)
-    }
-  }
-
-  const handleDeleteData = () => {
-    if (question) {
-      handleDeleteQuestion(question)
-    } else if (answer) {
-      handleDeleteAnswer(answer)
-    } else if (comment) {
-      handleDeleteComment(comment)
-    }
-  }
   return (
     <AlertDialog open={isShowDialog} onOpenChange={handleHideDialog}>
       <div className='flex items-center'>
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <IconMenu2 className='hover:cursor-pointer text-primary dark:brightness-75' />
+            <IconMenu2 className='text-primary hover:cursor-pointer dark:brightness-75' />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem onClick={handleSetData} className='hover:cursor-pointer text-primary dark:brightness-75'>
-              {type === 'question' ? (
+            <DropdownMenuItem onClick={handleSetData} className='text-primary hover:cursor-pointer dark:brightness-75'>
+              {question ? (
                 <Link href={'questions/edit'} className='flex items-center'>
                   <IconEdit className='mr-2' />
                   編集
@@ -86,7 +48,10 @@ export const Action = ({ type, question, answer, comment }: ActionProps) => {
                 </>
               )}
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleShowDialog} className='hover:cursor-pointer text-primary dark:brightness-75'>
+            <DropdownMenuItem
+              onClick={handleShowDialog}
+              className='text-primary hover:cursor-pointer dark:brightness-75'
+            >
               <IconTrash className='mr-2' />
               削除
             </DropdownMenuItem>

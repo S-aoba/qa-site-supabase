@@ -1,27 +1,18 @@
 'use client'
 
 import type { Session } from '@supabase/auth-helpers-nextjs'
-import { useSetAtom } from 'jotai'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { displayMainNavNameAtom } from '@/store/navigation-atom'
 
 import { Theme } from '../theme'
-import { mainNavigation, settingsPathList } from './nav-list-data'
+import { useNavigation } from './useNavigation'
 
 export const MainNavigation = ({ session }: { session: Session | null }) => {
-  const pathname = usePathname()
+  const { pathname, setDisplayMainNavName, navigationListener } = useNavigation()
 
-  const setDisplayMainNavName = useSetAtom(displayMainNavNameAtom)
-
-  const questionNav = [mainNavigation[0]]
-  const authenticatedNavList = session ? mainNavigation : questionNav
-  const selectedNav = settingsPathList.includes(pathname) ? '設定' : '質問'
-
-  setDisplayMainNavName(selectedNav)
+  const authenticatedNavList = navigationListener(session)
 
   return (
     <div className='flex w-14 flex-col justify-between overflow-y-hidden border-r p-2'>
@@ -31,8 +22,8 @@ export const MainNavigation = ({ session }: { session: Session | null }) => {
             src={'/logo.png'}
             alt='QA-site-supabase'
             priority
-            width={40}
-            height={40}
+            width={50}
+            height={50}
             className='mx-auto cursor-pointer rounded'
           />
         </Link>

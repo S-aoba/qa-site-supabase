@@ -19,7 +19,7 @@ export const CommentBody = ({ comment, session }: { comment: CommentType; sessio
               avatar_url={comment.avatar_url}
               username={comment.username}
             />
-            {session && session.user.id === comment.user_id && <Action type='default' comment={comment} />}
+            {session && session.user.id === comment.user_id && <Action comment={comment} />}
           </div>
         </div>
         <CommentContent comment={comment} />

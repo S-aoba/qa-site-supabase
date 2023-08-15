@@ -5,7 +5,7 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
     <div className='container mx-auto max-w-[600px] space-y-5'>
       <div className='flex flex-col space-y-10 dark:brightness-75'>
         <div className='flex justify-center py-2'>
-          <div className='inline-block rounded-full bg-white p-3 shadow-lg'>
+          <div className='px-2 rounded-full bg-background  shadow'>
             <Image src={'/logo.png'} width={80} height={80} alt='Logo' priority />
           </div>
         </div>
