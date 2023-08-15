@@ -1,13 +1,14 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import type { z } from 'zod'
 
-import { ReactHookForm } from '@/common/react-hook-form'
-import type { answerSchema } from '@/common/schemas'
+import { answerSchema } from '@/common/schemas'
 import type { QuestionType } from '@/common/types'
 import type { Database } from '@/lib/database.types'
 import { editedAnswerAtom, isAnswerEditModeAtom } from '@/store/answer-atom'
@@ -26,7 +27,12 @@ export const useAnswer = (userId?: string, question?: QuestionType, answerId?: s
   const setIsEditMode = useSetAtom(isAnswerEditModeAtom)
   const user = useAtomValue(profileAtom)
 
-  const { onHandleAnswerForm } = ReactHookForm()
+  const onHandleAnswerForm = useForm<z.infer<typeof answerSchema>>({
+    resolver: zodResolver(answerSchema),
+    defaultValues: {
+      content: editedAnswerContent,
+    },
+  })
 
   const editor = useEditor({
     extensions: [StarterKit],
