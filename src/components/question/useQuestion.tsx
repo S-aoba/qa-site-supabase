@@ -103,7 +103,7 @@ export const useQuestion = (userId: string) => {
       setLoading(false)
       router.refresh()
       if (editor) {
-        editor.commands.setContent('')
+        editor.commands.clearContent()
         setEditedQuestion({
           id: '',
           title: '',

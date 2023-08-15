@@ -95,7 +95,7 @@ export const useComment = (answer?: AnswerType, commentId?: string) => {
       return
     } finally {
       if (editor) {
-        editor.commands.setContent('')
+        editor.commands.clearContent()
         setEditedCommentContent('')
         onHandleCommentForm.reset({ content: '' })
       }
