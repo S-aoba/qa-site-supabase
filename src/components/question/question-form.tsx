@@ -2,6 +2,7 @@
 
 import { ReloadIcon } from '@radix-ui/react-icons'
 
+import { FormAlert } from '@/common/form-alert'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 
 import { Button } from '../ui/button'
@@ -13,6 +14,7 @@ import { Select } from '../ui/select'
 import { useQuestion } from './useQuestion'
 
 export const QuestionForm = ({ userId }: { userId: string }) => {
+  FormAlert()
   const { isLoading, editor, message, onHandleQuestionForm, editedQuestion, submit } = useQuestion(userId)
 
   return (
