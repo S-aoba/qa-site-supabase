@@ -5,7 +5,11 @@ import { redirect } from 'next/navigation'
 import { SignupForm } from '@/components/auth/signup-form'
 import type { Database } from '@/lib/database.types'
 
-// サインアップページ
+export const metadata = {
+  title: '新規登録 - QA-site-supabase',
+  description: '新規登録 - QA-site-supabase',
+}
+
 const SignupPage = async () => {
   const supabase = createServerComponentClient<Database>({
     cookies,

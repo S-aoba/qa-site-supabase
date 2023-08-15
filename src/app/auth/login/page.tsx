@@ -5,6 +5,11 @@ import { redirect } from 'next/navigation'
 import { LoginForm } from '@/components/auth/login-form'
 import type { Database } from '@/lib/database.types'
 
+export const metadata = {
+  title: 'ログイン - QA-site-supabase',
+  description: 'ログイン - QA-site-supabase',
+}
+
 // ログインページ
 const LoginPage = async () => {
   const supabase = createServerComponentClient<Database>({

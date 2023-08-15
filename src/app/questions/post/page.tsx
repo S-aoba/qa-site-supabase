@@ -5,7 +5,11 @@ import { redirect } from 'next/navigation'
 import { QuestionForm } from '@/components/question/question-form'
 import type { Database } from '@/lib/database.types'
 
-// メールアドレス変更ページ
+export const metadata = {
+  title: '質問投稿 - QA-site-supabase',
+  description: '質問投稿 - QA-site-supabase',
+}
+
 const QuestionPostPage = async () => {
   const supabase = createServerComponentClient<Database>({
     cookies,

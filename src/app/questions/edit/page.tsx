@@ -5,6 +5,11 @@ import { redirect } from 'next/navigation'
 import { QuestionForm } from '@/components/question/question-form'
 import type { Database } from '@/lib/database.types'
 
+export const metadata = {
+  title: '質問編集 - QA-site-supabase',
+  description: '質問編集 - QA-site-supabase',
+}
+
 const QuestionEditPage = async () => {
   const supabase = createServerComponentClient<Database>({
     cookies,
@@ -19,7 +24,7 @@ const QuestionEditPage = async () => {
   if (!session) {
     redirect('/auth/login')
   }
-  return <QuestionForm userId={session.user.id}/>
+  return <QuestionForm userId={session.user.id} />
 }
 
 export default QuestionEditPage

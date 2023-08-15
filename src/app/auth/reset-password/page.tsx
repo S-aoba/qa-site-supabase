@@ -5,6 +5,11 @@ import { redirect } from 'next/navigation'
 import { ResetPasswordForm } from '@/components/auth/reset-password-form'
 import type { Database } from '@/lib/database.types'
 
+export const metadata = {
+  title: 'パスワードリセット - QA-site-supabase',
+  description: 'パスワードリセット - QA-site-supabase',
+}
+
 // パスワードリセットページ
 const ResetPasswordPage = async () => {
   const supabase = createServerComponentClient<Database>({

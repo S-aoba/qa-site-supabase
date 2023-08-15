@@ -5,7 +5,11 @@ import { redirect } from 'next/navigation'
 import { Email } from '@/components/setting/email'
 import type { Database } from '@/lib/database.types'
 
-// メールアドレス変更ページ
+export const metadata = {
+  title: 'メールアドレス変更 - QA-site-supabase',
+  description: 'メールアドレス変更 - QA-site-supabase',
+}
+
 const EmailPage = async () => {
   const supabase = createServerComponentClient<Database>({
     cookies,

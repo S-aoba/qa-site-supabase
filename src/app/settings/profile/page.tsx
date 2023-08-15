@@ -5,6 +5,11 @@ import { redirect } from 'next/navigation'
 import { Profile } from '@/components/setting/profile'
 import type { Database } from '@/lib/database.types'
 
+export const metadata = {
+  title: 'プロフィール - QA-site-supabase',
+  description: 'パスワードリセット - QA-site-supabase',
+}
+
 const ProfilePage = async () => {
   const supabase = createServerComponentClient<Database>({
     cookies,

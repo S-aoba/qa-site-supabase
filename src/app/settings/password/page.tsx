@@ -5,7 +5,11 @@ import { redirect } from 'next/navigation'
 import { Password } from '@/components/setting/password'
 import type { Database } from '@/lib/database.types'
 
-// パスワード変更ページ
+export const metadata = {
+  title: 'パスワードリセット - QA-site-supabase',
+  description: 'パスワードリセット - QA-site-supabase',
+}
+
 const PasswordPage = async () => {
   const supabase = createServerComponentClient<Database>({
     cookies,

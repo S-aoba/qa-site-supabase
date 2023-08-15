@@ -5,7 +5,11 @@ import { redirect } from 'next/navigation'
 import { Logout } from '@/components/setting/logout'
 import type { Database } from '@/lib/database.types'
 
-// ログアウトページ
+export const metadata = {
+  title: 'ログアウト - QA-site-supabase',
+  description: 'ログアウト - QA-site-supabase',
+}
+
 const LogoutPage = async () => {
   const supabase = createServerComponentClient<Database>({
     cookies,

@@ -4,6 +4,11 @@ import { cookies } from 'next/headers'
 import { Card } from '@/components/ui/card'
 import type { Database } from '@/lib/database.types'
 
+export const metadata = {
+  title: '回答募集中 - QA-site-supabase',
+  description: '回答募集中 - QA-site-supabase',
+}
+
 const QuestionWaitingAnswersPage = async () => {
   const supabase = createServerComponentClient<Database>({ cookies })
 

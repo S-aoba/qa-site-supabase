@@ -5,6 +5,11 @@ import { redirect } from 'next/navigation'
 import { MyQuestions } from '@/components/setting/my-questions'
 import type { Database } from '@/lib/database.types'
 
+export const metadata = {
+  title: '自分の質問 - QA-site-supabase',
+  description: '自分の質問 - QA-site-supabase',
+}
+
 const MyQuestionsPage = async () => {
   const supabase = createServerComponentClient<Database>({
     cookies,
