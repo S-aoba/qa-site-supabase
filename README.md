@@ -8,26 +8,23 @@ frontend
 - typescript
 - next.js
 - tailwind
-- mantine
+- shadcn/ui
+- tiptap
 - zod
 - jotai
 
 backend
 - supabase
 
-## Functional
+### Auth
+- Login
 - signup
-- login
 - logout
-- create question
-- create answer
-- create comment
-- create notification
-- update question
-- update answer
-- update comment
-- delete question
-- delete answer
-- delete comment
-- delete notification
-- search question
+### CRUD
+- Question
+- Answer
+- Comment
+- Notification
+
+# ER図
+![QA-site-with-supabase](https://github.com/S-aoba/qa-site-supabase/assets/70949220/d469bf1d-d3e0-4b48-9217-91eab3421458)
