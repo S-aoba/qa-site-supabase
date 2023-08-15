@@ -32,7 +32,7 @@ export const SignupForm = () => {
                   <FormItem>
                     <FormLabel className='dark:brightness-75'>ユーザーネーム</FormLabel>
                     <FormControl>
-                      <Input type='text' autoComplete='username' {...field} />
+                      <Input type='text' placeholder='QA site with supabase' autoComplete='username' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -62,7 +62,7 @@ export const SignupForm = () => {
                   <FormItem>
                     <FormLabel className='dark:brightness-75'>パスワード</FormLabel>
                     <FormControl>
-                      <Input type='password' autoComplete='current-password' {...field} />
+                      <Input type='password' placeholder='*********' autoComplete='current-password' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

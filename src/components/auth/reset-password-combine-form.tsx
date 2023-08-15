@@ -28,7 +28,7 @@ export const ResetPasswordCombineForm = () => {
                 <FormItem>
                   <FormLabel className='dark:brightness-75'>パスワード</FormLabel>
                   <FormControl>
-                    <Input type='password' {...field} />
+                    <Input type='password' placeholder='*********' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -43,7 +43,7 @@ export const ResetPasswordCombineForm = () => {
                 <FormItem>
                   <FormLabel className='dark:brightness-75'>確認用パスワード</FormLabel>
                   <FormControl>
-                    <Input type='password' {...field} />
+                    <Input type='password' placeholder='*********' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

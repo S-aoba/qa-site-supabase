@@ -26,7 +26,7 @@ export const Password = () => {
                   <FormItem>
                     <FormLabel className='dark:brightness-75'>新しいパスワード</FormLabel>
                     <FormControl>
-                      <Input placeholder='パスワード' type='password' {...field} />
+                      <Input placeholder='*********'  type='password' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -41,7 +41,7 @@ export const Password = () => {
                   <FormItem>
                     <FormLabel className='dark:brightness-75'>確認用パスワード</FormLabel>
                     <FormControl>
-                      <Input placeholder='確認用パスワード' type='password' {...field} />
+                      <Input placeholder='*********' type='password' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

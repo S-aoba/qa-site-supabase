@@ -47,7 +47,7 @@ export const LoginForm = () => {
                   <FormItem>
                     <FormLabel className='dark:brightness-75'>パスワード</FormLabel>
                     <FormControl>
-                      <Input type='password' autoComplete='current-password' {...field} />
+                      <Input type='password' placeholder='*********' autoComplete='current-password' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
