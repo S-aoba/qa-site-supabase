@@ -53,7 +53,7 @@ export const MultiSelect = ({
         ) : (
           editedQuestion.tags.map((language) => {
             return (
-              <span key={language} className='rounded border bg-foreground px-2 py-1 text-background'>
+              <span key={language} className='rounded border bg-[#B4D0C4] px-2 py-1 text-background'>
                 {language}
               </span>
             )
