@@ -1,72 +1,22 @@
 'use client'
 
 import { ReloadIcon } from '@radix-ui/react-icons'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import type * as z from 'zod'
 
-import { ReactHookForm } from '@/common/react-hook-form'
-import type { emailSchema } from '@/common/schemas'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import type { Database } from '@/lib/database.types'
 
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
+import { useSettings } from './useSettings'
 
 export const Email = ({ email }: { email: string | undefined }) => {
-  const router = useRouter()
-  const supabase = createClientComponentClient<Database>()
-  const [isLoading, setLoading] = useState(false)
-  const [message, setMessage] = useState('')
-
-  const { onHandleEmailForm } = ReactHookForm()
-
-  // 送信
-  const onSubmit = async (values: z.infer<typeof emailSchema>) => {
-    setLoading(true)
-    const { email } = values
-    try {
-      // メールアドレス変更メールを送信
-      const { error: updateUserError } = await supabase.auth.updateUser(
-        { email: email },
-        { emailRedirectTo: `${location.origin}/auth/login` }
-      )
-
-      // エラーチェック
-      if (updateUserError) {
-        setMessage('エラーが発生しました。' + updateUserError.message)
-        return
-      }
-
-      setMessage('確認用のURLを記載したメールを送信しました。')
-
-      // ログアウト
-      const { error: signOutError } = await supabase.auth.signOut()
-
-      // エラーチェック
-      if (signOutError) {
-        setMessage('エラーが発生しました。' + signOutError.message)
-
-        return
-      }
-
-      router.push('/auth/login')
-    } catch (error) {
-      setMessage('エラーが発生しました。' + error)
-      return
-    } finally {
-      setLoading(false)
-      router.refresh()
-    }
-  }
+  const { message, isLoading, onHandleEmailForm, editEmail } = useSettings()
 
   return (
     <div className='flex w-full flex-col items-center'>
       <div className='w-full max-w-[800px] rounded border border-input bg-background p-3 shadow dark:shadow-input'>
         <div className='mb-10 text-center dark:brightness-75'>メールアドレス変更</div>
         <Form {...onHandleEmailForm}>
-          <form onSubmit={onHandleEmailForm.handleSubmit(onSubmit)}>
+          <form onSubmit={onHandleEmailForm.handleSubmit(editEmail)}>
             <div className='mb-5 dark:brightness-75'>
               <div className='mb-1'>現在のメールアドレス</div>
               <div>{email && email}</div>
@@ -87,6 +37,7 @@ export const Email = ({ email }: { email: string | undefined }) => {
                 )
               }}
             />
+            {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
             <div className='mb-2 mt-5'>
               <Button type='submit' variant='default' disabled={isLoading}>
                 {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
@@ -94,7 +45,6 @@ export const Email = ({ email }: { email: string | undefined }) => {
               </Button>
             </div>
           </form>
-          {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
         </Form>
       </div>
     </div>
