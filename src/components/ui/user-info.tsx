@@ -12,7 +12,7 @@ type Props = {
 
 export const UserInfo: NextPage<Props> = ({ ...props }) => {
   return (
-    <div className='flex items-center space-x-2 p-2 text-sm text-primary dark:brightness-75 '>
+    <div className='flex items-center space-x-2 p-2 text-sm text-primary dark:brightness-75'>
       <div className='relative h-8 w-8'>
         <Image
           src={props.avatar_url ? props.avatar_url : '/default.png'}
@@ -30,9 +30,9 @@ export const UserInfo: NextPage<Props> = ({ ...props }) => {
         )}
         <span className='truncate px-2'>投稿日: {props.created_at.slice(0, 10)}</span>
         {props.coding_problem && (
-          <span className='w-fit max-w-[300px] truncate rounded bg-accent-foreground px-2 py-1 text-accent'>
-            {props.coding_problem}
-          </span>
+          <div className='w-fit max-w-[300px] truncate rounded bg-[#B4D0C4] px-2 py-1'>
+            <span className='text-popover'>{props.coding_problem}</span>
+          </div>
         )}
       </div>
     </div>
