@@ -34,7 +34,7 @@ export const Question = async ({ session, question_id }: { session: Session | nu
         </div>
         <div className='rounded-md border border-input bg-background shadow'>
           <div>
-            <div className='flex justify-between border-b border-input px-2'>
+            <div className='flex justify-between border-b border-input px-2 overflow-x-hidden'>
               <UserInfo
                 created_at={question.created_at}
                 updated_at={question.updated_at}
