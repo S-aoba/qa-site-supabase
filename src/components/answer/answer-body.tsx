@@ -23,7 +23,7 @@ export const AnswerBody = ({
       <div className='rounded-t-lg border-b px-2 text-primary dark:brightness-75'>
         <div className='flex justify-between'>
           {children}
-          {session && session.user.id === answer.user_id && <Action type='default' answer={answer} />}
+          {session && session.user.id === answer.user_id && <Action answer={answer} />}
         </div>
       </div>
       <AnswerContent answer={answer} />
