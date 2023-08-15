@@ -38,6 +38,7 @@ export const useQuestion = (userId: string) => {
     content: editedQuestion.content,
     onUpdate({ editor }) {
       onHandleQuestionForm.setValue('content', editor.getHTML())
+      setEditedQuestion({ ...editedQuestion, content: editor.getHTML() })
     },
     editorProps: {
       attributes: {
