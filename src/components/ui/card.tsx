@@ -37,7 +37,7 @@ export const Card = async ({ question }: { question: QuestionType }) => {
       </div>
 
       <div className='flex w-full flex-col space-y-2 px-2 text-sm'>
-      <div className='w-fit max-w-[300px] truncate rounded bg-[#B4D0C4] px-2 py-1'>
+      <div className='w-fit max-w-[300px] truncate rounded bg-submit px-2 py-1'>
             <span className='text-popover'>{question.coding_problem}</span>
           </div>
         <div className='flex items-center space-x-2  truncate'>

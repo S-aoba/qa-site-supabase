@@ -53,6 +53,9 @@ module.exports = {
         main: {
           DEFAULT: "hsl(var(--main))",
           foreground:"hsl(var(--main-background))",
+        },
+        submit: {
+          DEFAULT: "hsl(var(--submit))",
         }
       },
       borderRadius: {
