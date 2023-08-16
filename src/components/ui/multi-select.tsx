@@ -1,6 +1,7 @@
 'use client'
 
 import { Listbox, Transition } from '@headlessui/react'
+import { IconX } from '@tabler/icons-react'
 import { useAtom } from 'jotai'
 import Image from 'next/image'
 import { Fragment } from 'react'
@@ -42,15 +43,23 @@ export const MultiSelect = ({
 }) => {
   const [editedQuestion, setEditedQuestion] = useAtom(editedQuestionAtom)
 
-  const handleSelect = (language: string[]) => {
+  const handleSelect = (languages: string[]) => {
     if (editedQuestion.tags.length >= 5) return
-    setEditedQuestion({ ...editedQuestion, tags: language })
-    handleForm.setValue('tags', language)
+    setEditedQuestion({ ...editedQuestion, tags: languages })
+    handleForm.setValue('tags', languages)
+  }
+
+  const handleDeleteLanguage = (target: string) => {
+    const remainList = editedQuestion.tags.filter((lang) => {
+      return lang !== target
+    })
+    setEditedQuestion({ ...editedQuestion, tags: remainList })
+    handleForm.setValue('tags', remainList)
   }
 
   return (
     <Listbox value={editedQuestion.tags} onChange={handleSelect} multiple>
-      <Listbox.Button className='relative flex h-9 w-full items-center justify-start space-x-3 rounded bg-background px-4 py-2 text-sm text-card-foreground shadow hover:cursor-pointer dark:border dark:border-border dark:shadow-border'>
+      <Listbox.Button className='relative flex h-9 w-full items-center justify-start space-x-3 rounded bg-background px-4 py-2 text-sm text-card-foreground shadow dark:border dark:border-border dark:shadow-border'>
         {editedQuestion.tags.length === 0 ? (
           <span className='text-muted-foreground'>タグは5個まで選択できます</span>
         ) : (
@@ -69,6 +78,13 @@ export const MultiSelect = ({
                   />
                 </div>
                 <span>{language}</span>
+                <IconX
+                  size={15}
+                  className='z-50 text-gray-400 hover:bg-gray-500 hover:text-white hover:rounded-full'
+                  onClick={() => {
+                    return handleDeleteLanguage(language)
+                  }}
+                />
               </div>
             )
           })
@@ -83,7 +99,7 @@ export const MultiSelect = ({
         leaveFrom='opacity-100 translate-y-0'
         leaveTo='opacity-0 translate-y-1'
       >
-        <Listbox.Options className='absolute z-10 flex w-96 flex-col space-y-2 rounded-lg bg-background py-2 shadow hover:cursor-default dark:border dark:border-border dark:shadow-border dark:brightness-75 text-sm'>
+        <Listbox.Options className='absolute z-10 flex w-96 flex-col space-y-2 rounded-lg bg-background py-2 text-sm shadow hover:cursor-default dark:border dark:border-border dark:shadow-border dark:brightness-75'>
           <div className='border-b border-input px-3 pb-3'>言語一覧</div>
           {languages.map((language) => {
             const modifiedTag = capitalizeFirstLetter(language)
