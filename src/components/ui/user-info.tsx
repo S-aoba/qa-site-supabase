@@ -30,7 +30,7 @@ export const UserInfo: NextPage<Props> = ({ ...props }) => {
         )}
         <span className='truncate px-2'>投稿日: {props.created_at.slice(0, 10)}</span>
         {props.coding_problem && (
-          <div className='w-fit max-w-[300px] truncate rounded bg-[#B4D0C4] px-2 py-1'>
+          <div className='w-fit max-w-[300px] truncate rounded bg-submit px-2 py-1'>
             <span className='text-popover'>{props.coding_problem}</span>
           </div>
         )}
