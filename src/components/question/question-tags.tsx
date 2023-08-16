@@ -1,17 +1,9 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { capitalizeFirstLetter } from '@/common/function/convert'
+
 export const QuestionTags = ({ tags }: { tags: string[] }) => {
-  const capitalizeFirstLetter = (tag: string) => {
-    if (tag.length === 0) {
-      return tag // 空文字列の場合はそのまま返す
-    }
-
-    const firstLetter = tag.charAt(0).toLowerCase()
-    const restOfString = tag.slice(1)
-
-    return firstLetter + restOfString
-  }
   return (
     <div className='flex space-x-3 overflow-x-hidden border-b border-input p-2 text-sm dark:brightness-75'>
       {tags.map((tag, index) => {
