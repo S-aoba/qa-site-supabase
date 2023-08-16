@@ -56,6 +56,7 @@ module.exports = {
         },
         submit: {
           DEFAULT: "hsl(var(--submit))",
+          foreground:"hsl(var(--submit-foreground))",
         }
       },
       borderRadius: {

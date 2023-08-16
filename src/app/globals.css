@@ -37,7 +37,8 @@
 
     --main-background: 216 33% 97%;
 
-    --submit: 154 23% 76%;
+    --submit: 154 23% 50%;
+    --submit-foreground: 154 23% 60%
   }
 
   .dark {
