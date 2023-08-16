@@ -1,27 +1,30 @@
 'use client'
 
-import { Listbox } from '@headlessui/react'
+import { Listbox, Transition } from '@headlessui/react'
 import { useAtom } from 'jotai'
+import Image from 'next/image'
+import { Fragment } from 'react'
 import type { UseFormReturn } from 'react-hook-form'
 
+import { capitalizeFirstLetter } from '@/common/function/convert'
 import { editedQuestionAtom } from '@/store/question-atom'
 
 const languages: string[] = [
-  'c',
-  'c++',
-  'csharp',
-  'java',
-  'javascript',
-  'php',
-  'python',
-  'ruby',
-  'swift',
-  'typescript',
-  'go',
-  'kotlin',
-  'rust',
-  'react',
-  'next.js',
+  'C',
+  'C++',
+  'Csharp',
+  'Java',
+  'Javascript',
+  'PHP',
+  'Python',
+  'Ruby',
+  'Swift',
+  'Typescript',
+  'Go',
+  'Kotlin',
+  'Rust',
+  'React',
+  'Next.js',
 ]
 
 export const MultiSelect = ({
@@ -47,32 +50,65 @@ export const MultiSelect = ({
 
   return (
     <Listbox value={editedQuestion.tags} onChange={handleSelect} multiple>
-      <Listbox.Button className='relative flex h-9 w-full items-center justify-start space-x-3 rounded bg-background px-4 py-2 text-sm font-medium text-card-foreground shadow hover:cursor-pointer dark:border dark:border-border dark:shadow-border'>
+      <Listbox.Button className='relative flex h-9 w-full items-center justify-start space-x-3 rounded bg-background px-4 py-2 text-sm text-card-foreground shadow hover:cursor-pointer dark:border dark:border-border dark:shadow-border'>
         {editedQuestion.tags.length === 0 ? (
           <span className='text-muted-foreground'>タグは5個まで選択できます</span>
         ) : (
           editedQuestion.tags.map((language) => {
+            const modifiedTag = capitalizeFirstLetter(language)
             return (
-              <span key={language} className='rounded border bg-[#B4D0C4] px-2 py-1 text-background'>
-                {language}
-              </span>
+              <div key={language} className='flex items-center space-x-2 rounded-xl border border-border px-2 py-1'>
+                <div className='relative h-4 w-4'>
+                  <Image
+                    src={`/lang-icon/${modifiedTag}.svg`}
+                    className='rounded-full object-cover'
+                    alt='avatar'
+                    fill
+                    sizes='auto'
+                    priority
+                  />
+                </div>
+                <span>{language}</span>
+              </div>
             )
           })
         )}
       </Listbox.Button>
-      <Listbox.Options className='absolute z-10 flex w-96 flex-col space-y-2 rounded-lg bg-background px-3 py-2 shadow dark:border dark:border-border dark:shadow-border dark:brightness-75'>
-        {languages.map((language) => {
-          return (
-            <Listbox.Option
-              key={language}
-              value={language}
-              className='rounded py-1 pl-2 hover:cursor-pointer hover:bg-accent hover:text-accent-foreground'
-            >
-              {language}
-            </Listbox.Option>
-          )
-        })}
-      </Listbox.Options>
+      <Transition
+        as={Fragment}
+        enter='transition ease-out duration-200'
+        enterFrom='opacity-0 translate-y-1'
+        enterTo='opacity-100 translate-y-0'
+        leave='transition ease-in duration-150'
+        leaveFrom='opacity-100 translate-y-0'
+        leaveTo='opacity-0 translate-y-1'
+      >
+        <Listbox.Options className='absolute z-10 flex w-96 flex-col space-y-2 rounded-lg bg-background py-2 shadow hover:cursor-default dark:border dark:border-border dark:shadow-border dark:brightness-75 text-sm'>
+          <div className='border-b border-input px-3 pb-3'>言語一覧</div>
+          {languages.map((language) => {
+            const modifiedTag = capitalizeFirstLetter(language)
+            return (
+              <Listbox.Option
+                key={language}
+                value={language}
+                className='flex items-center space-x-2 rounded py-1 pl-5 hover:bg-accent hover:text-accent-foreground'
+              >
+                <div className='relative h-4 w-4'>
+                  <Image
+                    src={`/lang-icon/${modifiedTag}.svg`}
+                    className='rounded-full object-cover'
+                    alt='avatar'
+                    fill
+                    sizes='auto'
+                    priority
+                  />
+                </div>
+                <span>{language}</span>
+              </Listbox.Option>
+            )
+          })}
+        </Listbox.Options>
+      </Transition>
     </Listbox>
   )
 }
