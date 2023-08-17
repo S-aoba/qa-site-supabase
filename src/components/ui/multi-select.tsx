@@ -67,7 +67,7 @@ export const MultiSelect = ({
               <div key={language} className='flex items-center space-x-2 rounded-xl border border-border px-2 py-1'>
                 <div className='relative h-4 w-4'>
                   <Image
-                    src={`/${language}.svg`}
+                    src={`/lang-icon/${language}.svg`}
                     className='rounded-full object-cover'
                     alt='avatar'
                     fill
