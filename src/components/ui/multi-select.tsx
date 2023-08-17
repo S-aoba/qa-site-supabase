@@ -7,7 +7,6 @@ import Image from 'next/image'
 import { Fragment } from 'react'
 import type { UseFormReturn } from 'react-hook-form'
 
-import { capitalizeFirstLetter } from '@/common/function/convert'
 import { editedQuestionAtom } from '@/store/question-atom'
 
 const languages: string[] = [
@@ -64,12 +63,11 @@ export const MultiSelect = ({
           <span className='text-muted-foreground'>タグは5個まで選択できます</span>
         ) : (
           editedQuestion.tags.map((language) => {
-            const modifiedTag = capitalizeFirstLetter(language)
             return (
               <div key={language} className='flex items-center space-x-2 rounded-xl border border-border px-2 py-1'>
                 <div className='relative h-4 w-4'>
                   <Image
-                    src={`/lang-icon/${modifiedTag}.svg`}
+                    src={`/${language}.svg`}
                     className='rounded-full object-cover'
                     alt='avatar'
                     fill
@@ -80,7 +78,7 @@ export const MultiSelect = ({
                 <span>{language}</span>
                 <IconX
                   size={15}
-                  className='z-50 text-gray-400 hover:bg-gray-500 hover:text-white hover:rounded-full'
+                  className='z-50 text-gray-400 hover:rounded-full hover:bg-gray-500 hover:text-white'
                   onClick={() => {
                     return handleDeleteLanguage(language)
                   }}
@@ -102,7 +100,6 @@ export const MultiSelect = ({
         <Listbox.Options className='absolute z-10 flex w-96 flex-col space-y-2 rounded-lg bg-background py-2 text-sm shadow hover:cursor-default dark:border dark:border-border dark:shadow-border dark:brightness-75'>
           <div className='border-b border-input px-3 pb-3'>言語一覧</div>
           {languages.map((language) => {
-            const modifiedTag = capitalizeFirstLetter(language)
             return (
               <Listbox.Option
                 key={language}
@@ -111,7 +108,7 @@ export const MultiSelect = ({
               >
                 <div className='relative h-4 w-4'>
                   <Image
-                    src={`/lang-icon/${modifiedTag}.svg`}
+                    src={`/${language}.svg`}
                     className='rounded-full object-cover'
                     alt='avatar'
                     fill

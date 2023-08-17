@@ -28,7 +28,7 @@ export const Card = async ({ question }: { question: QuestionType }) => {
       <div className='relative h-8 w-8'>
         <Image
           className='rounded-full object-cover dark:brightness-75'
-          src={`/lang-icon/${question.tags[0]}.svg`}
+          src={`/${question.tags[0]}.svg`}
           alt='language-icon'
           width={40}
           height={40}
