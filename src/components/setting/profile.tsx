@@ -33,85 +33,87 @@ export const Profile = () => {
                     priority
                   />
                 </div>
-                <Input id='avatar' type='file' onChange={handleOnUploadImage} placeholder='画像を選択する' />
+                <Input id='avatar' type='file' onChange={handleOnUploadImage} />
                 {fileMessage && <div className='my-5 text-center text-red-500'>{fileMessage}</div>}
               </div>
             </div>
-            <FormField
-              control={onHandleProfileForm.control}
-              name='name'
-              render={({ field }) => {
-                return (
-                  <FormItem>
-                    <FormLabel className='dark:brightness-75'>名前</FormLabel>
-                    <FormControl>
-                      <Input placeholder='name' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )
-              }}
-            />
-            <FormField
-              control={onHandleProfileForm.control}
-              name='introduce'
-              render={({ field }) => {
-                return (
-                  <FormItem>
-                    <FormLabel className='dark:brightness-75'>自己紹介</FormLabel>
-                    <FormControl>
-                      <Textarea placeholder='ここに自己紹介文を記入してください' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )
-              }}
-            />
-            <FormField
-              control={onHandleProfileForm.control}
-              name='twitter_url'
-              render={({ field }) => {
-                return (
-                  <FormItem>
-                    <FormLabel className='dark:brightness-75'>Twitter</FormLabel>
-                    <FormControl>
-                      <Input placeholder='twitter_url' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )
-              }}
-            />
-            <FormField
-              control={onHandleProfileForm.control}
-              name='github_url'
-              render={({ field }) => {
-                return (
-                  <FormItem>
-                    <FormLabel className='dark:brightness-75'>Github</FormLabel>
-                    <FormControl>
-                      <Input placeholder='github_url' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )
-              }}
-            />
-            <FormField
-              control={onHandleProfileForm.control}
-              name='website_url'
-              render={({ field }) => {
-                return (
-                  <FormItem>
-                    <FormLabel className='dark:brightness-75'>website</FormLabel>
-                    <FormControl>
-                      <Input placeholder='website_url' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )
-              }}
-            />
+            <div className='flex flex-col space-y-3'>
+              <FormField
+                control={onHandleProfileForm.control}
+                name='name'
+                render={({ field }) => {
+                  return (
+                    <FormItem>
+                      <FormLabel className='dark:brightness-75'>名前</FormLabel>
+                      <FormControl>
+                        <Input placeholder='name' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )
+                }}
+              />
+              <FormField
+                control={onHandleProfileForm.control}
+                name='introduce'
+                render={({ field }) => {
+                  return (
+                    <FormItem className=''>
+                      <FormLabel className='pt-2 dark:brightness-75'>自己紹介</FormLabel>
+                      <FormControl>
+                        <Textarea placeholder='ここに自己紹介文を記入してください' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )
+                }}
+              />
+              <FormField
+                control={onHandleProfileForm.control}
+                name='twitter_url'
+                render={({ field }) => {
+                  return (
+                    <FormItem>
+                      <FormLabel className='dark:brightness-75'>Twitter</FormLabel>
+                      <FormControl>
+                        <Input placeholder='twitter_url' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )
+                }}
+              />
+              <FormField
+                control={onHandleProfileForm.control}
+                name='github_url'
+                render={({ field }) => {
+                  return (
+                    <FormItem>
+                      <FormLabel className='dark:brightness-75'>Github</FormLabel>
+                      <FormControl>
+                        <Input placeholder='github_url' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )
+                }}
+              />
+              <FormField
+                control={onHandleProfileForm.control}
+                name='website_url'
+                render={({ field }) => {
+                  return (
+                    <FormItem>
+                      <FormLabel className='dark:brightness-75'>website</FormLabel>
+                      <FormControl>
+                        <Input placeholder='website_url' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )
+                }}
+              />
+            </div>
             {message && <div className='my-5 mb-5 text-center text-red-500'>{message}</div>}
             <div className='mt-5'>
               <Button type='submit' variant='default' disabled={isLoading}>
