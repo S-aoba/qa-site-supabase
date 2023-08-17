@@ -108,7 +108,7 @@ export const MultiSelect = ({
               >
                 <div className='relative h-4 w-4'>
                   <Image
-                    src={`/${language}.svg`}
+                    src={`/lang-icon/${language}.svg`}
                     className='rounded-full object-cover'
                     alt='avatar'
                     fill
