@@ -10,9 +10,10 @@ export const QuestionSearch = async ({ q }: { q: string | string[] | undefined }
   const { data: questions } = await supabase
     .from('questions')
     .select('*')
-    .like('title', `%${q}%`)
+    .ilike('title', `%${q}%`)
     .order('updated_at', { ascending: false })
     .limit(10)
+  
   return (
     <main className='flex flex-wrap justify-start'>
       {questions && questions.length === 0 ? (
