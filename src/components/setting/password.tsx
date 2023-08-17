@@ -18,36 +18,38 @@ export const Password = () => {
         <div className='mb-10 text-center dark:brightness-75'>パスワード変更</div>
         <Form {...onHandlePasswordForm}>
           <form onSubmit={onHandlePasswordForm.handleSubmit(editPassword)}>
-            <FormField
-              control={onHandlePasswordForm.control}
-              name='password'
-              render={({ field }) => {
-                return (
-                  <FormItem>
-                    <FormLabel className='dark:brightness-75'>新しいパスワード</FormLabel>
-                    <FormControl>
-                      <Input placeholder='*********'  type='password' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )
-              }}
-            />
-            <FormField
-              control={onHandlePasswordForm.control}
-              name='confirmation'
-              render={({ field }) => {
-                return (
-                  <FormItem>
-                    <FormLabel className='dark:brightness-75'>確認用パスワード</FormLabel>
-                    <FormControl>
-                      <Input placeholder='*********' type='password' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )
-              }}
-            />
+            <div className='flex flex-col space-y-2'>
+              <FormField
+                control={onHandlePasswordForm.control}
+                name='password'
+                render={({ field }) => {
+                  return (
+                    <FormItem>
+                      <FormLabel className='dark:brightness-75'>新しいパスワード</FormLabel>
+                      <FormControl>
+                        <Input placeholder='*********' type='password' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )
+                }}
+              />
+              <FormField
+                control={onHandlePasswordForm.control}
+                name='confirmation'
+                render={({ field }) => {
+                  return (
+                    <FormItem>
+                      <FormLabel className='dark:brightness-75'>確認用パスワード</FormLabel>
+                      <FormControl>
+                        <Input placeholder='*********' type='password' {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )
+                }}
+              />
+            </div>
             <div className='mb-2 mt-5'>
               <Button type='submit' variant='default' disabled={isLoading}>
                 {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
