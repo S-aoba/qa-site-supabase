@@ -21,6 +21,7 @@ export const Profile = () => {
     editProfile,
     inputRef,
     handleOnClickFileInput,
+    avatarName,
   } = useSettings()
 
   return (
@@ -42,10 +43,13 @@ export const Profile = () => {
                     priority
                   />
                 </div>
-                <Button id='avatar' type='button' onClick={handleOnClickFileInput}>
-                  アイコンを変更する
-                  <Input id='avatar' type='file' onChange={handleOnUploadImage} className='hidden' ref={inputRef} />
-                </Button>
+                <div className='flex items-center space-x-2'>
+                  <Button id='avatar' type='button' onClick={handleOnClickFileInput}>
+                    アイコンを変更する
+                    <Input id='avatar' type='file' onChange={handleOnUploadImage} className='hidden' ref={inputRef} />
+                  </Button>
+                  {avatarName && <span>{avatarName}</span>}
+                </div>
                 {fileMessage && <div className='my-5 text-center text-red-500'>{fileMessage}</div>}
               </div>
             </div>

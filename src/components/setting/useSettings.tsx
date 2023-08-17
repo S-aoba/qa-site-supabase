@@ -19,6 +19,7 @@ export const useSettings = () => {
   const [avatarUrl, setAvatarUrl] = useState('/default.png')
   const [isLoading, setLoading] = useState(false)
   const [avatar, setAvatar] = useState<File | null>(null)
+  const [avatarName, setAvatarName] = useState<string>('')
 
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -86,6 +87,7 @@ export const useSettings = () => {
 
     // 画像をセット
     setAvatar(files[0])
+    setAvatarName(files[0].name)
   }, [])
 
   // 送信
@@ -256,6 +258,7 @@ export const useSettings = () => {
     handleLogout,
     editEmail,
     inputRef,
-    handleOnClickFileInput
+    handleOnClickFileInput,
+    avatarName,
   }
 }
