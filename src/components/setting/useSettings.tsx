@@ -3,7 +3,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useAtomValue, useSetAtom } from 'jotai'
 import { useRouter } from 'next/navigation'
 import type { FormEvent } from 'react'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { v4 as uuidv4 } from 'uuid'
 import type * as z from 'zod'
@@ -19,6 +19,8 @@ export const useSettings = () => {
   const [avatarUrl, setAvatarUrl] = useState('/default.png')
   const [isLoading, setLoading] = useState(false)
   const [avatar, setAvatar] = useState<File | null>(null)
+
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const supabase = createClientComponentClient<Database>()
   const router = useRouter()
@@ -236,6 +238,10 @@ export const useSettings = () => {
     }
   }
 
+  const handleOnClickFileInput = () => {
+    inputRef.current?.click()
+  }
+
   return {
     message,
     fileMessage,
@@ -249,5 +255,7 @@ export const useSettings = () => {
     editPassword,
     handleLogout,
     editEmail,
+    inputRef,
+    handleOnClickFileInput
   }
 }

@@ -11,8 +11,17 @@ import { Textarea } from '../ui/textarea'
 import { useSettings } from './useSettings'
 
 export const Profile = () => {
-  const { message, fileMessage, avatarUrl, isLoading, onHandleProfileForm, handleOnUploadImage, editProfile } =
-    useSettings()
+  const {
+    message,
+    fileMessage,
+    avatarUrl,
+    isLoading,
+    onHandleProfileForm,
+    handleOnUploadImage,
+    editProfile,
+    inputRef,
+    handleOnClickFileInput,
+  } = useSettings()
 
   return (
     <div className='flex w-full flex-col items-center'>
@@ -33,7 +42,10 @@ export const Profile = () => {
                     priority
                   />
                 </div>
-                <Input id='avatar' type='file' onChange={handleOnUploadImage} />
+                <Button id='avatar' type='button' onClick={handleOnClickFileInput}>
+                  アイコンを変更する
+                  <Input id='avatar' type='file' onChange={handleOnUploadImage} className='hidden' ref={inputRef} />
+                </Button>
                 {fileMessage && <div className='my-5 text-center text-red-500'>{fileMessage}</div>}
               </div>
             </div>
