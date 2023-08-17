@@ -19,7 +19,7 @@ export const CommentForm = ({ answer, commentId }: { answer?: AnswerType; commen
   return (
     <div className={`${commentId === undefined && 'border-t'} p-2`}>
       {commentId === undefined && (
-        <div className='flex items-center space-x-2 text-primary dark:brightness-75'>
+        <div className='flex items-center space-x-2 text-primary dark:brightness-75 px-2'>
           <div className='relative h-8 w-8'>
             <Image src={avatarUrl} className='rounded-full object-cover' alt='avatar' fill sizes='auto' priority />
           </div>

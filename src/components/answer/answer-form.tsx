@@ -33,7 +33,7 @@ export const AnswerForm = ({
       className={`${answerId === undefined && 'min-h-full rounded-md border border-input bg-background p-2 shadow'}`}
     >
       {answerId === undefined && (
-        <div className='flex items-center space-x-2 text-primary dark:brightness-75'>
+        <div className='flex items-center space-x-2 text-primary dark:brightness-75 px-2'>
           <div className='relative h-8 w-8'>
             <Image src={avatarUrl} className='rounded-full object-cover' alt='avatar' fill sizes='auto' priority />
           </div>

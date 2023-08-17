@@ -12,7 +12,7 @@ export const CommentBody = ({ comment, session }: { comment: CommentType; sessio
     <JotaiProvider>
       <div>
         <div className='border-y'>
-          <div className='flex justify-between pr-2 overflow-x-hidden'>
+          <div className='flex justify-between px-2 overflow-x-hidden'>
             <UserInfo
               created_at={comment.created_at}
               updated_at={comment.updated_at}
