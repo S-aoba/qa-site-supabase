@@ -18,6 +18,7 @@ export const useAnswer = (userId?: string, question?: QuestionType, answerId?: s
   const [isLoading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [avatarUrl, setAvatarUrl] = useState('/default.png')
+  const [username, setUsername] = useState('')
 
   const router = useRouter()
 
@@ -51,8 +52,9 @@ export const useAnswer = (userId?: string, question?: QuestionType, answerId?: s
 
   // アバター画像の取得
   useEffect(() => {
-    if (user && user.avatar_url) {
+    if (user && user.avatar_url && user.username) {
       setAvatarUrl(user.avatar_url)
+      setUsername(user.username)
     }
   }, [user])
 
@@ -61,11 +63,11 @@ export const useAnswer = (userId?: string, question?: QuestionType, answerId?: s
     const { content } = values
 
     try {
-      if (answerId === undefined && userId && question && user.username) {
+      if (answerId === undefined && userId && question) {
         const { data: answer, error: createAnswerError } = await supabase
           .from('answers')
           .upsert({
-            username: user.username,
+            username: username,
             avatar_url: user.avatar_url,
             user_id: userId,
             question_id: question.id,
@@ -82,7 +84,7 @@ export const useAnswer = (userId?: string, question?: QuestionType, answerId?: s
         const { error: createNotificationError } = await supabase.from('notifications').insert({
           user_id: question.user_id,
           question_id: question.id,
-          username: user.username,
+          username: username,
           title: question.title,
           avatar_url: user.avatar_url,
           answer_id: answer.id,
