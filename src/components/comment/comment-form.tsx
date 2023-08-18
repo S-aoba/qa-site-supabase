@@ -9,6 +9,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '@/component
 
 import { Button } from '../ui/button'
 import { ContentEditor } from '../ui/content-editor'
+import { ErrorMessage } from '../ui/error-message'
 import { useComment } from './useComment'
 
 export const CommentForm = ({ answer, commentId }: { answer?: AnswerType; commentId?: string }) => {
@@ -19,7 +20,7 @@ export const CommentForm = ({ answer, commentId }: { answer?: AnswerType; commen
   return (
     <div className={`${commentId === undefined && 'border-t'} p-2`}>
       {commentId === undefined && (
-        <div className='flex items-center space-x-2 text-primary dark:brightness-75 px-2'>
+        <div className='flex items-center space-x-2 px-2 text-primary dark:brightness-75'>
           <div className='relative h-8 w-8'>
             <Image src={avatarUrl} className='rounded-full object-cover' alt='avatar' fill sizes='auto' priority />
           </div>
@@ -56,7 +57,7 @@ export const CommentForm = ({ answer, commentId }: { answer?: AnswerType; commen
             )}
           </div>
         </form>
-        {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
+        <ErrorMessage message={message} />
       </Form>
     </div>
   )
