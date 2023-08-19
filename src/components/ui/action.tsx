@@ -1,7 +1,7 @@
 'use client'
 
 import { ReloadIcon } from '@radix-ui/react-icons'
-import { IconEdit, IconMenu2, IconTrash } from '@tabler/icons-react'
+import { IconDots, IconEdit, IconTrash } from '@tabler/icons-react'
 import Link from 'next/link'
 
 import { useAction } from '@/common/hooks/useAction'
@@ -33,7 +33,10 @@ export const Action = ({ question, answer, comment }: ActionProps) => {
       <div className='flex items-center'>
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <IconMenu2 className='text-primary hover:cursor-pointer dark:brightness-75' />
+            <IconDots
+              className='text-primary hover:cursor-pointer hover:rounded-md hover:bg-border dark:brightness-75'
+              size={25}
+            />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem onClick={handleSetData} className='text-primary hover:cursor-pointer dark:brightness-75'>
