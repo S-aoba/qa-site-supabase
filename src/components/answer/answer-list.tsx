@@ -28,7 +28,7 @@ export const AnswerList = async ({ question, session }: { question: QuestionType
           <div className='flex flex-col space-y-4'>
             {answers.map((answer) => {
               return (
-                <div key={answer.id} className='rounded-md border border-input bg-background shadow'>
+                <div key={answer.id} className='rounded-md bg-background shadow dark:border dark:border-input'>
                   <AnswerBody answer={answer} session={session}>
                     <UserInfo
                       created_at={answer.created_at}

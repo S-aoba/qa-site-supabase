@@ -31,7 +31,9 @@ export const AnswerForm = ({
 
   return (
     <div
-      className={`${answerId === undefined && 'min-h-full rounded-md border border-input bg-background p-2 shadow'}`}
+      className={`${
+        answerId === undefined && 'min-h-full rounded-md bg-background p-2 shadow dark:border dark:border-input'
+      }`}
     >
       {answerId === undefined && (
         <div className='flex items-center space-x-2 px-2 text-primary dark:brightness-75'>
