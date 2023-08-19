@@ -16,18 +16,20 @@ export const Comment = ({ comments, session }: { comments: CommentType[]; sessio
   const { isDisplayComments, handleToggleComment } = useComment()
 
   return (
-    <div>
-      <div className='h-6 border-t border-input pb-10 pl-4 pt-2 text-primary dark:brightness-75'>
-        <p>コメント</p>
+    <div className='border-t p-5'>
+      <div>
+        <span className='text-xl'>コメント</span>
       </div>
-      {firstComment && <CommentBody comment={firstComment} session={session} />}
-      {remainComment &&
-        isDisplayComments &&
-        remainComment.map((comment) => {
-          return <CommentBody key={comment.id} comment={comment} session={session} />
-        })}
+      <div className='mt-5 flex flex-col space-y-8'>
+        {firstComment && <CommentBody comment={firstComment} session={session} />}
+        {remainComment &&
+          isDisplayComments &&
+          remainComment.map((comment) => {
+            return <CommentBody key={comment.id} comment={comment} session={session} />
+          })}
+      </div>
       {remainComment !== null && (
-        <div className='border-t border-input p-2'>
+        <div className=' pt-3'>
           <Button variant={'ghost'} asChild onClick={handleToggleComment}>
             <span className='text-sm text-foreground hover:underline hover:underline-offset-2'>
               {isDisplayComments ? '閉じる' : `あと${remainComment.length}件コメントがあります`}
