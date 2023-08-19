@@ -14,12 +14,10 @@ export const CommentContent = ({ comment }: { comment: CommentType }) => {
       {isEditMode ? (
         <CommentForm commentId={comment.id} />
       ) : (
-        comment && (
-          <div
-            className='prose prose-sm m-2 pb-2 pl-5 dark:prose-invert sm:prose-base focus:outline-none text-primary dark:brightness-75'
-            dangerouslySetInnerHTML={{ __html: comment.content }}
-          />
-        )
+        <div
+          className='prose prose-sm m-2 pl-3 text-primary dark:prose-invert sm:prose-base focus:outline-none dark:brightness-75'
+          dangerouslySetInnerHTML={{ __html: comment.content }}
+        />
       )}
     </>
   )
