@@ -3,6 +3,7 @@
 import { ReloadIcon } from '@radix-ui/react-icons'
 
 import { Button } from '../ui/button'
+import { ErrorMessage } from '../ui/error-message'
 import { useSettings } from './useSettings'
 
 // ログアウト
@@ -22,7 +23,7 @@ export const Logout = () => {
             </Button>
           </div>
         </form>
-        {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
+        <ErrorMessage message={message} />
       </div>
     </div>
   )

@@ -18,6 +18,7 @@ import {
   AlertDialogTitle,
 } from '../ui/alert-dialog'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu'
+import { ErrorMessage } from './error-message'
 
 export const Action = ({ question, answer, comment }: ActionProps) => {
   const { message, isShowDialog, isLoading, handleShowDialog, handleHideDialog, handleSetData, handleDeleteData } =
@@ -63,7 +64,7 @@ export const Action = ({ question, answer, comment }: ActionProps) => {
         <AlertDialogHeader>
           <AlertDialogTitle className='text-primary dark:brightness-75'>削除してもよろしいですか？</AlertDialogTitle>
           <AlertDialogDescription>この手順は取り消すことはできません。</AlertDialogDescription>
-          {message && <div className='my-5 text-center text-sm text-red-500'>{message}</div>}
+          <ErrorMessage message={message} />
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>キャンセル</AlertDialogCancel>

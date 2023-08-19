@@ -5,6 +5,7 @@ import { ReloadIcon } from '@radix-ui/react-icons'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 
 import { Button } from '../ui/button'
+import { ErrorMessage } from '../ui/error-message'
 import { Input } from '../ui/input'
 import { useSettings } from './useSettings'
 
@@ -50,13 +51,13 @@ export const Password = () => {
                 }}
               />
             </div>
+            <ErrorMessage message={message} />
             <div className='mb-2 mt-5'>
               <Button type='submit' variant='default' disabled={isLoading}>
                 {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
                 {isLoading ? '変更中' : '変更'}
               </Button>
             </div>
-            {message && <div className='text-center text-sm text-red-500'>{message}</div>}
           </form>
         </Form>
       </div>
