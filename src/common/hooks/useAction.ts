@@ -82,14 +82,13 @@ export const useAction = ({ question, answer, comment }: ActionProps) => {
         setMessage('予期せぬエラーが発生しました。' + error.message)
         return
       }
-      handleHideDialog()
       router.push('/')
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
       return
     } finally {
       setIsLoading(false)
-      router.refresh()
+      handleHideDialog()
     }
   }
 
