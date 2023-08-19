@@ -1,24 +1,19 @@
 'use client'
 
 import type { Session } from '@supabase/auth-helpers-nextjs'
-import { useAtom } from 'jotai'
 
 import type { CommentType } from '@/common/types'
-import { isDisplayCommentsAtom } from '@/store/comment-atom'
 
 import { Button } from '../ui/button'
 import { CommentBody } from './comment-body'
+import { useComment } from './useComment'
 
 export const Comment = ({ comments, session }: { comments: CommentType[]; session: Session | null }) => {
-  const [isDisplayComments, setIsDisplayComments] = useAtom(isDisplayCommentsAtom)
-
   const commentLength = comments.length
   const firstComment = commentLength === 0 ? null : comments[0]
   const remainComment = commentLength > 1 ? comments.slice(1, commentLength) : null
 
-  const handleToggleComment = () => {
-    setIsDisplayComments(!isDisplayComments)
-  }
+  const { isDisplayComments, handleToggleComment } = useComment()
 
   return (
     <div>

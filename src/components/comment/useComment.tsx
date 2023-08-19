@@ -26,7 +26,7 @@ export const useComment = (answer?: AnswerType, commentId?: string) => {
   const setIsEditMode = useSetAtom(isCommentEditModeAtom)
   const [editedCommentContent, setEditedCommentContent] = useAtom(editedCommentAtom)
   const user = useAtomValue(profileAtom)
-  const setIsDisplayComments = useSetAtom(isDisplayCommentsAtom)
+  const [isDisplayComments, setIsDisplayComments] = useAtom(isDisplayCommentsAtom)
 
   const onHandleCommentForm = useForm<z.infer<typeof commentSchema>>({
     resolver: zodResolver(commentSchema),
@@ -106,5 +106,17 @@ export const useComment = (answer?: AnswerType, commentId?: string) => {
     }
   }
 
-  return { message, isLoading, avatarUrl, onHandleCommentForm, editor, handleOnSubmit }
+  const handleToggleComment = () => {
+    setIsDisplayComments(!isDisplayComments)
+  }
+  return {
+    message,
+    isLoading,
+    avatarUrl,
+    onHandleCommentForm,
+    editor,
+    handleOnSubmit,
+    isDisplayComments,
+    handleToggleComment,
+  }
 }
