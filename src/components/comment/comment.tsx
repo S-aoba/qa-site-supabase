@@ -24,7 +24,7 @@ export const Comment = ({ comments, session }: { comments: CommentType[]; sessio
   return (
     <div>
       <div className='h-6 border-t border-input pb-10 pl-4 pt-2 text-primary dark:brightness-75'>
-        <p >コメント</p>
+        <p>コメント</p>
       </div>
       {firstComment && <CommentBody comment={firstComment} session={session} />}
       {remainComment &&
@@ -35,8 +35,8 @@ export const Comment = ({ comments, session }: { comments: CommentType[]; sessio
       {remainComment !== null && (
         <div className='border-t border-input p-2'>
           <Button variant={'ghost'} asChild onClick={handleToggleComment}>
-            <span className='text-sm text-foreground'>
-              {isDisplayComments ? '閉じる' : `あと${remainComment.length}コメントがあります`}
+            <span className='text-sm text-foreground hover:underline hover:underline-offset-2'>
+              {isDisplayComments ? '閉じる' : `あと${remainComment.length}件コメントがあります`}
             </span>
           </Button>
         </div>
