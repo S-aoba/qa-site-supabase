@@ -43,6 +43,7 @@ export const CommentForm = ({ answer, commentId }: { answer?: AnswerType; commen
               )
             }}
           />
+          <ErrorMessage message={message} />
           <div className='flex w-full justify-end px-3 pt-3'>
             {commentId === undefined ? (
               <Button type='submit' variant='default' disabled={isLoading}>
@@ -57,7 +58,6 @@ export const CommentForm = ({ answer, commentId }: { answer?: AnswerType; commen
             )}
           </div>
         </form>
-        <ErrorMessage message={message} />
       </Form>
     </div>
   )

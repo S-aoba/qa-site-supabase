@@ -57,6 +57,7 @@ export const AnswerForm = ({
               )
             }}
           />
+          <ErrorMessage message={message} />
           <div className='flex w-full justify-end px-3 pt-3'>
             {answerId === undefined ? (
               <Button type='submit' variant='default' disabled={isLoading}>
@@ -71,7 +72,6 @@ export const AnswerForm = ({
             )}
           </div>
         </form>
-        <ErrorMessage message={message} />
       </Form>
     </div>
   )
