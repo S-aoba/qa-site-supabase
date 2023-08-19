@@ -17,8 +17,7 @@ export const Comment = ({ comments, session }: { comments: CommentType[]; sessio
   const remainComment = commentLength > 1 ? comments.slice(1, commentLength) : null
 
   const handleToggleComment = () => {
-    if (isDisplayComments) setIsDisplayComments(false)
-    else setIsDisplayComments(true)
+    setIsDisplayComments(!isDisplayComments)
   }
 
   return (
