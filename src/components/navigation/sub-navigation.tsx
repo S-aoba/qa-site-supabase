@@ -3,11 +3,11 @@
 import type { Session } from '@supabase/supabase-js'
 import Image from 'next/image'
 import Link from 'next/link'
+import type { ReactNode } from 'react'
 import { useEffect } from 'react'
 
-import type { NotificationType, ProfileType } from '@/common/types'
+import type { ProfileType } from '@/common/types'
 
-import { Notification } from '../notification/notification'
 import { Button } from '../ui/button'
 import { Search } from './search'
 import { Tab } from './tab'
@@ -16,11 +16,11 @@ import { useNavigation } from './useNavigation'
 export const SubNavigation = ({
   session,
   profile,
-  notifications,
+  children,
 }: {
   session: Session | null
   profile: ProfileType | null
-  notifications: NotificationType[] | null
+  children: ReactNode
 }) => {
   const { pathname, displayMainNavName, navList, user, setUser } = useNavigation()
 
@@ -53,7 +53,7 @@ export const SubNavigation = ({
           {session && (
             <>
               <Search />
-              <Notification notifications={notifications} />
+              {children}
             </>
           )}
         </div>

@@ -1,19 +1,9 @@
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
-
-import NotFound from '@/app/not-found'
+import { getQuestionWaitingAnswers } from '@/common/utils/get-question-waiting-answers'
 import { Card } from '@/components/ui/card'
-import type { Database } from '@/lib/database.types'
 
 export const QuestionWaitingAnswers = async () => {
-  const supabase = createServerComponentClient<Database>({ cookies })
-
-  const { data: questionWaitingAnswers, error } = await supabase
-    .from('question_waiting_answers')
-    .select('questions(*)')
-    .limit(10)
-
-  if (error) return <NotFound />
+  const { questionWaitingAnswers } = await getQuestionWaitingAnswers()
+  if (questionWaitingAnswers === null) return null
 
   return (
     <>

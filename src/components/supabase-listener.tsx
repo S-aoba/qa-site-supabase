@@ -5,6 +5,7 @@ import type { Database } from '@/lib/database.types'
 
 import { MainNavigation } from './navigation/main-navigation'
 import { SubNavigation } from './navigation/sub-navigation'
+import { Notification } from './notification/notification'
 
 // 認証状態の監視
 export const SupabaseListener = async () => {
@@ -17,17 +18,11 @@ export const SupabaseListener = async () => {
 
   // プロフィールの取得
   let profile = null
-  let notifications = null
 
   if (session) {
     const { data: currentProfile } = await supabase.from('profiles').select('*').eq('id', session.user.id).single()
-    const { data: currentNotifications } = await supabase
-      .from('notifications')
-      .select('*')
-      .eq('user_id', currentProfile?.id)
 
     profile = currentProfile
-    notifications = currentNotifications
 
     // メールアドレスを変更した場合、プロフィールを更新
     if (currentProfile && currentProfile.email !== session.user.email) {
@@ -45,8 +40,10 @@ export const SupabaseListener = async () => {
 
   return (
     <>
-      <MainNavigation session={session}/>
-      <SubNavigation session={session} profile={profile} notifications={notifications} />
+      <MainNavigation session={session} />
+      <SubNavigation session={session} profile={profile}>
+        {session && <Notification user_id={session.user.id} />}
+      </SubNavigation>
     </>
   )
 }
