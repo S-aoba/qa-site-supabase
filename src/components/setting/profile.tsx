@@ -1,6 +1,5 @@
 'use client'
 
-import { ReloadIcon } from '@radix-ui/react-icons'
 import Image from 'next/image'
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
@@ -134,8 +133,7 @@ export const Profile = () => {
             <ErrorMessage message={message} />
             <div className='mt-5'>
               <Button type='submit' variant='default' disabled={isLoading}>
-                {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
-                {isLoading ? '変更中' : '変更'}
+                変更
               </Button>
             </div>
           </form>

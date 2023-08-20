@@ -1,6 +1,5 @@
 'use client'
 
-import { ReloadIcon } from '@radix-ui/react-icons'
 
 import { Button } from '../ui/button'
 import { ErrorMessage } from '../ui/error-message'
@@ -18,8 +17,7 @@ export const Logout = () => {
         <form onSubmit={handleLogout}>
           <div className='mb-5'>
             <Button type='submit' variant='destructive' disabled={isLoading}>
-              {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
-              {isLoading ? 'ログアウト中' : 'ログアウト'}
+              ログアウト
             </Button>
           </div>
         </form>

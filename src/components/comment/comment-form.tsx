@@ -1,6 +1,5 @@
 'use client'
 
-import { ReloadIcon } from '@radix-ui/react-icons'
 import Image from 'next/image'
 
 import { FormAlert } from '@/common/form-alert'
@@ -45,17 +44,9 @@ export const CommentForm = ({ answer, commentId }: { answer?: AnswerType; commen
           />
           <ErrorMessage message={message} />
           <div className='flex w-full justify-end px-3 pt-3'>
-            {commentId === undefined ? (
-              <Button type='submit' variant='default' disabled={isLoading}>
-                {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
-                {isLoading ? 'コメントを送信中' : 'コメントを送信'}
-              </Button>
-            ) : (
-              <Button type='submit' variant='default' disabled={isLoading}>
-                {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
-                {isLoading ? 'コメントを更新中' : 'コメントを更新'}
-              </Button>
-            )}
+            <Button type='submit' variant='default' disabled={isLoading}>
+              {commentId === undefined ? 'コメントを投稿' : 'コメントを更新'}
+            </Button>
           </div>
         </form>
       </Form>

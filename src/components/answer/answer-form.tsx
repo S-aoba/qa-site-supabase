@@ -1,6 +1,5 @@
 'use client'
 
-import { ReloadIcon } from '@radix-ui/react-icons'
 import Image from 'next/image'
 
 import { FormAlert } from '@/common/form-alert'
@@ -61,17 +60,9 @@ export const AnswerForm = ({
           />
           <ErrorMessage message={message} />
           <div className='flex w-full justify-end px-3 pt-3'>
-            {answerId === undefined ? (
-              <Button type='submit' variant='default' disabled={isLoading}>
-                {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
-                {isLoading ? '回答を送信中' : '回答を送信'}
-              </Button>
-            ) : (
-              <Button type='submit' variant='default' disabled={isLoading}>
-                {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
-                {isLoading ? '回答を更新中' : '回答を更新'}
-              </Button>
-            )}
+            <Button type='submit' variant='default' disabled={isLoading}>
+              {answerId === undefined ? '回答を投稿' : '回答を更新'}
+            </Button>
           </div>
         </form>
       </Form>

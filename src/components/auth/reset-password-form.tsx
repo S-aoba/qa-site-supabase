@@ -1,6 +1,5 @@
 'use client'
 
-import { ReloadIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
@@ -41,8 +40,7 @@ export const ResetPasswordForm = () => {
             />
             <div className='flex justify-start pt-2'>
               <Button type='submit' variant='default' disabled={isLoading}>
-                {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
-                {isLoading ? '送信中' : '送信'}
+                送信
               </Button>
             </div>
           </form>

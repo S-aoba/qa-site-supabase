@@ -1,6 +1,5 @@
 'use client'
 
-import { ReloadIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
@@ -56,8 +55,7 @@ export const LoginForm = () => {
             />
             <div className='flex justify-start pt-2'>
               <Button type='submit' variant='outline' disabled={isLoading}>
-                {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
-                {isLoading ? 'ログイン中' : 'ログイン'}
+                ログイン
               </Button>
             </div>
           </form>

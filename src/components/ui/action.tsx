@@ -1,6 +1,5 @@
 'use client'
 
-import { ReloadIcon } from '@radix-ui/react-icons'
 import { IconDots, IconEdit, IconTrash } from '@tabler/icons-react'
 import Link from 'next/link'
 
@@ -71,9 +70,8 @@ export const Action = ({ question, answer, comment }: ActionProps) => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>キャンセル</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDeleteData}>
-            {isLoading && <ReloadIcon className='mr-2 h-4 w-4 animate-spin' />}
-            {isLoading ? '削除中' : '削除'}
+          <AlertDialogAction onClick={handleDeleteData} disabled={isLoading}>
+            削除
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
