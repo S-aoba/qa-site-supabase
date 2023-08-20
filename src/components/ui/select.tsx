@@ -1,7 +1,7 @@
 'use client'
 
+import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons'
 import { useAtom } from 'jotai'
-import { Check, ChevronsUpDown } from 'lucide-react'
 import { useState } from 'react'
 import type { UseFormReturn } from 'react-hook-form'
 
@@ -47,7 +47,7 @@ export const Select = ({
           variant='ghost'
           role='combobox'
           aria-expanded={isShowOpen}
-          className='w-full justify-between bg-background rounded shadow dark:border dark:border-border dark:shadow-border text-card-foreground'
+          className='w-full justify-between rounded bg-background text-card-foreground shadow dark:border dark:border-border dark:shadow-border'
         >
           {editedQuestion.coding_problem ? (
             codingProblemList.find((item) => {
@@ -58,7 +58,7 @@ export const Select = ({
               問題を選んでください( 検索する場合は、問題番号からお願いします。)
             </span>
           )}
-          <ChevronsUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />
+          <CaretSortIcon className='ml-2 h-4 w-4 shrink-0 opacity-50' />
         </Button>
       </PopoverTrigger>
       <PopoverContent className='w-full p-0 dark:brightness-75' side='bottom' align='start'>
@@ -70,7 +70,7 @@ export const Select = ({
               {codingProblemList.map((item) => {
                 return (
                   <CommandItem key={item} onSelect={handleSelect}>
-                    <Check
+                    <CheckIcon
                       className={cn(
                         'mr-2 h-4 w-4',
                         editedQuestion.coding_problem === item ? 'opacity-100' : 'opacity-0'
