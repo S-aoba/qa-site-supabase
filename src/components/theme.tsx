@@ -1,6 +1,6 @@
 'use client'
 
-import { IconMoon, IconSunHigh } from '@tabler/icons-react'
+import { MoonIcon, SunIcon } from '@radix-ui/react-icons'
 import { useState } from 'react'
 
 import { Toggle } from './ui/toggle'
@@ -25,11 +25,11 @@ export const Theme = () => {
     <div className='flex flex-col items-center'>
       {theme === 'dark' ? (
         <Toggle onClick={handleToggleDarkMode}>
-          <IconSunHigh />
+          <SunIcon />
         </Toggle>
       ) : (
         <Toggle onClick={handleToggleDarkMode}>
-          <IconMoon />
+          <MoonIcon />
         </Toggle>
       )}
     </div>
