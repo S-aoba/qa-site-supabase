@@ -1,6 +1,6 @@
 'use client'
 
-import { IconDots, IconEdit, IconTrash } from '@tabler/icons-react'
+import { DotsHorizontalIcon, Pencil2Icon, TrashIcon } from '@radix-ui/react-icons'
 import Link from 'next/link'
 
 import { useAction } from '@/common/hooks/useAction'
@@ -31,22 +31,19 @@ export const Action = ({ question, answer, comment }: ActionProps) => {
     <AlertDialog open={isShowDialog} onOpenChange={handleHideDialog}>
       <div className='flex items-center'>
         <DropdownMenu>
-          <DropdownMenuTrigger>
-            <IconDots
-              className='text-primary hover:cursor-pointer hover:rounded-md hover:bg-border dark:brightness-75'
-              size={25}
-            />
+          <DropdownMenuTrigger className='p-1 hover:cursor-pointer hover:rounded-md hover:bg-border dark:brightness-75'>
+            <DotsHorizontalIcon />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem onClick={handleSetData} className='text-primary hover:cursor-pointer dark:brightness-75'>
               {question ? (
                 <Link href={'questions/edit'} className='flex items-center'>
-                  <IconEdit className='mr-2' />
+                  <Pencil2Icon className='mr-2' />
                   編集
                 </Link>
               ) : (
                 <>
-                  <IconEdit className='mr-2' />
+                  <Pencil2Icon className='mr-2' />
                   編集
                 </>
               )}
@@ -55,7 +52,7 @@ export const Action = ({ question, answer, comment }: ActionProps) => {
               onClick={handleShowDialog}
               className='text-primary hover:cursor-pointer dark:brightness-75'
             >
-              <IconTrash className='mr-2' />
+              <TrashIcon className='mr-2' />
               削除
             </DropdownMenuItem>
           </DropdownMenuContent>

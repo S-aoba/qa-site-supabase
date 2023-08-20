@@ -1,6 +1,6 @@
 'use client'
 
-import { IconBell, IconCircle } from '@tabler/icons-react'
+import { BellIcon, CircleIcon } from '@radix-ui/react-icons'
 
 import type { NotificationType } from '@/common/types'
 import {
@@ -25,7 +25,7 @@ export const Notification = ({ notifications }: { notifications: NotificationTyp
             <Tooltip>
               <TooltipTrigger asChild>
                 <div className='rounded border border-input bg-background px-2 shadow-sm hover:cursor-pointer hover:bg-accent hover:text-accent-foreground'>
-                  <IconBell className='h-5 w-5 text-muted-foreground' />
+                  <BellIcon className='h-5 w-5 text-muted-foreground' />
                 </div>
               </TooltipTrigger>
               <TooltipContent side='right' sideOffset={10} align='start'>
@@ -50,14 +50,7 @@ export const Notification = ({ notifications }: { notifications: NotificationTyp
           )}
         </DropdownMenuContent>
         {notifications && notifications?.length > 0 && (
-          <IconCircle
-            size={15}
-            className=' absolute -right-1 -top-1'
-            style={{
-              stroke: '#fde047',
-              fill: '#fde047',
-            }}
-          />
+          <CircleIcon className='absolute -right-1 -top-1 rounded-full bg-submit stroke-submit' />
         )}
       </DropdownMenu>
     </div>

@@ -1,26 +1,26 @@
 import {
-  IconAt,
-  IconFriends,
-  IconLogout,
-  IconMail,
-  IconMessage,
-  IconPassword,
-  IconQuestionMark,
-  IconSettings,
-  IconUserCircle,
-  IconUserQuestion,
-} from '@tabler/icons-react'
+  AvatarIcon,
+  ChatBubbleIcon,
+  EnvelopeClosedIcon,
+  ExitIcon,
+  GearIcon,
+  HomeIcon,
+  LockClosedIcon,
+  QuestionMarkCircledIcon,
+  QuestionMarkIcon,
+  RocketIcon,
+} from '@radix-ui/react-icons'
 
 export const mainNavigation = [
   {
     name: '質問',
-    icon: IconQuestionMark,
+    icon: QuestionMarkIcon,
     href: '/',
     hrefList: ['/', '/question-waiting-answers'],
   },
   {
     name: '設定',
-    icon: IconSettings,
+    icon: GearIcon,
     href: '/settings/profile',
     hrefList: [
       '/settings/profile',
@@ -36,12 +36,12 @@ export const mainNavigation = [
 export const subQuestionNavigation = [
   {
     name: '新着の質問',
-    icon: IconFriends,
+    icon: HomeIcon,
     href: '/',
   },
   {
     name: '回答募集中',
-    icon: IconAt,
+    icon: RocketIcon,
     href: '/question-waiting-answers',
   },
 ]
@@ -49,32 +49,32 @@ export const subQuestionNavigation = [
 export const subSettingNavigation = [
   {
     name: 'プロフィール',
-    icon: IconUserCircle,
+    icon: AvatarIcon,
     href: '/settings/profile',
   },
   {
     name: '自分の質問',
-    icon: IconUserQuestion,
+    icon: QuestionMarkCircledIcon,
     href: '/settings/my-questions',
   },
   {
     name: '自分の回答',
-    icon: IconMessage,
+    icon: ChatBubbleIcon,
     href: '/settings/questions-answered',
   },
   {
     name: 'メールアドレス',
-    icon: IconMail,
+    icon: EnvelopeClosedIcon,
     href: '/settings/email',
   },
   {
     name: 'パスワード',
-    icon: IconPassword,
+    icon: LockClosedIcon,
     href: '/settings/password',
   },
   {
     name: 'ログアウト',
-    icon: IconLogout,
+    icon: ExitIcon,
     href: '/settings/logout',
   },
 ]
