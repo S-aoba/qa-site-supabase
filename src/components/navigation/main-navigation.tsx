@@ -19,7 +19,7 @@ export const MainNavigation = ({ session }: { session: Session | null }) => {
       <div className='flex flex-col space-y-2'>
         <Link className='block aspect-square' href={'/'}>
           <Image
-            src={'/logo.png'}
+            src={'/logo.svg'}
             alt='QA-site-supabase'
             priority
             width={50}
